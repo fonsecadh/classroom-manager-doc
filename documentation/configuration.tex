@@ -1,0 +1,84 @@
+\setcounter{secnumdepth}{4} % For numbering subsubsections
+
+% Section names format
+\titleformat{\chapter}[block]
+{\normalfont\Huge\bfseries\singlespacing}{\thechapter}{1em}{\Huge}
+\titlespacing*{\chapter}{0pt}{-62pt}{0pt}
+
+\titleformat{\section}[block]
+{\normalfont\large\bfseries}{\thesection}{4pt}{\large}
+\titlespacing*{\section}{0pt}{\baselineskip}{0pt}
+
+\titleformat{\subsection}[block]
+{\normalfont\normalsize\bfseries}{\thesubsection}{4pt}{\normalsize}
+\titlespacing*{\subsection}{0pt}{0pt}{0pt}
+
+\titleformat{\subsubsection}[block]
+{\normalfont\normalsize\bfseries}{\thesubsubsection}{4pt}{\normalsize}
+\titlespacing*{\subsubsection}{0pt}{0pt}{0pt}
+
+
+% Header and footer format
+\fancyhf{} % Clear every field
+
+\fancyhead[L]{\bfseries{\large TODO: uniovi img}}
+\fancyhead[C]{\bfseries{\large \documentname}}
+\fancyhead[R]{\bfseries{\large TODO: eii img}}
+
+\fancyfoot[CE,CO,LE,LO,RE,RO]{} % Clear all footers
+\fancyfoot[C]
+{
+    \begin{tabular}{|ll|c}
+        \hline
+        \multicolumn{3}{|l|}{\textbf{Author:} Hugo Fonseca Díaz} \\ 
+        \hline
+        Classroom Manager                  & \version        & \multicolumn{1}{c|}{\multirow{2}{*}{Page \thepage \hspace{1pt} of {\hypersetup{linkcolor=black} \pageref*{LastPage}}}} \\ \cline{1-2}
+        Final Degree Project  & \textbf{Entity:} School of Computer Engineering  & \multicolumn{1}{c|}{}                                \\ \hline
+    \end{tabular}
+}
+
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Plain rewrite for having the same header and footer in all pages
+\fancypagestyle{plain}
+{
+
+    % Header and footer format
+    \fancyhf{} % Clear every field
+
+    \fancyhead[L]{\bfseries{\large TODO: uniovi img}}
+    \fancyhead[C]{\bfseries{\large \documentname}}
+    \fancyhead[R]{\bfseries{\large TODO: eii img}}
+
+    \fancyfoot[CE,CO,LE,LO,RE,RO]{} % Clear all footers
+    \fancyfoot[C]
+    {
+        \begin{tabular}{|ll|c}
+            \hline
+            \multicolumn{3}{|l|}{\textbf{Author:} Hugo Fonseca Díaz} \\ 
+            \hline
+            Classroom Manager                  & \version        & \multicolumn{1}{c|}{\multirow{2}{*}{Page \thepage \hspace{1pt} of {\hypersetup{linkcolor=black} \pageref*{LastPage}}}} \\ \cline{1-2}
+            Final Degree Project  & \textbf{Entity:} School of Computer Engineering  & \multicolumn{1}{c|}{}                                \\ \hline
+        \end{tabular}
+    }
+
+    \renewcommand{\headrulewidth}{0.5pt}
+    \renewcommand{\footrulewidth}{0pt}
+
+}
+
+
+\pagestyle{fancy}
+\restylefloat{table}
+
+% Captions config
+\floatstyle{plaintop}
+\restylefloat{table}
+
+
+% Variable config
+\newcommand{\documentname}{Index}
+\newcommand{\version}{\textbf{Version:} 1.0}
+\setcounter{chapter}{-1}
+

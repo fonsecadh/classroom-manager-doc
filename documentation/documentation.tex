@@ -1,0 +1,124 @@
+\documentclass[oneside, 12pt, openany]{book}
+
+\usepackage{mathptmx} % For using a Times New Roman font
+
+\usepackage[english]{babel} % English writing
+\usepackage[utf8]{inputenc} % UTF8 encoding
+
+\usepackage{graphicx} % Graphics and images
+\graphicspath{ {img/} } % Images route
+
+\usepackage[a4paper,top=30mm,left=30mm,right=25mm,bottom=35mm,headheight=55mm, footskip=20mm]{geometry} % Margin configuration
+
+% Format packages
+\usepackage{titlesec}
+\usepackage{setspace}
+\usepackage{ragged2e}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{stackengine}
+\usepackage{array}
+\usepackage{url}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{lastpage}
+\usepackage{lscape}
+
+% Links and references
+\usepackage{hyperref}
+\setcounter{tocdepth}{4} % Depth of the table of contents
+
+\hypersetup
+{
+    bookmarksnumbered,
+    breaklinks=false,
+    linktocpage=false,
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=black,
+    menucolor=black
+}
+
+% Color package
+\usepackage[table,xcdraw]{xcolor}
+
+% Include pages from another PDF
+\usepackage{pdfpages}
+
+% Text generation package
+\usepackage{lipsum}
+
+% Table generator package
+\usepackage{tabularx}
+
+% List management package
+\usepackage{enumitem}
+
+% Captions package
+\usepackage{caption} 
+\captionsetup[table]{skip=10pt}
+
+% Quotes package
+\usepackage{csquotes}
+
+% Loads the configuration tex file
+\input{configuration.tex}
+
+
+% Document starts
+\begin{document}
+
+\rmfamily % Roman font
+
+% Documentation cover page
+\input{cover.tex}
+
+
+\renewcommand{\contentsname}{\empty}
+\renewcommand{\documentname}{Index}
+
+
+\chapter{Index}
+
+\begingroup
+\let\clearpage\relax
+
+\vspace{5mm}
+
+% Index
+\tableofcontents
+
+\endgroup
+
+
+\justify % Justify text
+\setlength{\parskip}{\baselineskip} % Separate paragraphs by one line
+\onehalfspacing
+
+
+% Content block
+{
+    % Links in the content block appear in blue
+    \hypersetup{linkcolor=blue}
+
+    \input{report.tex} 
+
+    \newpage
+    \input{annexes.tex} 
+
+    \newpage
+    \input{requirements.tex} 
+
+    \newpage
+    \input{budget.tex} 
+
+    \newpage
+    \input{bibliography.tex}
+
+}
+
+\renewcommand{\documentname}{Bibliography}
+
+\end{document}
+
