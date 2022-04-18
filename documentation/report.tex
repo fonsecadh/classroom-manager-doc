@@ -121,7 +121,7 @@ The requirements listed here are a basic overview of the fundamental functionali
 
 \begin{itemize}
     \item The program must use a genetic algorithm guided by a greedy algorithm.
-    \item Language groups requirements:
+    \item Language group requirements:
         \begin{itemize}
             \item English groups should go to different classrooms/laboratories from the spanish groups.
         \end{itemize}
@@ -141,7 +141,51 @@ The requirements listed here are a basic overview of the fundamental functionali
 \end{itemize}
 
 \section{Assumptions and restrictions}
+
+The assumptions and constraints that directly or indirectly affect the project are listed as follows.
+
+\begin{itemize}
+    \item \textbf{Duration of the project.} The project started on January 28\textsuperscript{th}, 2022, and must be completed before July 6\textsuperscript{th}, 2022. 
+    \item \textbf{Failure to find an optimal solution.} It could be the case that the genetic algorithm failed to find the optimal solution in a reasonable time. This implies a reconsideration of the constraints of the problem, or in any case a change in the evaluation of the algorithm's solutions.
+    \item \textbf{Unbearable computational cost.} Related to the previous assumption, if the optimal solution requires a machine with unreasonable high specs in order to solve the problem optimally, a change in the objectives of the project could be in place.
+\end{itemize}
+
 \section{Study of alternatives and feasibility}
+
+\subsection{Programming Language}
+
+There were two programming languages considered for the implementation of the system, \textbf{C} and \textbf{Java}.
+
+Considering that:
+
+\begin{itemize}
+    \item The author and only developer of the system has worked with Java throughout his university studies, but only used C in one subject and in some of his personal projects.
+
+    \item Java is probably less efficient than C when executing the genetic and greedy algorithms.
+
+    \item Java code is more easy to run in other systems than C code.
+
+    \item The program is going to be executed only a few times a year.
+\end{itemize}
+
+For this reasons, even if C would be faster in execution, because the program will not be running every day, and taking into account the other two advantages, Java was the language of choice for implementing the system.
+
+\subsection{Format of data files}
+
+There were two file formats taken into consideration, JSON and CSV.
+
+Bearing in mind that:
+
+\begin{itemize}
+    \item Java has no native support for processing either format.
+    \item JSON is easier to manage by web services.
+    \item CSV is easier to read and write from Java than JSON.
+    \item CSV can be imported into a spreadsheet editor like LibreOffice Calc or Excel for its manipulation.
+    \item It is preferred not to use external code libraries to avoid licensing issues.
+\end{itemize}
+
+The decision was to choose CSV as the file format for most of the input and output files of the system.
+
 \section{Description of the proposed solution}
 \section{Risk analysis}
 \section{Time planning}
