@@ -22,7 +22,7 @@ This project aims to create a program that automates the process of assigning cl
 
 The implementation of this system is intended to assist in the work of the supervisor for this process, and provide an efficient and flexible tool that expands the possibilities of such work.
 
-To do so, the program executes two algorithms, a genetic algorithm whose fitness function uses a greedy algorithm. For a more detailed view on these algorithms the reader might refer to \ref{alg-studies}.
+To do so, the program executes two algorithms, a genetic algorithm guided by a greedy algorithm. For a more detailed view on these algorithms the reader might refer to \ref{alg-studies}.
 
 Along with the system, the user and programmer manuals are submitted. These have the purpose of teaching how to use, maintain and extend the system.
 
@@ -45,8 +45,101 @@ Even though it is a manual process, the supervisor does not start making the ass
 The system described in this document preserves these sources of information and builds on top of them.
 
 \section{Standards and references}
+
+\subsection{Standards}
+
+\textit{UNE 157801. General criteria for the design of information systems projects.} This standard is used for defining the structure and contents of this document. However, some sections have been added, removed or modified to fit the format of a final degree project. A conclusions chapter has been introduced to the general structure as well.
+
+\subsection{Licenses}
+
+The software of this project is licensed under the GNU General Public License v2.0.
+
+\subsection{Other references}
+
+\textit{Java Code Conventions.} Set of guidelines and conventions for programmers to consider when using the Java programming language.
+
 \section{Definitions and abbreviations}
+
+Listed below is a glossary of definitions and abbreviations used in the document whose meaning may not be obvious.
+
+Glossary of definitions:
+
+\begin{itemize}
+    \item \textbf{Genetic algorithm:} metaheuristic search and optimization algorithm. 
+    \item \textbf{Greedy algorithm:} algorithm that builds the solution in successive steps, always trying to take the optimal solution for each step
+    \item \textbf{Heuristic:} function that gives value to each path in a search algorithm, based on current information.
+    \item \textbf{Java:} general-purpose, high-level, object-oriented programming language.
+    \item \textbf{Metaheuristic:} high-level heuristic that guides the search in a combinatorial optimization problem.
+    \item \textbf{Program:} The software described in this document.
+    \item \textbf{System:} The software described in this document.
+    \item \textbf{Technical reader:} used in this document as someone who knows about software engineering, but not necessarily about genetic or greedy algorithms.
+\end{itemize}
+
+Glossary of abbreviations:
+
+\begin{itemize}
+    \item \textbf{CLI:} Command Line Interface.
+    \item \textbf{GNU:} GNU is not Unix (recursive acronym). Refers to the free software project announced by Richard Stallman.
+    \item \textbf{UNE:} in spanish, \textit{Una Norma Española}. Refers to the Spanish Association for Standardisation.
+\end{itemize}
+
 \section{Initial requirements}
+
+The requirements listed here are a basic overview of the fundamental functionality covered by the project. For the complete list of in-depth requirements the reader might refer to \ref{requirements}.
+
+\subsection{Interface}
+
+\begin{itemize}
+    \item The program must implement a CLI.
+        \begin{itemize}
+            \item The CLI must show basic or complete information to the user depending on the given option flag.
+            \item The CLI must show the encountered errors to the user before terminating the execution.
+            \item The CLI must have help, license and version options.
+        \end{itemize}
+\end{itemize}
+
+\subsection{Input}
+
+\begin{itemize}
+    \item The progam receives as input the classrooms, groups, group schedule and the academic weeks of each group.
+    \item The program might optionally receive as input a subset of assignments already performed.
+    \item The program might optionally receive as input a previous complete list of assignments but without some of the classrooms/laboratories used in it.
+    \item The program might optionally receive as input a previous complete list of assignments but with more or less groups.
+    \item The program might optionally recieve as input a list of classroom preferences for the groups of a particular subject, given their type (theory or laboratory) and language (english or spanish).
+\end{itemize}
+
+\subsection{Configuration}
+
+\begin{itemize}
+    \item Program configuration must allow the user to control the parameters of the genetic algorithm.
+    \item Program configuration must allow the user to change the version of the program.
+    \item Program configuration must allow the user to specify the routes for the log and output files.
+    \item Program configuration can change in the middle of the course.
+\end{itemize}
+
+\subsection{Algorithm}
+
+\begin{itemize}
+    \item The program must use a genetic algorithm guided by a greedy algorithm.
+    \item Language groups requirements:
+        \begin{itemize}
+            \item English groups should go to different classrooms/laboratories from the spanish groups.
+        \end{itemize}
+    \item Classroom requirements:
+        \begin{itemize}
+            \item Some initial classroom assignments can be specified before the execution of the program and they must remain the same.
+            \item The program must be able to find a gap in the current list of assignments to include a (mono/multi)-(classroom/laboratory).
+            \item The number of groups of the same number and course assigned to the same theory classroom must be maximised.
+            \item The number of groups of the same subject assigned to the same laboratory must be maximised.
+            \item In each time slot there must be a minimum number of free laboratories.
+            \item Some big laboratories must be empty for emergency reasons.
+            \item The program must penalise assignments where the number of students is far below the number of computers.
+            \item The laboratories must have some free space defined by the user.
+            \item In small laboratories (of 16 computers) there must be at least two free computers.
+            \item The program must be able to handle a split in two of a laboratory group with only one professor (for emergencies).
+        \end{itemize}
+\end{itemize}
+
 \section{Assumptions and restrictions}
 \section{Study of alternatives and feasibility}
 \section{Description of the proposed solution}
