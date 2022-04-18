@@ -78,8 +78,10 @@ Glossary of definitions:
 Glossary of abbreviations:
 
 \begin{itemize}
+    \item \textbf{CSV:} Comma-Separated Values. Refers to a text file format.
     \item \textbf{CLI:} Command Line Interface.
     \item \textbf{GNU:} GNU is not Unix (recursive acronym). Refers to the free software project announced by Richard Stallman.
+    \item \textbf{TXT:} Text. Refers to the text file format.
     \item \textbf{UNE:} in spanish, \textit{Una Norma Española}. Refers to the Spanish Association for Standardisation.
 \end{itemize}
 
@@ -113,7 +115,7 @@ The requirements listed here are a basic overview of the fundamental functionali
 \begin{itemize}
     \item Program configuration must allow the user to control the parameters of the genetic algorithm.
     \item Program configuration must allow the user to change the version of the program.
-    \item Program configuration must allow the user to specify the routes for the log and output files.
+    \item Program configuration must allow the user to specify the folder paths for the log and output files.
     \item Program configuration can change in the middle of the course.
 \end{itemize}
 
@@ -187,6 +189,20 @@ Bearing in mind that:
 The decision was to choose CSV as the file format for most of the input and output files of the system.
 
 \section{Description of the proposed solution}
+
+The software solution proposed in this document consists of a Java command line application that takes as input the CSVs of the classrooms, subjects, groups, group schedule and group academic weeks and transforms them into a CSV containing the allocation of one class for each group, as well as a TXT file with the details of the executions in a human-readable style.
+
+This transformation is achieved by executing a genetic algorithm that generates possible solutions to the problem and a greedy algorithm that carries out the assignments and ranks the solution. At the end of the execution the solution ranked with the highest value will be returned.
+
+Optionally, the program accepts as input the output CSV of a previous execution and also a CSV of classroom preferences for the assignments, which assists the algorithm in ranking the solutions.
+
+Finally, there is also a configuration file that controls the parameters of the genetic algorithm, the version of the program, and the folder path for the log and output of the system.
+
+The main advantage of the system is its great flexibility. By focusing more on the input data than on the code, it has been possible to create a tool whose functionality adapts to the CSVs built by the user.
+
+Use cases in the middle of the semester, like adding new groups and designating their classrooms, removing laboratories due to renovation works, finding classrooms for specific courses that only last one month, finding classrooms for exams that only happen in a week, etc. are all very easy to carry out. The user just needs to change the input CSVs in the correct way and then introduce as input the output of the execution conducted at the beginning of the semester, and the program will take the current assignments into account when allocating classsrooms for these new groups.
+
+
 \section{Risk analysis}
 \section{Time planning}
 \section{Budget summary}
