@@ -5,7 +5,51 @@
 
 \section{Project justification}
 
+The School of Computing Engineering of the University of Oviedo has more than twenty classrooms, including theory classrooms and laboratory classrooms. Each semester there are over three hundred groups, each with their type (theory, seminar or laboratory), subject and schedule. The timetable of the groups varies on a weekly basis, this means that not all groups have to attend classes all weeks, and some of them do not even have repeating patterns.
+
+This makes assigning classrooms to groups a complicated task, since there can be no temporal collisions. When various other constraints enter the equation, such as minimising the number of labs used by a subject or assigning classrooms to Spanish groups that are different from English groups, things become much more complex.
+
+All this assignments are done \textit{manually} by one person. Because groups can change once the semester has already started, more assignments usually made, checking once again all the restrictions.
+
+This project provides the supervisor of this process with a tool to help them calculating the assignments, reducing their workload. Not only does it generate assignments for all the groups of the semester, but can use previous assignments, total or partial, to calculate a subset of assignments (for example, the assignments for the new groups created in the middle of the semester). On top of that, the prototype developed in this thesis makes finding a set of free classrooms to hold events easy and fast, using the assignments generated previously by the system itself.
+
+
 \section{Project goals}
+
+The project seeks to achieve the following objectives:
+
+\begin{enumerate}
+
+    \item Formally define the problem of assigning classrooms to the groups of the School.
+
+    \item Study the problem and the means to solve it.
+
+    \item Define the proposed solution.
+
+    \item Build a prototype that solves the problem using the algorithms described in the proposed solution.
+
+        \begin{enumerate}
+
+            \item It will receive plain text input files with the required data.
+
+            \item It will output the solution to plain text files.
+
+            \item It will be able to make the assignments starting from scratch or from a total or partial set of assignments.
+
+            \item It will be able to search a set of free classrooms for a specific event in one or more days.
+
+        \end{enumerate}
+
+    \item Make a set of experiments to find the best default values for the configuration files.
+
+    \item Write a set of manuals to cover the essentials of the system.
+
+    \item Create another software tool that will automate the creation of the input plain text files for the main system.
+
+    \item Validate solution with the users.
+
+\end{enumerate}
+
 
 \section{Situation overview}
 
@@ -13,15 +57,11 @@
 
 At the beginning of each semester, the School of Computing Engineering of the University of Oviedo opens a process in which the person in charge takes the list of groups for the semester, their schedules and the list of classrooms, and performs a manual compilation of all the assignments.
 
-There are some other similar procedures, like the creation of the exam timetable or the assignments of enrolled students to subject groups. However, some are not manual, but automated by a system, like the previously mentioned procedure of assigning students to groups.
-
-Seeing the potential of such tool, the author of this project was given the task of automating the assignment of classrooms to subject groups. 
+There are a number of other similar procedures, like the creation of the exam timetable or the assignments of enrolled students to subject groups. However, some are not manual, but automated by a system, like the previously mentioned procedure of assigning students to groups. Seeing the potential of such tools, the author of this project was given the task of automating the assignment of classrooms to subject groups by similar means. 
 
 \subsection{Description of the current situation}
 
-As explained in the previous section, the school has a supervisor for the process of assigning classrooms to groups.
-
-This procedure is done after configuring the student groups for the semester and knowing their schedules.
+As explained in the previous section, the school has a supervisor for the process of assigning classrooms to groups. This procedure is done after configuring the student groups for the semester and knowing their schedules.
 
 Even though it is a manual process, the supervisor does not start making the assignments from scratch. First, they have the knowledge of previous years, and then they have a list of preferences or premade assignments. For example, certain laboratories can only be assigned to specific groups, like the ones from the Electronic Technology of Computers subject.
 

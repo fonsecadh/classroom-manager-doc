@@ -22,179 +22,24 @@ The system manuals for the programmer and the user are handed.
 
 Finally, the conclusions and future work are listed, along with the final budgets, the bibliography, annexes and the source code.
 
-It is important to note that the organization of the contents for this document is done following the criteria and recommendations of the template document for Degree's and Master's Thesis of the School of Computing Engineering of Oviedo (version 1.4) by J. M. Redondo.
-
-\section{Purpose}
-
-This project aims to create a program that automates the process of assigning classrooms to all the groups of a given semester.
-
-The implementation of this system is intended to assist in the work of the supervisor for this process, and provide an efficient and flexible tool that expands the possibilities of such work.
-
-To do so, the program executes two algorithms, a genetic algorithm guided by a greedy algorithm. For a more detailed view on these algorithms the reader might refer to \ref{alg-studies}.
-
-Along with the system, the user and programmer manuals are submitted. These have the purpose of teaching how to use, maintain and extend the system.
-
-\section{Standards and references}
-
-\subsection{Standards}
-
-\textit{UNE 157801. General criteria for the design of information systems projects.} This standard is used for defining the structure and contents of this document. However, some sections have been added, removed or modified to fit the format of a final degree project. A conclusions chapter has been introduced to the general structure as well.
-
-\subsection{Licenses}
-
-The software of this project is licensed under the GNU General Public License v2.0.
-
-\subsection{Other references}
-
-\textit{Java Code Conventions.} Set of guidelines and conventions for programmers to consider when using the Java programming language.
-
-\section{Definitions and abbreviations}
-
-Listed below is a glossary of definitions and abbreviations used in the document whose meaning may not be obvious.
-
-Glossary of definitions:
-
-\begin{itemize}
-    \item \textbf{Genetic algorithm:} metaheuristic search and optimization algorithm. 
-    \item \textbf{Greedy algorithm:} algorithm that builds the solution in successive steps, always trying to take the optimal solution for each step
-    \item \textbf{Heuristic:} function that gives value to each path in a search algorithm, based on current information.
-    \item \textbf{Java:} general-purpose, high-level, object-oriented programming language.
-    \item \textbf{Metaheuristic:} high-level heuristic that guides the search in a combinatorial optimization problem.
-    \item \textbf{Program:} The software described in this document.
-    \item \textbf{System:} The software described in this document.
-    \item \textbf{Technical reader:} used in this document as someone who knows about software engineering, but not necessarily about genetic or greedy algorithms.
-\end{itemize}
-
-Glossary of abbreviations:
-
-\begin{itemize}
-    \item \textbf{CSV:} Comma-Separated Values. Refers to a text file format.
-    \item \textbf{CLI:} Command Line Interface.
-    \item \textbf{GNU:} GNU is not Unix (recursive acronym). Refers to the free software project announced by Richard Stallman.
-    \item \textbf{TXT:} Text. Refers to the text file format.
-    \item \textbf{UNE:} in spanish, \textit{Una Norma Española}. Refers to the Spanish Association for Standardisation.
-\end{itemize}
-
-\section{Initial requirements}
-
-The requirements listed here are a basic overview of the fundamental functionality covered by the project. For the complete list of in-depth requirements the reader might refer to \ref{requirements}.
-
-\subsection{Interface}
-
-\begin{itemize}
-    \item The program must implement a CLI.
-        \begin{itemize}
-            \item The CLI must show basic or complete information to the user depending on the given option flag.
-            \item The CLI must show the encountered errors to the user before terminating the execution.
-            \item The CLI must have help, license and version options.
-        \end{itemize}
-\end{itemize}
-
-\subsection{Input}
-
-\begin{itemize}
-    \item The progam receives as input the classrooms, groups, group schedule and the academic weeks of each group.
-    \item The program might optionally receive as input a subset of assignments already performed.
-    \item The program might optionally receive as input a previous complete list of assignments but without some of the classrooms/laboratories used in it.
-    \item The program might optionally receive as input a previous complete list of assignments but with more or less groups.
-    \item The program might optionally recieve as input a list of classroom preferences for the groups of a particular subject, given their type (theory or laboratory) and language (english or spanish).
-\end{itemize}
-
-\subsection{Configuration}
-
-\begin{itemize}
-    \item Program configuration must allow the user to control the parameters of the genetic algorithm.
-    \item Program configuration must allow the user to change the version of the program.
-    \item Program configuration must allow the user to specify the folder paths for the log and output files.
-    \item Program configuration can change in the middle of the course.
-\end{itemize}
-
-\subsection{Algorithm}
-
-\begin{itemize}
-    \item The program must use a genetic algorithm guided by a greedy algorithm.
-    \item Language group requirements:
-        \begin{itemize}
-            \item English groups should go to different classrooms/laboratories from the spanish groups.
-        \end{itemize}
-    \item Classroom requirements:
-        \begin{itemize}
-            \item Some initial classroom assignments can be specified before the execution of the program and they must remain the same.
-            \item The program must be able to find a gap in the current list of assignments to include a (mono/multi)-(classroom/laboratory).
-            \item The number of groups of the same number and course assigned to the same theory classroom must be maximised.
-            \item The number of groups of the same subject assigned to the same laboratory must be maximised.
-            \item In each time slot there must be a minimum number of free laboratories.
-            \item Some big laboratories must be empty for emergency reasons.
-            \item The program must penalise assignments where the number of students is far below the number of computers.
-            \item The laboratories must have some free space defined by the user.
-            \item In small laboratories (of 16 computers) there must be at least two free computers.
-            \item The program must be able to handle a split in two of a laboratory group with only one professor (for emergencies).
-        \end{itemize}
-\end{itemize}
-
-\section{Assumptions and restrictions}
-
-The assumptions and constraints that directly or indirectly affect the project are listed as follows.
-
-\begin{itemize}
-    \item \textbf{Duration of the project.} The project started on January 28\textsuperscript{th}, 2022, and must be completed before July 6\textsuperscript{th}, 2022. 
-    \item \textbf{Failure to find an optimal solution.} It could be the case that the genetic algorithm failed to find the optimal solution in a reasonable time. This implies a reconsideration of the constraints of the problem, or in any case a change in the evaluation of the algorithm's solutions.
-    \item \textbf{Unbearable computational cost.} Related to the previous assumption, if the optimal solution requires a machine with unreasonable high specs in order to solve the problem optimally, a change in the objectives of the project could be in place.
-\end{itemize}
-
-\section{Study of alternatives and feasibility}
-
-\subsection{Programming Language}
-
-There were two programming languages considered for the implementation of the system, \textbf{C} and \textbf{Java}.
-
-Considering that:
-
-\begin{itemize}
-    \item The author and only developer of the system has worked with Java throughout his university studies, but only used C in one subject and in some of his personal projects.
-
-    \item Java is probably less efficient than C when executing the genetic and greedy algorithms.
-
-    \item Java code is more easy to run in other systems than C code.
-
-    \item The program is going to be executed only a few times a year.
-\end{itemize}
-
-For this reasons, even if C would be faster in execution, because the program will not be running every day, and taking into account the other two advantages, Java was the language of choice for implementing the system.
-
-\subsection{Format of data files}
-
-There were two file formats taken into consideration, JSON and CSV.
-
-Bearing in mind that:
-
-\begin{itemize}
-    \item Java has no native support for processing either format.
-    \item JSON is easier to manage by web services.
-    \item CSV is easier to read and write from Java than JSON.
-    \item CSV can be imported into a spreadsheet editor like LibreOffice Calc or Excel for its manipulation.
-    \item It is preferred not to use external code libraries to avoid licensing issues.
-\end{itemize}
-
-The decision was to choose CSV as the file format for most of the input and output files of the system.
-
-\section{Description of the proposed solution}
-
-The software solution proposed in this document consists of a Java command line application that takes as input the CSVs of the classrooms, subjects, groups, group schedule and group academic weeks and transforms them into a CSV containing the allocation of one class for each group, as well as a TXT file with the details of the executions in a human-readable style.
-
-This transformation is achieved by executing a genetic algorithm that generates possible solutions to the problem and a greedy algorithm that carries out the assignments and ranks the solution. At the end of the execution the solution ranked with the highest value will be returned.
-
-Optionally, the program accepts as input the output CSV of a previous execution and also a CSV of classroom preferences for the assignments, which assists the algorithm in ranking the solutions.
-
-Finally, there is also a configuration file that controls the parameters of the genetic algorithm, the version of the program, and the folder path for the log and output of the system.
-
-The main advantage of the system is its great flexibility. By focusing more on the input data than on the code, it has been possible to create a tool whose functionality adapts to the CSVs built by the user.
-
-Use cases in the middle of the semester, like adding new groups and designating their classrooms, removing laboratories due to renovation works, finding classrooms for specific courses that only last one month, finding classrooms for exams that only happen in a week, etc. are all very easy to carry out. The user just needs to change the input CSVs in the correct way and then introduce as input the output of the execution conducted at the beginning of the semester, and the program will take the current assignments into account when allocating classsrooms for these new groups.
+It is important to note that the structure of the contents for this document is done following the criteria and recommendations of the template document for Degree's and Master's Thesis of the School of Computing Engineering of Oviedo (version 1.4) \cite{doc-template} by J. M. Redondo. However, some additional chapters were introduced by the author in order to capture the particularity of the work carried out, inspired by the research of G. de la Cruz \cite{metaheuristics-groups}.
 
 
-\section{Risk analysis}
-\section{Time planning}
-\section{Budget summary}
-\section{Prioritisation of project documents}
+\section{Purpose}\label{purpose}
+
+This project aims to help the personnel of the School of Computing Engineering at the University of Oviedo manage their classrooms. It will address two main functionalities, the automation of the process of assigning classrooms to all the groups of a given semester (starting from scratch or using a previous partial or total assignment), and a tool that searches for gaps in a previous set of assignments for single or multi-day events in one or more classes.
+
+The implementation of this system is intended to assist in the work of the supervisor for this process, and provide an efficient and flexible tool that expands the possibilities of such work. To do so, the program executes two algorithms, a genetic algorithm guided by a greedy algorithm. For a more detailed view on these algorithms the reader might refer to \ref{theory}. Once the assignments have been calculated, the system will allow the users to find classrooms to hold specific events in the middle of the semester.
+
+Along with the system, the system manuals are submitted. These have the purpose of teaching how to install, use, maintain and extend the system. Apart from the manuals, another tool to generate the necessary files for the program is handed.
+
+
+\section{Scope}
+
+The project needs to formally define the problem of assigning classrooms of the School to all the groups of the semester, conduct a study on the problem and propose a solution. 
+
+A development of a software prototype that solves the problem is planned, designed, implemented and tested. This prototype will solve the two main functionalities indicated in \ref{purpose} and will consist of a command line application that takes input data in plain text files and outputs the solution to plain text files. The program is configured by different configuration files depending on the functionality being executed. An experimental study on the results of the software system is carried out, finding the most fitting default values for the configuration files. The project also contains the system manuals of the application, which consist of the installation, usage, user and programmer manuals. 
+
+Finally, an additional tool for automating the creation of the input files of the software is given. It uses a format agreed with the client and will use the same technical specifications of the main prototype, like the programming language and the development environment.
+
 

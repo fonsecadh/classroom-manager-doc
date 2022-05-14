@@ -5,7 +5,66 @@
 
 \section{System definition}
 
+
 \section{System requirements}
+
+\textbf{TODO: THESE ARE THE INITIAL REQUIREMENTS, THEY WILL CHANGE}
+
+The requirements listed here are a basic overview of the fundamental functionality covered by the project. For the complete list of in-depth requirements the reader might refer to NOPE.
+
+\subsection{Interface}
+
+\begin{itemize}
+    \item The program must implement a CLI.
+        \begin{itemize}
+            \item The CLI must show basic or complete information to the user depending on the given option flag.
+            \item The CLI must show the encountered errors to the user before terminating the execution.
+            \item The CLI must have help, license and version options.
+        \end{itemize}
+\end{itemize}
+
+\subsection{Input}
+
+\begin{itemize}
+    \item The progam receives as input the classrooms, groups, group schedule and the academic weeks of each group.
+    \item The program might optionally receive as input a subset of assignments already performed.
+    \item The program might optionally receive as input a previous complete list of assignments but without some of the classrooms/laboratories used in it.
+    \item The program might optionally receive as input a previous complete list of assignments but with more or less groups.
+    \item The program might optionally recieve as input a list of classroom preferences for the groups of a particular subject, given their type (theory or laboratory) and language (english or spanish).
+\end{itemize}
+
+\subsection{Configuration}
+
+\begin{itemize}
+    \item Program configuration must allow the user to control the parameters of the genetic algorithm.
+    \item Program configuration must allow the user to change the version of the program.
+    \item Program configuration must allow the user to specify the folder paths for the log and output files.
+    \item Program configuration can change in the middle of the course.
+\end{itemize}
+
+\subsection{Algorithm}
+
+\begin{itemize}
+    \item The program must use a genetic algorithm guided by a greedy algorithm.
+    \item Language group requirements:
+        \begin{itemize}
+            \item English groups should go to different classrooms/laboratories from the spanish groups.
+        \end{itemize}
+    \item Classroom requirements:
+        \begin{itemize}
+            \item Some initial classroom assignments can be specified before the execution of the program and they must remain the same.
+            \item The program must be able to find a gap in the current list of assignments to include a (mono/multi)-(classroom/laboratory).
+            \item The number of groups of the same number and course assigned to the same theory classroom must be maximised.
+            \item The number of groups of the same subject assigned to the same laboratory must be maximised.
+            \item In each time slot there must be a minimum number of free laboratories.
+            \item Some big laboratories must be empty for emergency reasons.
+            \item The program must penalise assignments where the number of students is far below the number of computers.
+            \item The laboratories must have some free space defined by the user.
+            \item In small laboratories (of 16 computers) there must be at least two free computers.
+            \item The program must be able to handle a split in two of a laboratory group with only one professor (for emergencies).
+        \end{itemize}
+\end{itemize}
+
 
 \section{Subsystem mapping}
 
