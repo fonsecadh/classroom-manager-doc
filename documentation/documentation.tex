@@ -61,8 +61,9 @@
 \usepackage{caption} 
 \captionsetup[table]{skip=10pt}
 
-% Quotes package
+% Quotes packages
 \usepackage{csquotes}
+\usepackage{epigraph}
 
 % Loads the configuration tex file
 \input{configuration.tex}
@@ -102,6 +103,9 @@
 {
     % Links in the content block appear in blue
     \hypersetup{linkcolor=blue}
+
+    \newpage
+    \input{overview.tex} 
 
     \newpage
     \input{report.tex} 
@@ -146,13 +150,13 @@
     \input{budget.tex} 
 
     \newpage
-    \input{bibliography.tex}
-
-    \newpage
     \input{annexes.tex} 
 
     \newpage
     \input{source.tex} 
+
+    \newpage
+    \input{bibliography.tex}
 
 }
 

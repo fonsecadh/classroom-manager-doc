@@ -21,32 +21,15 @@
 % Header and footer format
 \fancyhf{} % Clear every field
 
-\fancyhead[R]{\bfseries{\large \documentname}}
+\fancyhead[CE,CO,LE,LO,RE,RO]{}
 
 \fancyfoot[CE,CO,LE,LO,RE,RO]{} % Clear all footers
-\fancyfoot[C]
-{
-    \begin{tabular}{|ll|c}
-        \hline
-        \multicolumn{3}{|p{13.3cm}|}{\tfg} \\ 
-        \hline
-        \textbf{Author:} H. Fonseca & & 
-        \multicolumn{1}{c|}{
-            \multirow{3}{*}
-            {
-                Page \thepage \hspace{1pt} of {\hypersetup{linkcolor=black} \pageref*{LastPage}}
-            }
-        } \\ 
-        \cline{1-2}
-        \textbf{Supervisors:} R. Mencía, C. Mencía & & \multicolumn{1}{c|}{} \\
-        \cline{1-2}
-        \documentdate & \version & \multicolumn{1}{c|}{} \\
-        \hline
-    \end{tabular}
-}
+\fancyfoot[L]{\bfseries{\large \documentname}}
+\fancyfoot[R]{\thepage}
 
-\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0pt}
 \renewcommand{\footrulewidth}{0pt}
+
 
 % Plain rewrite for having the same header and footer in all pages
 \fancypagestyle{plain}
@@ -55,31 +38,13 @@
     % Header and footer format
     \fancyhf{} % Clear every field
 
-    \fancyhead[R]{\bfseries{\large \documentname}}
+    \fancyhead[CE,CO,LE,LO,RE,RO]{}
 
     \fancyfoot[CE,CO,LE,LO,RE,RO]{} % Clear all footers
-    \fancyfoot[C]
-    {
-        \begin{tabular}{|ll|c}
-            \hline
-            \multicolumn{3}{|p{13.3cm}|}{\tfg} \\ 
-            \hline
-            \textbf{Author:} H. Fonseca & & 
-            \multicolumn{1}{c|}{
-                \multirow{3}{*}
-                {
-                    Page \thepage \hspace{1pt} of {\hypersetup{linkcolor=black} \pageref*{LastPage}}
-                }
-            } \\ 
-            \cline{1-2}
-            \textbf{Supervisors:} R. Mencía, C. Mencía & & \multicolumn{1}{c|}{} \\
-            \cline{1-2}
-            \documentdate & \version & \multicolumn{1}{c|}{} \\
-            \hline
-        \end{tabular}
-    }
+    \fancyfoot[L]{\bfseries{\large \documentname}}
+    \fancyfoot[R]{\thepage}
 
-    \renewcommand{\headrulewidth}{0.5pt}
+    \renewcommand{\headrulewidth}{0pt}
     \renewcommand{\footrulewidth}{0pt}
 
 }
