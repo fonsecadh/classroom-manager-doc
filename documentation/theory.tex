@@ -2,17 +2,19 @@
 
 \chapter{Theoretical aspects}\label{theory}
 
+A digital magazine Bootaku works with three freelancers. Dante, Virgil and Beatrice. Together they write a section about book reviews. Gathering data from previous sections, Bootaku wants to define and solve a problem of efficiently assign all reviews to the three critics so that the section gets the highest profit. For the assignments, Bootaku wants every book review to have one (and only one) associated freelancer. If a freelancer ends up with no reviews, the assignments are still valid if and only if the previous condition is met.
+
 
 \section{Assignment problem}
 
-Imagine that a digital magazine tasked you with the following problem. They need to assign book reviews to freelance writers, and they want the assignments to result in the maximum profit. Therefore, we have:
+The problem described before can be generalised with the following elements: 
 
 \begin{description}
     \item A set of $n$ freelancers $f$
     \item A set of $m$ book reviews $r$
-    \item A set of $n \times m$ assignments $a_{fr}$ such that $a_{fr} = 0$ when freelancer $f$ is not assigned to book review $r$ and $a_{fr} = 0$ when freelancer $f$ is assigned to book review $r$.
-    \item A set of $n \times m$ profits $p_{fr}$ which indicate the profit obtained when assigning freelancer $f$ to book review $r$ and that $p_{fr} \textgreater 0$.
-    \item A valid solution is defined as a set of assignments where all the book reviews have a freelancer assigned to them and no book review has more than one associated freelancer.
+    \item An assignment matrix of $n \times m$ assignments $a_{fr}$ such that $a_{fr} = 0$ when freelancer $f$ is not assigned to book review $r$ and $a_{fr} = 1$ when freelancer $f$ is assigned to book review $r$.
+    \item A profit matrix of $n \times m$ profits $p_{fr}$ which indicate the profit obtained when assigning freelancer $f$ to book review $r$ and that $p_{fr} \textgreater 0$.
+    \item A valid solution is defined as a matrix of assignments where all the book reviews have a freelancer assigned to them and no book review has more than one associated freelancer.
 \end{description}
 
 The profit for all the assignments will then be:
@@ -23,71 +25,111 @@ The profit for all the assignments will then be:
 
 The optimal solution consists on having a set of assignments such that the sum of all the profits for the current assignments is maximised.
 
-For example, let us say that we have two freelancers $f1$ and $f2$ and three book reviews $r1$, $r2$ and $r3$. We can represent this data with two sets $F$ and $R$, respectively.
+For example, imagine that for the next month's section, we have the following data. The information is represented by means of two sets: $F$ for the freelancers and $R$ for the reviews.
 
 \begin{align}
-    F &= \{ f1, f2 \} \\
-    R &= \{ r1, r2, r3 \}
+    F &= \{ Dante, Virgil, Beatrice \} \\
+    R &= \{ Divine Comedy, El Quijote \}
 \end{align}
 
-Then, our assignments and profits will be represented by the sets $A$ and $P$.
+Then, our assignments and profits will be represented by the $A$ and $P$ matrices.
 
 \begin{align}
-    A &= \{ a11, a12, a13, a21, a22, a23 \} \\
-    P &= \{ p11, p12, p13, p21, p22, p23 \}
+    A &= 
+    \begin{bmatrix}
+        a_{11} & a_{12}\\ 
+        a_{21} & a_{22}\\ 
+        a_{31} & a_{32} 
+    \end{bmatrix} \\
+    P &= 
+    \begin{bmatrix}
+        p_{11} & p_{12}\\ 
+        p_{21} & p_{22}\\ 
+        p_{31} & p_{32} 
+    \end{bmatrix}
 \end{align}
 
 Now, we are going to study valid and non-valid solutions. As we explained before, a solution is valid if every book review has a freelancer assigned to it, and no more than one.
 
-We will analyse four sets of values for the A set:
+We will analyse four sets of values for the A matrix:
 
 \begin{align}
-    A1 &= \{ 0, 0, 0, 1, 1, 1 \} \\
-    A2 &= \{ 0, 1, 0, 1, 0, 1 \} \\
-    A3 &= \{ 0, 0, 0, 1, 0, 1 \} \\
-    A4 &= \{ 0, 1, 0, 1, 1, 1 \}
+    A1 &= 
+    \begin{bmatrix}
+        0 & 1\\ 
+        0 & 0\\ 
+        1 & 0 
+    \end{bmatrix} \\
+    A2 &= 
+    \begin{bmatrix}
+        0 & 1\\ 
+        1 & 0\\ 
+        0 & 0 
+    \end{bmatrix} \\
+    A3 &= 
+    \begin{bmatrix}
+        0 & 0\\ 
+        0 & 0\\ 
+        1 & 0 
+    \end{bmatrix} \\
+    A4 &= 
+    \begin{bmatrix}
+        0 & 1\\ 
+        0 & 0\\ 
+        0 & 1 
+    \end{bmatrix}
 \end{align}
 
-From these sets, we can deduce that $A1$ and $A2$ are valid solutions, because they have one freelancer for each book review. We are not concerned with a freelancer having no book reviews assigned. However, a book review without an associated freelancer represents a non-valid solution. That is precisely the case for $A3$, the book review $r2$ has not an assigned freelancer. In the case of $A4$, the fact that $r2$ has two freelancers assigned to it makes it a non-valid solution.
+From these matrices, we can deduce that $A1$ and $A2$ are valid solutions, because they have one freelancer for each book review. We are not concerned with a freelancer having no book reviews assigned. However, a book review without an associated freelancer represents a non-valid solution. That is precisely the case for $A3$, the book review for \textit{El Quijote} has not an assigned freelancer. In the case of $A4$, the fact that \textit{El Quijote} has two freelancers assigned makes it a non-valid solution.
 
-Now, we will give values to the $P$ set in order to discuss possible optimal solutions. We will compare them with the assignment sets $A1$ and $A2$
+Now, we will give values to the $P$ matrix in order to discuss possible optimal solutions. We will compare them with the assignment matrices $A1$ and $A2$
 
 \begin{align}
-    P1 &= \{ 3, 1, 6, 10, 2, 15 \} \\
-    P2 &= \{ 3, 7, 6, 10, 2, 15 \}
+    P1 &= 
+    \begin{bmatrix}
+        4 & 12\\ 
+        2 & 8\\ 
+        7 & 11 
+    \end{bmatrix} \\
+    P2 &= 
+    \begin{bmatrix}
+        4 & 12\\ 
+        15 & 8\\ 
+        7 & 11 
+    \end{bmatrix}
 \end{align}
 
 $P1$ y $A1$:
 
 \begin{equation}
-    \scalebox{1.2}{$Profit = \sum_{f=1}^n \sum_{r=1}^m a_{fr} p_{fr} = 1 \times 10 + 1 \times 2 + 1 \times 15 = 27$}
+    \scalebox{1.2}{$Profit = \sum_{f=1}^n \sum_{r=1}^m a_{fr} p_{fr} = 1 \times 12 + 1 \times 7 = 19$}
 \end{equation}
 
 $P1$ y $A2$:
 
 \begin{equation}
-    \scalebox{1.2}{$Profit = \sum_{f=1}^n \sum_{r=1}^m a_{fr} p_{fr} = 1 \times 1 + 1 \times 10 + 1 \times 15 = 26$}
+    \scalebox{1.2}{$Profit = \sum_{f=1}^n \sum_{r=1}^m a_{fr} p_{fr} = 1 \times 12 + 1 \times 2 = 14$}
 \end{equation}
 
-We can observe that for $P1$, the set of assignments $A1$ is better than $A2$, because it results in a better profit. Another important thing about $A1$ is that it is the optimal solution to the problem, because it assigns the book reviews to the freelancers with the better profit value. Now $P2$ will be evaluated.
+We can observe that for $P1$, the assignments defined in $A1$ are better than those in $A2$, because they result in a better profit. Another important thing about $A1$ is that it is the optimal solution to the problem, because it assigns the book reviews to the freelancers with the better profit value for their assigned books. Now $P2$ will be evaluated.
 
 $P2$ y $A1$:
 
 \begin{equation}
-    \scalebox{1.2}{$Profit = \sum_{f=1}^n \sum_{r=1}^m a_{fr} p_{fr} = 1 \times 10 + 1 \times 2 + 1 \times 15 = 27$}
+    \scalebox{1.2}{$Profit = \sum_{f=1}^n \sum_{r=1}^m a_{fr} p_{fr} = 1 \times 12 + 1 \times 7 = 19$}
 \end{equation}
 
 $P2$ y $A2$:
 
 \begin{equation}
-    \scalebox{1.2}{$Profit = \sum_{f=1}^n \sum_{r=1}^m a_{fr} p_{fr} = 1 \times 7 + 1 \times 10 + 1 \times 15 = 32$}
+    \scalebox{1.2}{$Profit = \sum_{f=1}^n \sum_{r=1}^m a_{fr} p_{fr} = 1 \times 12 + 1 \times 15 = 27$}
 \end{equation}
 
 In the case of the profits values of $P2$, the situation is reversed. $A2$ is now the optimal solution and therefore better than $A1$.
 
-The important thing to notice here is that the values for the $P$ set right now may appear as having no meaning whatsoever. But if we think of $P$ as a profict funtion, maybe we can interpret $P1$ as values of profit in a context where freelancer $f1$ has just tweeted an opinion on the book related with the review $r2$ and caused a massive controversy. We can then say that $P1$ is a function which gives more importance to public relations and so the profit $p_{12}$ is very low, whereas $P2$ gives more importance to clickbait and so the profit $p_{12}$ is higher! Of course in a real problem you know what the function is calculating, but for this example it is left to the imagination of the reader.
+The important thing to notice here is that the values for the $P$ matrix right now may appear as having no meaning whatsoever. But we need to think of $P$ as the results obtained from a profit funtion. Then, we can interpret $P1$ as values of profit in a context where Virgil has just expressed an opinion on social media related the \textit{Divine Comedy} and caused a massive controversy. We can then say that $P1$ is a function which gives more importance to public relations and so the profit $p_{12}$ is very low, whereas $P2$ gives more importance to views and so the profit $p_{12}$ is higher. Of course, in a real problem you know what the function is calculating, but this shows how we can add meaning to a set of symbols in order to understand the data more efficiently.
 
-With this example of an assignment problem we have seen its main characteristics and worked around with it to some extent. We will return to it time and time again as we follow through this chapter. 
+As you can imagine, this is an assignment problem. The actors that perform the jobs, in this case the freelancers that \textit{write} the reviews, are called the \textit{agents}. The \textit{tasks} to be performed are, in the Bootaku, problem the book reviews. Nevertheless, the agents in an assignment problem do not need to be persons (or even things that carry out actions), they can be machines, warehouses, or classrooms. The same can be said for the tasks.
 
 
 \section{Heuristics}
