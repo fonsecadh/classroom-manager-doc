@@ -2,7 +2,73 @@
 
 \chapter{Problem definition}
 
-The School of Computing Engineering of Oviedo must find a classroom for each group of a given semester. A classroom can be a laboratory or a theory classroom. Groups belong to subjects. They can be taught in English or Spanish, and have three types. Laboratory, theory and seminar groups. Laboratory groups can only go to laboratories and theory and seminar groups can only go to theory classrooms. A group can attend classes weekly, every two weeks or on a non-trivial pattern, and may be taught on one or several days. A group cannot be assigned to a classroom of a different type (for example, a laboratory group must not go to a theory classroom) or to a classroom whose capacity is less than the number of students in the group.
+The School of Computing Engineering of Oviedo must find a classroom for each group of a given semester. This data can be represented by two sets $C$ and $G$. 
 
-Laboratory groups of the same subject must all attend the same laboratory classroom, and if not possible, at least minimise the number of laboratories assigned to them. Groups of the same name and course work in the same way, but being assigned to theory classrooms \footnote{All the groups in the School have the format \textit{SUBJECT.TYPE.NAME}. For example the group \textit{Com.T.1} refers to \textit{theory} group \textit{1} of the \textit{Computability} subject. So all theory groups named 1 would be assigned to the same theory classroom, if possible.}. English and Spanish groups should go to different classrooms.
+\begin{align}
+    C &= \{ c_{1}, c_{2}, ..., c_{n} \}\\
+    G &= \{ g_{1}, g_{2}, ..., g_{m} \}
+\end{align}
+
+Where $C$ is the set of $n$ elements representing all the classrooms of the School, and $G$ a set of $m$ elements representing the groups for a given semester.
+
+A classroom can be a laboratory or a theory classroom. They can be taught in English or Spanish, and have three types. Laboratory, theory and seminar groups. In this problem, because we are only interested in the classrooms that can be assigned to groups, we only consider two types. Laboratory and theory. That is, we consider that the types of classrooms are \textit{identical} to the types of groups.
+
+\begin{align}
+    T &= \{ t_{1}, t_{2}, ..., t_{p} \}\\
+    L &= \{ l_{1}, l_{2}, ..., l_{q} \}
+\end{align}
+
+Therefore, each classroom $c$ and group $g$ have a type $t$. In the case of groups, they also are taught in language $l$.
+
+Each group has a set of academic weeks and of group schedules. A group can attend classes weekly, every two weeks or on a non-trivial pattern, and may be taught on one or several days.
+
+\begin{align}
+    W_{i} &= \{ w_{i1}, w_{i2}, ..., w_{ir} \}\\
+    H_{i} &= \{ h_{i1}, h_{i2}, ..., h_{is} \}
+\end{align}
+
+Therefore, every group $i$ has a set of weeks $W_{i}$ and a set of schedules $H_{i}$. A schedule consists of a triplet in the form $(DayOfTheWeek, start (hh:mm), finish (hh:mm)$.
+
+Every group belongs to a subject.
+
+\begin{align}
+    S &= \{ s_{1}, s_{2}, ..., s_{t} \}
+\end{align}
+
+A subject $s$ is related to a subset of $G$ groups.
+
+With these, we have defined all the data which we need in order to solve the problem. Now we will talk about the problem constraints that we have to fulfill.
+
+For the constraints, we call \textit{hard constraints} those which are imperative for the solution to be valid, and \textit{soft constraints} the ones that reflect on the overall quality of the solution but are not mandatory.
+
+Before introducing the constraints, two new concepts are presented. Restrictions and preferences.
+
+\begin{align}
+    R_{i} &= \{ r_{i1}, r_{i2}, ..., r_{iu} \}\\
+    P_{i} &= \{ p_{i1}, p_{i2}, ..., p_{iv} \}\\
+\end{align}
+
+Restrictions and preferences can be positive or negative. A group $i$ must be assigned to a classroom in the set of its positive restrictions, and cannot be assigned to a classroom in the set of its negative restrictions. It is prefered that the group $i$ is assigned to a classroom in the set of its positive preferences, and preferably not in the set of its negative preferences. With that in mind, the constraints are listed next. 
+
+\textbf{Hard constraints:}
+
+\begin{description}
+    \item Laboratory groups can only be assigned to laboratories.
+    \item Theory and seminar groups can only be assigned to theory classrooms.
+    \item A group cannot be assigned to a classroom whose capacity is less than the number of students in the group.
+    \item A group with a set of positive restrictions must be assigned to one of those classrooms.
+    \item A group with a set of negative restrictions cannot be assigned to one of those classrooms.
+    \item A group cannot be assigned to a classroom if another group has that classroom assigned to it and they collision (they overlap in week and schedule).
+\end{description}
+
+\textbf{Soft constraints:}
+
+\begin{description}
+    \item Laboratory groups of the same subject must all attend the same laboratory classroom, and if not possible, at least minimise the number of laboratories assigned to them.
+    \item Theory groups of the same name and course work in the same way, but being assigned to theory classrooms \footnote{All the groups in the School have the format \textit{SUBJECT.TYPE.NAME}. For example the group \textit{Com.T.1} refers to \textit{theory} group \textit{1} of the \textit{Computability} subject. So all theory groups named 1 would be assigned to the same theory classroom, if possible.}.
+    \item English and Spanish groups should go to different classrooms.
+    \item Every hour a number of laboratories must be empty. To cover for emergencies.
+    \item A group with a set of positive preferences should be assigned to one of those classrooms.
+    \item A group with a set of negative preferences should not be assigned to one of those classrooms.
+\end{description}
 
