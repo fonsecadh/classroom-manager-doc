@@ -11,7 +11,7 @@
 An assignment is a tuple which associates a group with a classroom.
 
 \begin{equation}
-    (G_{i}, C_{j})
+    \scalebox{1.5}{$(G_{i}, C_{j})$}
 \end{equation}
 
 Because a group can only have \textit{one} classroom assigned, an assignment can be identified by the \textit{code} \footnote{The name convention previously mentioned: \textit{subject.type.name} (e.g. Com.T.1).} of the group. For example, the assignment for group SI.T.1 can be identified by the code SI.T.1 as well.
@@ -19,10 +19,10 @@ Because a group can only have \textit{one} classroom assigned, an assignment can
 Assigning just \textit{one} classroom to each group means that the total number of assignments is calculated by the following expression.
 
 \begin{equation}
-    \scalebox{2}{$\sum_{i=1}^m \left|G_{i}\right|$}
+    \scalebox{1.2}{$TotalNumberOfAssignments = \left|G\right|$}
 \end{equation}
 
-Where $m$ is the number of groups for the semester and $G_{i}$ a particular group.
+This implies that there are as many assignments as the number of groups for the semester.
 
 \subsection{Solutions}
 
@@ -50,7 +50,23 @@ Finally, a \textit{partial solution} is one in which not every assignment was pe
 
 \subsection{States}
 
+A \textit{state} represents a phase in the problem. There can be three states. The \textit{initial state}, which stands for the empty solution of non allocated assignments. The \textit{final state}, which represents a complete solution with all the assignments performed. And the \textit{intermediate states} portraying partial solutions.
+
+A key concept to understand our solution is the following. Although by default we start the execution of the algorithms with an initial state, it is also possible to start the execution with an intermediate state. This is because we can receive as input a partial or total solution of assignments and work from there. Now we will discuss how we can jump from one state to the next, which is normally called \textit{state expansion}.
+
+To expand a state, one of the non performed assignments in the solution is executed. This means that every time a classroom is assigned to a group the state is being expanded. To perform an assignment, the number of possible candidates is the same as the number of classrooms. So we have the following.
+
+\begin{equation}
+    \scalebox{1.2}{$TotalNumberOfCandidates = \left|C\right|$}
+\end{equation}
+
+Nevertheless, as there exist constraints that indicate wether or not the solution is valid, there are filters which reduce the number of available classrooms for a group. This allows for optimized and easy to retrieve calculations in the execution of the greedy algorithm (this will be explained later in \ref{classroom-filters}). The important thing to note at this moment is that, because of these filters, not all states can be expanded.
+
 \subsection{Instances}
+
+The complexity and completion time depend on many factors. Two of those factors follow. First, the number of groups for the semester, which directly translate to the number of assignments to be made. Second, the number of classrooms. If there are more classrooms, its easier to avoid collisions. Obviously, the number of groups is much more volatile between semesters than the number of classes, which is likely to change very occasionally, if at all. Lastly, in case of having the initial state of the problem already populated by a partial solution given as input, the number of calculations decreases in direct proportion to the assignments already made.
+
+Because of the constraints of the problem, there are some groups where class allocations are more straightforward. For example, a group with only one positive restriction is either going to have that classroom assigned to it or, if it collides with other group, end up unallocated. This is why all the groups that just have one available classroom are assigned first. Also, the groups which have less students have more available classrooms than those with a large number of members.
 
 
 
@@ -63,7 +79,7 @@ Finally, a \textit{partial solution} is one in which not every assignment was pe
 
 
 
-\section{Classroom filters}
+\section{Classroom filters}\label{classroom-filters}
 
 
 \subsection{What is a classroom filter}
