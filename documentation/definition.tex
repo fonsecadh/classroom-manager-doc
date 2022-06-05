@@ -2,7 +2,9 @@
 
 \chapter{Problem definition}
 
-The School of Computing Engineering of Oviedo must find a classroom for each group of a given semester. This data can be represented by two sets $C$ and $G$. 
+The School of Computing Engineering of Oviedo must find a classroom for each group of a given semester. In most cases of this particular problem, just like in the Bootaku problem described in \ref{theory}, there are less \textit{tasks} (groups) than \textit{agents} (classrooms). And, in the same way, a valid solution implies that all groups have one (and only one) classroom assigned.
+
+The data for the classrooms and groups can be represented by two sets $C$ and $G$. 
 
 \begin{align}
     C &= \{ c_{1}, c_{2}, ..., c_{n} \}\\
@@ -65,7 +67,7 @@ Restrictions and preferences can be positive or negative. A group $i$ must be as
 
 \begin{description}
     \item Laboratory groups of the same subject must all attend the same laboratory classroom, and if not possible, at least minimise the number of laboratories assigned to them.
-    \item Theory groups of the same name and course work in the same way, but being assigned to theory classrooms \footnote{All the groups in the School have the format \textit{SUBJECT.TYPE.NAME}. For example the group \textit{Com.T.1} refers to \textit{theory} group \textit{1} of the \textit{Computability} subject. So all theory groups named 1 would be assigned to the same theory classroom, if possible.}.
+    \item Theory groups of the same name and course work in the same way, but being assigned to theory classrooms \footnote{All the groups in the School have the format \textit{subject.type.name}. For example the group \textit{Com.T.1} refers to \textit{theory} group \textit{1} of the \textit{Computability} subject. So all theory groups named 1 would be assigned to the same theory classroom, if possible.}.
     \item English and Spanish groups should go to different classrooms.
     \item Every hour a number of laboratories must be empty. To cover for emergencies.
     \item A group with a set of positive preferences should be assigned to one of those classrooms.

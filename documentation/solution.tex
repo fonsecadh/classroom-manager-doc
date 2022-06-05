@@ -2,3 +2,102 @@
 
 \chapter{Proposed solution}
 
+
+\section{Search space}
+
+
+\subsection{Assignments}
+
+An assignment is a tuple which associates a group with a classroom.
+
+\begin{equation}
+    (G_{i}, C_{j})
+\end{equation}
+
+Because a group can only have \textit{one} classroom assigned, an assignment can be identified by the \textit{code} \footnote{The name convention previously mentioned: \textit{subject.type.name} (e.g. Com.T.1).} of the group. For example, the assignment for group SI.T.1 can be identified by the code SI.T.1 as well.
+
+Assigning just \textit{one} classroom to each group means that the total number of assignments is calculated by the following expression.
+
+\begin{equation}
+    \scalebox{2}{$\sum_{i=1}^m \left|G_{i}\right|$}
+\end{equation}
+
+Where $m$ is the number of groups for the semester and $G_{i}$ a particular group.
+
+\subsection{Solutions}
+
+A \textit{solution} for this problem is represented by a set of all the assignments must be performed for the semester. As presented in the previous section, the total number of assignments equals the total number of groups in that semester. So we have the next statement.
+
+\begin{equation}
+    Solution = \{ (G_{1}, C_{x}), (G_{2}, C_{y}), ..., (G_{m}, C_{z})) \}
+\end{equation}
+
+Where $m$ is the total number of groups and $x$, $y$ and $z$ are the index for the classrooms assigned to the groups. Note that the classrooms are not sequential (e.g $x$ could represent $C_{12}$ and $y$ represent $C_{3}$).
+
+An \textit{empty solution} is represented by a set of all the assignments where each assignment is \textit{incomplete}. We mean that an assignment is incomplete when the group has no classroom assigned.
+
+\begin{equation}
+    IncompleteAssignment = (G_{i}, -)
+\end{equation}
+
+So, for the empty solution, we have a set with the following format.
+
+\begin{equation}
+    EmptySolution = \{ (G_{1}, -), (G_{2}, -), ..., (G_{m}, -)) \}
+\end{equation}
+
+Finally, a \textit{partial solution} is one in which not every assignment was performed, and a \textit{complete solution} is defined by a set in which all the assignments have been performed and each group has a classroom associated with it.
+
+\subsection{States}
+
+\subsection{Instances}
+
+
+
+\section{Collisions}
+
+
+\subsection{What is a collision}
+
+\subsection{Lazy collision matrix}
+
+
+
+\section{Classroom filters}
+
+
+\subsection{What is a classroom filter}
+
+\subsection{Lazy filter dictionary}
+
+
+
+\section{Greedy algorithm}
+
+
+\subsection{Preprocessing}
+
+\subsection{Heuristic}
+
+\subsection{Repairs}
+
+
+
+\section{Genetic algorithm}
+
+
+\subsection{Fitness function}
+
+\subsection{Operators}
+
+\subsubsection{Selection}
+
+\subsubsection{Crossover}
+
+\subsubsection{Mutation}
+
+\subsubsection{Tournament}
+
+\subsection{Parameters}
+
+
