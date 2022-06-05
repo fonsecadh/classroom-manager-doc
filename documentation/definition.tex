@@ -11,7 +11,7 @@ The School of Computing Engineering of Oviedo must find a classroom for each gro
 
 Where $C$ is the set of $n$ elements representing all the classrooms of the School, and $G$ a set of $m$ elements representing the groups for a given semester.
 
-A classroom can be a laboratory or a theory classroom. They can be taught in English or Spanish, and have three types. Laboratory, theory and seminar groups. In this problem, because we are only interested in the classrooms that can be assigned to groups, we only consider two types. Laboratory and theory. That is, we consider that the types of classrooms are \textit{identical} to the types of groups.
+A classroom can be a laboratory or a theory classroom. Groups, on the other hand, can be taught in English or Spanish, and have three types. Laboratory, theory and seminar groups. In this problem, because we are only interested in the classrooms that can be assigned to groups, we only consider two types. Laboratory and theory. That is, we consider that the types of classrooms are \textit{identical} to the types of groups.
 
 \begin{align}
     T &= \{ t_{1}, t_{2}, ..., t_{p} \}\\
@@ -45,7 +45,7 @@ Before introducing the constraints, two new concepts are presented. Restrictions
 
 \begin{align}
     R_{i} &= \{ r_{i1}, r_{i2}, ..., r_{iu} \}\\
-    P_{i} &= \{ p_{i1}, p_{i2}, ..., p_{iv} \}\\
+    P_{i} &= \{ p_{i1}, p_{i2}, ..., p_{iv} \}
 \end{align}
 
 Restrictions and preferences can be positive or negative. A group $i$ must be assigned to a classroom in the set of its positive restrictions, and cannot be assigned to a classroom in the set of its negative restrictions. It is prefered that the group $i$ is assigned to a classroom in the set of its positive preferences, and preferably not in the set of its negative preferences. With that in mind, the constraints are listed next. 
@@ -58,7 +58,7 @@ Restrictions and preferences can be positive or negative. A group $i$ must be as
     \item A group cannot be assigned to a classroom whose capacity is less than the number of students in the group.
     \item A group with a set of positive restrictions must be assigned to one of those classrooms.
     \item A group with a set of negative restrictions cannot be assigned to one of those classrooms.
-    \item A group cannot be assigned to a classroom if another group has that classroom assigned to it and they collision (they overlap in week and schedule).
+    \item A group cannot be assigned to a classroom if that classroom was already assigned to another group and both groups collide (they overlap in week and schedule).
 \end{description}
 
 \textbf{Soft constraints:}
