@@ -74,7 +74,7 @@ Because of the constraints of the problem, there are some groups where class all
 
 A collision is an overlap of the timetable of two different groups. For a collision to occur, the groups must clash at least once in the same week, day and time. Collisions are an essential part of this problem, as we cannot assign a classroom to a group if another group was previously associated with that classroom and both groups collide.
 
-\subsection{Lazy Collision Matrix}
+\subsection{Lazy Collision Matrix}\label{lcm}
 
 Due to the large number of assignments that have to be made throughout the execution cycle of the genetic algorithm, the chosen data structures were properly analysed. This is where the \textit{Lazy Collision Matrix} comes in.
 
@@ -132,9 +132,18 @@ We can now generalise the LCM as in the next expression.
     } \qquad
 \end{equation}
 
-Where a value $g_{ij}$ can be $-1$ if the collision has not yet been evaulated, $0$ if groups $i$ and $j$ do not collide, and $1$ if they do collide.
+Where a value $g_{ij}$ can be
 
-The main advantage of this design is that we do not have to calculate all collisions. For example, a collision between a laboratory group and a theory group would be pointless to calculate because they would never be allocated in the same classroom. Therefore we aliviate the number of calculations. 
+\[
+    \begin{cases}
+        1\text{,} &\quad\text{if $G_{i}$ collides with $G_{j}$}\\
+        0\text{,} &\quad\text{if $G_{i}$ does not collide with $G_{j}$}\\
+        -1\text{,} &\quad\text{if the collision has not yet been evaluated}\\
+        \epsilon\text{,} &\quad\text{otherwise}
+    \end{cases}
+\]
+
+The main advantage of this design is that we do not have to calculate all collisions. For example, a collision between a laboratory group and a theory group would be pointless to calculate because they would never be allocated in the same classroom. Therefore we alleviate the number of calculations. 
 
 As there is only one Lazy Collision Matrix, all calculations performed by the greedy algorithm across all populations in all generations are stored in just one place. This means that all collisions are being calculated only when necessary and only once. Think of the previous example. In a future iteration the greedy algorithm wants to check if groups $G_{1}$ and $G_{2}$ collide. It access the corresponding location in the LCM, and because it contains a $1$, the greedy concludes that they indeed collide. This is done with a $O(1)$ complexity, as the matrix is coded as a dictionary of dictionaries. If instead the greedy wanted to check if groups $G_{1}$ and $G_{3}$ collided, because the LCM has a $-1$ in that position, the greedy would have to perform the collision check and then update the matrix.
 
@@ -142,10 +151,66 @@ As there is only one Lazy Collision Matrix, all calculations performed by the gr
 
 \section{Classroom filters}\label{classroom-filters}
 
+A classroom filter is a function. It receives as input either the $C$ set or a subset $I \subset C$, and outputs a new subset $F \subset C$ with the available classrooms for a given group. It filters out the classrooms that do not comply with the hard constraints for that particular group (except collisions, which are calculated later with the LCM, see \ref{lcm}). All groups have the \textit{same} classroom filters.
 
-\subsection{What is a classroom filter}
+For example, let us consider a group $G_{i}$ with type $T_{j}$ and $x$ students. A type filter for $G_{i}$ would remove from the result set all the classrooms with a type different from $T_{j}$. A capacity filter would then take the  set resulting from the previous type filter and use it as input. Then it would eliminate from the set all classrooms with a capacity lower than $x$ and return the new $F$ set.
+
+This reduces the number of classrooms that the greedy has to evaluate and therefore decreases the complexity of the calculations. Furthermore, the filters are deterministic, that is, the execution of the filters of a group will always give the same results. This means that, if needed, the filters are only performed once per group per execution.
+
+This may lead us to this question. \textit{If all classroom filters are executed only once per group every time you run the prototype, why bother using a lazy approach for storing them? Would it not be better to perform and store them in a dictionary at the start of the execution?} The answer is no. It is true that if we start from an empty solution the lazy approach does not present a big advantage. Nonetheless, in the case of partial solutions, it reduces the number of calculations. For example, if we want to assign a classroom to a new group created in the middle of the semester, the only thing we care about is if the group collides with any other group. The filters for the rest of the groups are, in that situation, irrelevant. This is due to the fact that they have already been allocated to their corresponding classrooms.
+
 
 \subsection{Lazy Filter Dictionary}
+
+The filters work in a similar way to the Lazy Collision Matrix. Again, the election of the data structures is crucial to optimise the execution times. That is why the classroom filters are coded using a dictionary of sets. Once more, we will explain this with an example.
+
+We have a $M$ set of $n$ classroom filters, three groups $G_{1}$, $G_{2}$ and $G_{3}$, and two classrooms $C_{1}$ and $C_{2}$.
+
+\begin{align}
+    M &= \{ M_{1}, M_{2}, ..., M_{n} \}\\
+    G &= \{ G_{1}, G_{2}, G_{3} \}\\
+    C &= \{ C_{1}, C_{2} \}
+\end{align}
+
+Then, we define the dictionary as a function $Dict: Keys \rightarrow Values \cup \{ \epsilon \}$ where $\epsilon$ is the $null$ character. That is, $\epsilon \notin Values$.
+
+The keys are represented by the groups, so $Keys \equiv G$. The values depict the different sets of available classrooms for each group. Because the dictionary is as lazy as the LCM, the calculations are performed as needed, so the initial set of values are by default $\epsilon$. Then we can say that $Values = \{ \epsilon, \epsilon, \epsilon \}$.
+
+Accordingly, we have the following cases.
+
+\[
+    Dict(x) =
+    \begin{cases}
+        \epsilon\text{,} &\quad\text{if} x = G_{1}\\
+        \epsilon\text{,} &\quad\text{if} x = G_{2}\\
+        \epsilon\text{,} &\quad\text{if} x = G_{3}\\
+        \epsilon\text{,} &\quad\text{otherwise}
+    \end{cases}
+\]
+
+We are now in the first execution of the greedy algorithm. Because we start from an empty state and not from an intermediate step, the greedy will try to assign a classroom for all groups. As a result of the values in the dictionary being $null$, the greedy knows that it must execute the filters, updating the dictionary. This is the LFD after the first execution for this case.
+
+\[
+    Dict(x) =
+    \begin{cases}
+        F_{1}\text{,} &\quad\text{if} x = G_{1}\\
+        F_{2}\text{,} &\quad\text{if} x = G_{2}\\
+        F_{3}\text{,} &\quad\text{if} x = G_{3}\\
+        \epsilon\text{,} &\quad\text{otherwise}
+    \end{cases}
+\]
+
+With each $F_{i} \subset C$ being the filtered classrooms for each group. Example of values for the $F$ sets follow.
+
+\begin{align}
+    F_{1} &= \{ C_{1} \}\\
+    F_{2} &= \{ C_{1}, C_{2} \}\\
+    F_{3} &= \{ \}
+\end{align}
+
+We can observe that the for $G_{1}$, classroom $C_{2}$ was filtered out. In the case of $G_{2}$, both classrooms passed al the constraints. And for $G_{3}$, there are no classes available. This is very important, because it implies that with these filters, $G_{3}$ will \textit{always} end up without a classroom. Therefore, a complete solution cannot be found for this case unless the filters are changed.
+
+Lastly, a final remark. We can say that from now on, until the prototype terminates, the greedy will not have to perform the filters for any of the groups again, as the results are already stored in the dictionary. 
 
 
 
