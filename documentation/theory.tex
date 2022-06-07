@@ -7,7 +7,7 @@ A digital magazine Bootaku works with three freelancers. Dante, Virgil and Beatr
 
 \section{Assignment problem}
 
-The problem described before can be generalised with the following elements: 
+The problem described before is an example of an assignment problem. It can be generalised with the following elements: 
 
 \begin{description}
     \item A set of $n$ freelancers $f$
@@ -34,20 +34,23 @@ For example, imagine that for the next month's section, we have the following da
 
 Then, our assignments and profits will be represented by the $A$ and $P$ matrices.
 
-\begin{align}
-    A &= 
-    \begin{bmatrix}
-        a_{11} & a_{12} & a_{13} & a_{14}\\ 
-        a_{21} & a_{22} & a_{23} & a_{24}\\ 
-        a_{31} & a_{32} & a_{33} & a_{34} 
-    \end{bmatrix} \\
-    P &= 
-    \begin{bmatrix}
-        p_{11} & p_{12} & p_{13} & p_{14}\\ 
-        p_{21} & p_{22} & p_{23} & p_{24}\\ 
-        p_{31} & p_{32} & p_{33} & p_{34} 
-    \end{bmatrix}
-\end{align}
+\begin{equation}
+    A = \bordermatrix{
+        & DC & EQ & VN & TM \cr
+        Dante & a_{11} & a_{12} & a_{13} & a_{14} \cr
+        Virgil & a_{21} & a_{22} & a_{23} & a_{24} \cr
+        Beatrice & a_{31} & a_{32} & a_{33} & a_{34} 
+    } \qquad
+\end{equation}
+
+\begin{equation}
+    P = \bordermatrix{
+        & DC & EQ & VN & TM \cr
+        Dante & p_{11} & p_{12} & p_{13} & p_{14}\cr 
+        Virgil & p_{21} & p_{22} & p_{23} & p_{24}\cr 
+        Beatrice & p_{31} & p_{32} & p_{33} & p_{34} 
+    } \qquad
+\end{equation}
 
 Where each row represents a freelancer and each column represents a book review. So freelancer 1 is Dante, 2 is Virgil and 3 is Beatrice. The same goes for the book reviews. Book review 1 is \textit{Divina Commedia}, 2 is \textit{El Quijote}, 3 is \textit{Voyage Au Bout De La Nuit} and 4 is \textit{Todo Modo}.
 
@@ -131,7 +134,7 @@ In the case of the profits values of $P2$, the situation is reversed. $A2$ is no
 
 The important thing to notice here is that the values for the $P$ matrix right now may appear as having no meaning whatsoever. But we need to think of $P$ as the results obtained from a profit funtion. Then, we can interpret $P1$ as values of profit in a context where Virgil has just expressed an opinion on social media about the \textit{Divina Commedia} and caused a massive controversy. We can then say that $P1$ is a function which gives more importance to public relations and so the profit $p_{21}$ is very low, whereas $P2$ gives more importance to views and so the profit $p_{21}$ is higher. Of course, in a real problem you know what the function is calculating, but this shows how we can add meaning to a set of symbols in order to understand the data more efficiently.
 
-As you can imagine, this is an assignment problem. The actors that perform the jobs, in this case the freelancers that \textit{write} the reviews, are called the \textit{agents}. The \textit{tasks} to be performed are, in the Bootaku problem, the book reviews. Nevertheless, the agents in an assignment problem do not need to be persons (or even things that carry out actions), they can be machines, warehouses, or classrooms. The same can be said for the tasks.
+With this, we have discussed an assignment problem, looked at its main components and analysed its non-valid, valid and optimal solutions. Some final remarks about the relation between a general assignment problem and the Bootaku problem follow. The actors that perform the jobs, in this case the freelancers that \textit{write} the reviews, are called the \textit{agents}. The \textit{tasks} to be performed are, in the Bootaku problem, the book reviews. Nevertheless, the agents in an assignment problem do not need to be persons (or even things that carry out actions), they can be machines, warehouses, or classrooms. The same can be said for the tasks.
 
 
 \section{Heuristics and greedy algorithms}

@@ -64,7 +64,7 @@ Nevertheless, as there exist constraints that indicate wether or not the solutio
 
 \subsection{Instances}
 
-The complexity and completion time depend on many factors. Two of those factors follow. First, the number of groups for the semester, which directly translate to the number of assignments to be made. Second, the number of classrooms. If there are more classrooms, its easier to avoid collisions. Obviously, the number of groups is much more volatile between semesters than the number of classes, which is likely to change very occasionally, if at all. Lastly, in case of having the initial state of the problem already populated by a partial solution given as input, the number of calculations decreases in direct proportion to the assignments already made.
+The complexity of the calculations and completion time depend on many factors. Some of those factors follow. First, the number of groups for the semester, which directly translates to the number of assignments to be made. Second, the number of classrooms. If there are more classrooms, it is easier to avoid collisions. Obviously, the number of groups is much more volatile between semesters than the number of classes, which is likely to change very occasionally, if at all. Lastly, the case of starting the prototype with an intermediate state. This means that the set of assignments represents a partial solution given as input. The number of calculations decreases in direct proportion to the assignments already made, therefore the completion time would be lower.
 
 Because of the constraints of the problem, there are some groups where class allocations are more straightforward. For example, a group with only one positive restriction is either going to have that classroom assigned to it or, if it collides with other group, end up unallocated. This is why all the groups that just have one available classroom are assigned first. Also, the groups which have less students have more available classrooms than those with a large number of members.
 
@@ -72,10 +72,71 @@ Because of the constraints of the problem, there are some groups where class all
 
 \section{Collisions}
 
+A collision is an overlap of the timetable of two different groups. For a collision to occur, the groups must clash at least once in the same week, day and time. Collisions are an essential part of this problem, as we cannot assign a classroom to a group if another group was previously associated with that classroom and both groups collide.
 
-\subsection{What is a collision}
+\subsection{Lazy Collision Matrix}
 
-\subsection{Lazy collision matrix}
+Due to the large number of assignments that have to be made throughout the execution cycle of the genetic algorithm, the chosen data structures were properly analysed. This is where the \textit{Lazy Collision Matrix} comes in.
+
+Imagine that we have the following group set.
+
+\begin{equation}
+    G = \{ G_{1}, G_{2}, G_{3} \}
+\end{equation}
+
+Then, our initial Lazy Collision Matrix would be represented by the expression below.
+
+\begin{equation}
+    LCM = \bordermatrix{
+        & G_{1} & G_{2} & G_{3} \cr
+        G_{1} &  & -1 & -1 \cr
+        G_{2} & -1 &  & -1 \cr
+        G_{3} & -1 & -1 & 
+    } \qquad
+\end{equation}
+
+First of all, the diagonal is empty because we never compare one group against itself. Then, we can observe that the rest of values are defaulted to $-1$. Why? Because there are \textit{not yet evaluated}. That is the reason behind the name of the matrix. It is \textit{lazy} because the collisions are only calculated when needed.
+
+Continuing with this example, imagine that we assign classroom $C_{x}$ to group $G_{1}$. Then, $G_{2}$ also tries to have $C_{x}$ assigned to it, so we check if both groups collide. We find out that they do, so we update the matrix.
+
+\begin{equation}
+    LCM = \bordermatrix{
+        & G_{1} & G_{2} & G_{3} \cr
+        G_{1} &  & 1 & -1 \cr
+        G_{2} & 1 &  & -1 \cr
+        G_{3} & -1 & -1 & 
+    } \qquad
+\end{equation}
+
+Therefore, the values are updated with a $1$, which indicates that both groups \textit{collide}. This results in a different classroom $C_{y}$ being assigned to $G_{2}$. Now, $G_{3}$ has that classroom also available, so we check if it clashes with $G_{2}$. We learn that they do not collide. We update the matrix again.
+
+\begin{equation}
+    LCM = \bordermatrix{
+        & G_{1} & G_{2} & G_{3} \cr
+        G_{1} &  & 1 & -1 \cr
+        G_{2} & 1 &  & 0 \cr
+        G_{3} & -1 & 0 & 
+    } \qquad
+\end{equation}
+
+The value for non-collision is $0$, as observed. Because $G_{3}$ does not clash with $G_{2}$, they are both allocated in the same classroom.
+
+We can now generalise the LCM as in the next expression.
+
+\begin{equation}
+    LCM = \bordermatrix{
+        & G_{1} & G_{2} & G_{3} \cr
+        G_{1} &  & g_{12} & g_{13} \cr
+        G_{2} & g_{21} &  & g_{23} \cr
+        G_{3} & g_{31} & g_{32} & 
+    } \qquad
+\end{equation}
+
+Where a value $g_{ij}$ can be $-1$ if the collision has not yet been evaulated, $0$ if groups $i$ and $j$ do not collide, and $1$ if they do collide.
+
+The main advantage of this design is that we do not have to calculate all collisions. For example, a collision between a laboratory group and a theory group would be pointless to calculate because they would never be allocated in the same classroom. Therefore we aliviate the number of calculations. 
+
+As there is only one Lazy Collision Matrix, all calculations performed by the greedy algorithm across all populations in all generations are stored in just one place. This means that all collisions are being calculated only when necessary and only once. Think of the previous example. In a future iteration the greedy algorithm wants to check if groups $G_{1}$ and $G_{2}$ collide. It access the corresponding location in the LCM, and because it contains a $1$, the greedy concludes that they indeed collide. This is done with a $O(1)$ complexity, as the matrix is coded as a dictionary of dictionaries. If instead the greedy wanted to check if groups $G_{1}$ and $G_{3}$ collided, because the LCM has a $-1$ in that position, the greedy would have to perform the collision check and then update the matrix.
 
 
 
@@ -84,7 +145,7 @@ Because of the constraints of the problem, there are some groups where class all
 
 \subsection{What is a classroom filter}
 
-\subsection{Lazy filter dictionary}
+\subsection{Lazy Filter Dictionary}
 
 
 
