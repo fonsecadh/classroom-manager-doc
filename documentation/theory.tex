@@ -29,7 +29,7 @@ For example, imagine that for the next month's section, we have the following da
 
 \begin{align}
     F &= \{ Dante, Virgil, Beatrice \} \\
-    R &= \{ {Divina Commedia}, {El Quijote}, {Voyage Au Bout De La Nuit}, {Todo Modo} \}
+    R &= \{ {Divina\ Commedia}, {El\ Quijote}, {Voyage\ au\ bout\ de\ la\ nuit}, {Todo\ modo} \}
 \end{align}
 
 Then, our assignments and profits will be represented by the $A$ and $P$ matrices.
@@ -137,12 +137,103 @@ The important thing to notice here is that the values for the $P$ matrix right n
 With this, we have discussed an assignment problem, looked at its main components and analysed its non-valid, valid and optimal solutions. Some final remarks about the relation between a general assignment problem and the Bootaku problem follow. The actors that perform the jobs, in this case the freelancers that \textit{write} the reviews, are called the \textit{agents}. The \textit{tasks} to be performed are, in the Bootaku problem, the book reviews. Nevertheless, the agents in an assignment problem do not need to be persons (or even things that carry out actions), they can be machines, warehouses, or classrooms. The same can be said for the tasks.
 
 
-\section{Heuristics and greedy algorithms}
+\section{Greedy algorithms}
 
-One way of solving the Bootaku problem described earlier can be found in \textit{search algorithms}.
+One way of solving the Bootaku problem described earlier can be found in \textit{greedy algorithms}. A greedy algorithm \cite{book-greedy} will try to find a subset of candidates that meet the problem constraints and that form the optimal solution. To do so, the algoritm is run iteratively. In each iteration, it will select the best candidate for that precise moment, neglecting future consequences (that is why they are called \textit{greedy})\footnote{For example, let's say I'm walking down the street and I get thirsty. On my mental list of candidate drinks, water has a value of 5 points, lemonade 3 and tea 1. The first vending machine I come across on the street only sells lemonade and tea, so I buy lemonade. However, on the next street I find another vending machine that sells water, but as I am no longer thirsty I don't buy any more drinks. That is, I found a valid solution but not the optimal solution.}. Before adding a candidate to the solution, the algorithm will determine if it is promising. If the answer is yes, then the candidate is added to the solution. Otherwise, the candidate is no longer evaluated. Each time a candidate is added to the solution, the greedy checks whether the current solution is valid or not.
+
+With this in mind, here follows the \textit{pseudocode} of the generic Greedy Algorithm.
+
+\begin{algorithm}[H]
+    \caption{Generic Greedy Algorithm}
+    \begin{algorithmic}[1]
+        \Procedure {GreedyAlgorithm}{candidates}
+            \State {$x \gets \epsilon$} 
+            \State {$solution\gets \{\}$}
+            \State {$found\gets false$}
+            \While {$\ !isEmpty(candidates)\ \&\&\ !found$}
+                \State {$x\gets selectCandidate(candidates)$}
+                \If {$\ isPromising(x,\ candidates)$}
+                    \State {$addToSolution(x,\ solution)$}
+                    \If {$\ isSolution(solution)$}
+                        \State {$found\gets true$}
+                    \EndIf
+                \EndIf
+            \EndWhile
+            \State \textbf{return} $solution$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+As we can see, the generic greedy algorithm has a very simple and elegant definition. However, even though greedy algorithms are easy to implement and can obtain efficient solutions, they are not perfect. Their main flaw relies on their  selection function. It is difficult to design a function that can simultaneously find a good local result and translate it into a good global result. That is, the best candidate in some iteration may not be part of the optimal solution. 
+
+Next, we will solve the Bootaku problem using a greedy algorithm. The greedy algorithm that we are going to use is inspired by the one defined in \cite{book-greedy} for solving the \textit{Assignment of tasks} problem.
+
+\begin{algorithm}[H]
+    \caption{Greedy Algorithm for the Bootaku problem}
+    \begin{algorithmic}[1]
+        \Procedure {GreedyBootaku}{profits, assignments}
+            \State {$freelancer \gets \epsilon$} 
+            \State {$review\gets \epsilon$}
+            \For {$\ freelancer\ 1\ to\ n$}
+                \For {$\ review\ 1\ to\ m$}
+                    \State {$assignments[freelancer,\ review] = false$} \Comment{We initialise the assignments matrix (to false or cero, it does not matter)}
+                \EndFor
+            \EndFor
+            \For {$\ review\ 1\ to\ m$}
+                \State {$freelancer \gets bestFreelancerFor(profits,\ assignments,\ review)$}
+                \State {$assignments[freelancer,\ review] = true$} \Comment{Again, it can be true or one, depending on the implementation}
+            \EndFor
+            \State \textbf{return} $assignments$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+    \caption{bestFreelancerFor procedure for the Bootaku problem}
+    \begin{algorithmic}[1]
+        \Procedure {bestFreelancerFor}{profits, assignments, review}
+            \State {$freelancer \gets \epsilon$} 
+            \State {$best \gets \epsilon$} 
+            \State {$min\gets \text{Maximum integer value}$}
+            \For {$\ freelancer\ 1\ to\ n$}
+                \If {$\ profits[freelancer,\ review] < min$}
+                    \State {$min \gets profits[freelancer,\ review]$}
+                    \State {$best \gets freelancer$}
+                \EndIf
+            \EndFor
+            \State \textbf{return} $best$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+Those are the two procedures needed in order to solve the Bootaku problem. In the \textit{Assignments of tasks} problem described in the book, the authors define an extra function that checks if the worker is already assigned to another task. However, because our problem is not balanced (we have a different number of tasks and agents), it means that we can have a freelancer writing more than one book review, so that extra function is not required.
+
+The Bootaku problem is really simple to solve because of its lack of constraints. This is done deliberately to focus more on the components of assignment problems and to not waste time on explaining difficult restrictions. However, most problems, including the real problem this document defines (to assign classrooms to the groups of the School), have a lot of constraints. 
+
+One way to complicate the Bootaku problem would be to assign completion times to each review. We would have a $n \times m$ $T$ matrix with the completion times for all freelancers and reviews.
+
+\begin{equation}
+    T = \bordermatrix{
+        & DC & EQ & VN & TM \cr
+        Dante & t_{11} & t_{12} & t_{13} & t_{14} \cr
+        Virgil & t_{21} & t_{22} & t_{23} & t_{24} \cr
+        Beatrice & t_{31} & t_{32} & t_{33} & t_{34} 
+    } \qquad
+\end{equation}
+
+Then we could have a maximum time per freelancer. This would force the greedy algorithm to perform a check before assigning a review to a freelancer. If the time it takes to write the review surpases the maximum time available for that freelancer, the assignment cannot be made. 
+
+Let's say that Beatrice has been assigned to the book review for \textit{El Quijote}, so she has already spent a total time of $t_{32} \leq maxTime$. In a future iteration the greedy algorithm evaluates Beatrice for reviewing \textit{Todo Modo}. Even if she has the greatest profit for \textit{Todo modo}, it is still not enough. The greedy algorithm first has to check in the $bestFreelancerFor$ procedure if $t_{32} + t_{34} \leq maxTime$ and, if the condition is true, then the assignment is performed. 
+
+We can notice in the Beatrice example the main failure of greedy algorithms. She was assigned to \textit{El Quijote} for a profit $p_{32}$ and then evaluated again for \textit{Todo modo} with a profit $p_{34}$. Imagine that she has not enough time left to be able to review the second book and that $p_{34}$ is \textit{way bigger} than $p_{32}$. This is where assigning the best local result $a_{32}$ ended up ruling out the possibility of assigning the better global result $a_{34}$.
 
 
-\section{Metaheuristics and genetic algorithms}
+
+\section{Heuristics and metaheuristics}
+
+
+
+\section{Genetic algorithms}
 
 
 
