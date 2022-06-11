@@ -139,7 +139,7 @@ With this, we have discussed an assignment problem, looked at its main component
 
 \section{Greedy algorithms}
 
-One way of solving the Bootaku problem described earlier can be found in \textit{greedy algorithms}. A greedy algorithm \cite{book-greedy} will try to find a subset of candidates that meet the problem constraints and that form the optimal solution. To do so, the algoritm is run iteratively. In each iteration, it will select the best candidate for that precise moment, neglecting future consequences (that is why they are called \textit{greedy})\footnote{For example, let's say I'm walking down the street and I get thirsty. On my mental list of candidate drinks, water has a value of 5 points, lemonade 3 and tea 1. The first vending machine I come across on the street only sells lemonade and tea, so I buy lemonade. However, on the next street I find another vending machine that sells water, but as I am no longer thirsty I don't buy any more drinks. That is, I found a valid solution but not the optimal solution.}. Before adding a candidate to the solution, the algorithm will determine if it is promising. If the answer is yes, then the candidate is added to the solution. Otherwise, the candidate is no longer evaluated. Each time a candidate is added to the solution, the greedy checks whether the current solution is valid or not.
+One way of solving the Bootaku problem described earlier can be found in \textit{greedy algorithms}. A greedy algorithm \cite{guerequetavallecillo98algdesign} will try to find a subset of candidates that meet the problem constraints and that form the optimal solution. To do so, the algoritm is run iteratively. In each iteration, it will select the best candidate for that precise moment, neglecting future consequences (that is why they are called \textit{greedy})\footnote{For example, let's say I'm walking down the street and I get thirsty. On my mental list of candidate drinks, water has a value of 5 points, lemonade 3 and tea 1. The first vending machine I come across on the street only sells lemonade and tea, so I buy lemonade. However, on the next street I find another vending machine that sells water, but as I am no longer thirsty I don't buy any more drinks. That is, I found a valid solution but not the optimal solution.}. Before adding a candidate to the solution, the algorithm will determine if it is promising. If the answer is yes, then the candidate is added to the solution. Otherwise, the candidate is no longer evaluated. Each time a candidate is added to the solution, the greedy checks whether the current solution is valid or not.
 
 With this in mind, here follows the \textit{pseudocode} of the generic Greedy Algorithm.
 
@@ -166,7 +166,7 @@ With this in mind, here follows the \textit{pseudocode} of the generic Greedy Al
 
 As we can see, the generic greedy algorithm has a very simple and elegant definition. However, even though greedy algorithms are easy to implement and can obtain efficient solutions, they are not perfect. Their main flaw relies on their  selection function. It is difficult to design a function that can simultaneously find a good local result and translate it into a good global result. That is, the best candidate in some iteration may not be part of the optimal solution. 
 
-Next, we will solve the Bootaku problem using a greedy algorithm. The greedy algorithm that we are going to use is inspired by the one defined in \cite{book-greedy} for solving the \textit{Assignment of tasks} problem.
+Next, we will solve the Bootaku problem using a greedy algorithm. The greedy algorithm that we are going to use is inspired by the one defined in \cite{guerequetavallecillo98algdesign} for solving the \textit{Assignment of tasks} problem.
 
 \begin{algorithm}[H]
     \caption{Greedy Algorithm for the Bootaku problem}
@@ -225,11 +225,24 @@ Then we could have a maximum time per freelancer. This would force the greedy al
 
 Let's say that Beatrice has been assigned to the book review for \textit{El Quijote}, so she has already spent a total time of $t_{32} \leq maxTime$. In a future iteration the greedy algorithm evaluates Beatrice for reviewing \textit{Todo Modo}. Even if she has the greatest profit for \textit{Todo modo}, it is still not enough. The greedy algorithm first has to check in the $bestFreelancerFor$ procedure if $t_{32} + t_{34} \leq maxTime$ and, if the condition is true, then the assignment is performed. 
 
-We can notice in the Beatrice example the main failure of greedy algorithms. She was assigned to \textit{El Quijote} for a profit $p_{32}$ and then evaluated again for \textit{Todo modo} with a profit $p_{34}$. Imagine that she has not enough time left to be able to review the second book and that $p_{34}$ is \textit{way bigger} than $p_{32}$. This is where assigning the best local result $a_{32}$ ended up ruling out the possibility of assigning the better global result $a_{34}$.
+We can notice in the Beatrice example the main failure of greedy algorithms. She was assigned to \textit{El Quijote} for a profit $p_{32}$ and then evaluated again for \textit{Todo modo} with a profit $p_{34}$. Imagine that she has not enough time left to be able to review the second book and that $p_{34}$ is \textit{way bigger} than $p_{32}$. This is where assigning the best local result $a_{32}$ would end up ruling out the possibility of assigning the better global result $a_{34}$.
 
 
 
 \section{Heuristics and metaheuristics}
+
+Search strategies in a search problem can be \textit{informed} or \textit{uninformed}. Informed strategies use knowledge specific to a given problem but that is outside of its definition, making this type of strategies more efficient than uninformed strategies. The main way of applying our knowledge of a given problem into the search algorithm designed to solve said problem is by means of \textit{heuristic functions}. An heuristic function $h(n)$ \cite{russellnorvig10ai} represents an estimation of the minimum cost of getting to the objective state from the state given by node $n$. To expand a node, the algorithm also makes use of an \textit{evaluation function}. An evaluation function $f(n)$ analyses the non-expanded nodes and selects the one with the lowest cost. In the case of greedy algorithms, the evaluation function of a node n is equivalent to the heuristic function of the same node. So we have that $f(n) = h(n)$.
+
+Now that we have explained what heuristic functions are, one question remains. What are \textit{metaheuristics}? Analysing the word, one could think that the \textit{meta} prefix implies that metaheuristics are \textit{heuristics about heuristics}, in the same way \textit{metadata} is \textit{data about data}. However, as Luke \cite{luke13metaheuristics} points out, this is not the case at all. He defines metaheuristics as:
+
+\begin{displayquote}
+    ... a rather unfortunate term often used to describe a major subfield, indeed the primary subfield, of \textbf{stochastic optimization}. Stochastic optimization is the general class of algorithms and techniques which employ some degree of randomness to find optimal (or as optimal as possible) solutions to hard problems. Metaheuristics are the most general of these kinds of algorithms, and are applied to a very wide range of problems.
+\end{displayquote}
+
+There are many methods of designing algorithms based on \textit{metaheuristics}. In this project we will focus on the Evolutionary Computation method, a subtype of Population-based methods.
+
+
+\subsection{Evolutionary Computation}
 
 
 
