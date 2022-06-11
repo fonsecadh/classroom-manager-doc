@@ -150,7 +150,7 @@ With this in mind, here follows the \textit{pseudocode} of the generic Greedy Al
             \State {$x \gets \epsilon$} 
             \State {$solution\gets \{\}$}
             \State {$found\gets false$}
-            \While {$\ !isEmpty(candidates)\ \&\&\ !found$}
+            \While {$\ !isEmpty(candidates)\ \text{ and } !found$}
                 \State {$x\gets selectCandidate(candidates)$}
                 \If {$\ isPromising(x,\ candidates)$}
                     \State {$addToSolution(x,\ solution)$}
@@ -172,16 +172,15 @@ Next, we will solve the Bootaku problem using a greedy algorithm. The greedy alg
     \caption{Greedy Algorithm for the Bootaku problem}
     \begin{algorithmic}[1]
         \Procedure {GreedyBootaku}{profits, assignments}
-            \State {$freelancer \gets \epsilon$} 
-            \State {$review\gets \epsilon$}
-            \For {$\ freelancer\ 1\ to\ n$}
-                \For {$\ review\ 1\ to\ m$}
-                    \State {$assignments[freelancer,\ review] = false$} \Comment{We initialise the assignments matrix (to false or cero, it does not matter)}
+            \State {$best \gets \epsilon$}
+            \For {$\ \text{each freelancer } F_{i} \in F$}
+                \For {$\ \text{each review } R_{j} \in R$}
+                    \State {$assignments[F_{i},\ R_{j}] = false$} \Comment{We initialise the assignments matrix (to false or cero, it does not matter)}
                 \EndFor
             \EndFor
-            \For {$\ review\ 1\ to\ m$}
-                \State {$freelancer \gets bestFreelancerFor(profits,\ assignments,\ review)$}
-                \State {$assignments[freelancer,\ review] = true$} \Comment{Again, it can be true or one, depending on the implementation}
+            \For {$\ \text{each review } R_{j} \in R$}
+                \State {$best \gets bestFreelancerFor(profits,\ assignments,\ R_{j})$}
+                \State {$assignments[best,\ R_{j}] = true$} \Comment{Again, it can be true or one, depending on the implementation}
             \EndFor
             \State \textbf{return} $assignments$
         \EndProcedure
@@ -192,13 +191,12 @@ Next, we will solve the Bootaku problem using a greedy algorithm. The greedy alg
     \caption{bestFreelancerFor procedure for the Bootaku problem}
     \begin{algorithmic}[1]
         \Procedure {bestFreelancerFor}{profits, assignments, review}
-            \State {$freelancer \gets \epsilon$} 
             \State {$best \gets \epsilon$} 
-            \State {$min\gets \text{Maximum integer value}$}
-            \For {$\ freelancer\ 1\ to\ n$}
-                \If {$\ profits[freelancer,\ review] < min$}
-                    \State {$min \gets profits[freelancer,\ review]$}
-                    \State {$best \gets freelancer$}
+            \State {$min\gets \text{maximum integer value}$}
+            \For {$\ \text{each freelancer } F_{i} \in F$}
+                \If {$\ profits[F_{i},\ review] < min$}
+                    \State {$min \gets profits[F_{i},\ review]$}
+                    \State {$best \gets F_{i}$}
                 \EndIf
             \EndFor
             \State \textbf{return} $best$
@@ -244,9 +242,41 @@ There are many methods of designing algorithms based on \textit{metaheuristics}.
 
 \subsection{Evolutionary Computation}
 
+Evolutionary Computation (EC) \cite{luke13metaheuristics} takes inspiration from population biology, genetics and evolution \footnote{Because this method uses vocabulary from these fields of biology, we have followed Luke's approach and defined these terms one by one. A list of definitions of the most commonly used terms in EC has been created in the annex of definitions and abbreviations.}. We are interested in the types of algorithms designed using this method, known as Evolutionary Algorithms (EAs). An EA may be (most of the times) either a \textit{generational algorithm} or a \textit{steady-state algorithm}.  A generational algorithm creates a new population of individuals, based on the previous one, in each iteration. Moreover, a steady-state algorithm changes a subset of individuals in each iteration, but not the entire population. The most common EAs are the \textit{Genetic Algorithms} and the \textit{Evolution Strategies}, and there are generational and steady-state versions of the two.
+
+Below is the pseudocode for an abstract generational algorithm.
+
+\begin{algorithm}[H]
+    \caption{Abstract Generational Algorithm}
+    \begin{algorithmic}[1]
+        \Procedure {AbstractGenerationalAlgorithm}{maxTime}
+            \State {$P \gets \text{create the initial population}$} 
+            \State {$best\gets \epsilon$}
+            \State {$currentTime\gets \text{get current time}$}
+            \While {$\ !idealSolution(P)\ \text{ and } currentTime \leq maxTime$}
+                \State {$evaluate(P)$}\Comment{Calculate the fitness of all individuals}
+                \For {$\ \text{each individual } P_{i} \in P$}
+                    \If {$\ best = \epsilon \text{ and } Fitness(P_{i}) > Fitness(best)$}
+                        \State {$best\gets P_{i}$}
+                    \EndIf
+                \EndFor
+                \State {$P\gets newGeneration(P,\ breed(P))$}
+                \State {$currentTime\gets \text{update time}$}
+            \EndWhile
+            \State \textbf{return} $best$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+The initial population in this kinds of algorithms is created by adding random individuals to a set until the maximum population size is reached. Some good practices for this process follow. The most important thing is not generating repeated individuals. This can be done with a dictionary in which we store the individuals as keys. For every new randomly generated individual we check if it is not already contained in said dictionary before adding it to the population set. Finally, it is possible to include individuals designed by hand into the initial population (this is called \textit{seeding} the population). However, the use of EAs already implies that finding a good heuristic for the problem is not trivial. So even if we think that the individuals we design may be going in the right direction, it is very likely that they will end up producing poor results.
+
+The main difference between generational EAs relies on how they create the new generation. This process is done by means of different operations such as \textit{selection}, \textit{crossover} and \textit{mutation}. Also, some EAs simply discard all the parents in the new generation and others include them again if they have an acceptable fitness. We will take a look at two specific EAs in the following sections, Evolution Strategies and Genetic Algorithms.
 
 
-\section{Genetic algorithms}
+\subsection{Evolution Strategies}
+
+
+\subsection{Genetic algorithms}
 
 
 
