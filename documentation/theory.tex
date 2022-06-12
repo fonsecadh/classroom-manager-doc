@@ -277,12 +277,15 @@ The main difference between generational EAs relies on how they create the new g
 
 Evolution Strategies (ES) \cite{luke13metaheuristics} are a type of Evolutionary Algorithms. They make use of a selection operator called \textit{Truncation Selection}. This operator consists of selecting individuals from the highest to the lowest fitness value until a predetermined number of selected candidates is reached. For creating the new generation, ES simply use the mutation operator, without combining it with a crossover operator.
 
-The only ES to be covered in this section is the $(\lambda,\ \mu)$ algorithm. We have chosen it because it is one of the simplest ES and therefore easier to understand. Its design is built on top of the Abstract Generational Algorithm. We have an initial population of $\lambda$ number of individuals. The initial individuals are randomnly generated. Then, we evaluate the fitness of all individuals, as we did in the Abstract Generational Algorithm, and we calculate the best individual in the generation. Now things start to look different. For creating the new generation, the $(\lambda,\ \mu)$ algorithm performs the Truncation Selection on the parents, selecting the $\mu$ number of parents with greatest fitness. And for each parent, a $\lambda \div \mu$ number of children are generated. The children are created by mutating a copy of their parent. This whole process is done until we arrive at an optimal solution or the maximum time runs out. The pseudocode of the $(\lambda,\ \mu)$ algorithm is shown as follows.
+The only ES to be covered in this section is the $(\mu,\ \lambda)$ algorithm. We have chosen it because it is one of the simplest ES and therefore easier to understand. The design of $(\mu,\ \lambda)$ is essentially one version of the Abstract Generational Algorithm that details the way in which the new generation is built. This new generation is constructed by using both $\mu$ and $\lambda$ parameters.
+
+
+In this algorithm, we have an initial population of $\lambda$ number of individuals which are randomly generated. Then, we evaluate the fitness of all individuals, as we did in the Abstract Generational Algorithm, and we calculate the best individual in the generation. The next step is to create the new generation. To do so, $(\mu,\ \lambda)$ performs the Truncation Selection on the parents, selecting the $\mu$ number of parents with greatest fitness, and for each parent a $\lambda \div \mu$ number of children are generated. A mutation operation is performed to create the offspring from a copy of their parent. This whole process is done until we arrive at an optimal solution or the maximum time runs out. The pseudocode of the $(\mu,\ \lambda)$ algorithm is shown as follows.
 
 \begin{algorithm}[H]
-    \caption{The $(\lambda,\ \mu)$ Evolution Strategy}
+    \caption{The $(\mu,\ \lambda)$ Evolution Strategy}
     \begin{algorithmic}[1]
-        \Procedure {LambdaMuES}{$\lambda$, $\mu$}
+        \Procedure {MuLambdaES}{$\mu$, $\lambda$}
             \State {$best\gets \epsilon$}
             \State {$P \gets \{ \}$} 
             \For {$\ \lambda \text{ times}$}
@@ -309,8 +312,43 @@ The only ES to be covered in this section is the $(\lambda,\ \mu)$ algorithm. We
     \end{algorithmic}
 \end{algorithm}
 
+Knowing how to give values to the parameters $\lambda$, $\mu$ and the mutation probability is very important in this algorithm. In the case of $\lambda$, as it approaches $\infty$ the algorithm starts behaving as a random search algorithm, so it is best if it does not have an excessively high value. For $\mu$, if we give it a very low value, the algorithm becomes very selective and focuses only of a specific type of individual with a high fitness value. This may result in \textit{premature convergence} of the algorithm and thus end the execution with a locally optimal rather than a globally optimal solution. Lastly, because the mutation operation determines the similarity between parents and offsprings, if the mutation probability is very high, the new population would be very different from the previous one. Therefore, it would make children appear like random individuals.
+
+To conclude the section, simply note that there is another algorithm, very similar to this one, called $(\mu + \lambda)$. The only difference between $(\mu + \lambda)$ and $(\mu,\ \lambda)$ is that while $(\mu,\ \lambda)$ discards the parents when creating the new generation, $(\mu + \lambda)$ makes a union between parents and children. This makes each new generation of the $(\mu + \lambda)$ algorithm having a size of $\mu + \lambda$, where $\mu$ is the number of parents and $\lambda$ the number of new offspring. Because very fit parents can survive for several generations, $(\mu + \lambda)$ behaves like a $(\mu,\ \lambda)$ with a very low $\mu$ number, it can terminate with a premature convergence.
+
 
 \subsection{Genetic algorithms}
 
+The Genetic Algorithm (GA) \cite{luke13metaheuristics} is a type of Evolutionary Algorithms with a strong similarity towards the $(\mu,\ \lambda)$ Evolution Stategy. What separates the two algorithms the most is the selection operation and the way a new generation is created. In $(\mu,\ \lambda)$, candidates were chosen by truncated selection. Once the candidates are selected, the next generation is populated by mutations of the parental copies. However, in the GA, a pair of parents is selected and their offspring are immediately created, adding them to the new generation. This process of simultaneous selection and reproduction occurs until the population reaches the maximum number of individuals set. Further discussion of the GA will follow, once we have seen its pseudocode.
 
+\begin{algorithm}[H]
+    \caption{The Genetic Algorithm (GA)}
+    \begin{algorithmic}[1]
+        \Procedure {GeneticAlgorithm}{popsize, maxTime}
+            \State {$best\gets \epsilon$}
+            \State {$P \gets \{ \}$} 
+            \For {$\ popsize \text{ times}$}
+                \State {$P\gets P \cup \{ \text{new random individual} \}$}
+            \EndFor
+            \While {$\ !idealSolution(P)\ \text{ and } currentTime \leq maxTime$}
+                \State {$evaluate(P)$}\Comment{Calculate the fitness of all individuals}
+                \For {$\ \text{each individual } P_{i} \in P$}
+                    \If {$\ best = \epsilon \text{ and } Fitness(P_{i}) > Fitness(best)$}
+                        \State {$best\gets P_{i}$}
+                    \EndIf
+                \EndFor
+                \State {$Q\gets \{ \}$} \Comment{Here the GA begins to differ from $(\mu,\ \lambda)$}
+                \For {$\ popsize \div 2 \text{ times}$}
+                    \State {$\text{Parent } P_{a} \gets selectWithReplacement(P)$}
+                    \State {$\text{Parent } P_{b} \gets selectWithReplacement(P)$}
+                    \State {$\text{Children } C_{a}, C_{b} \gets crossover(copy(P_{a}), copy(P_{b}))$}
+                    \State {$Q\gets Q \cup \{ mutate(C_{a}), mutate(C_{b}) \}$}
+                \EndFor
+                \State {$P\gets Q$}
+                \State {$currentTime\gets \text{update time}$}
+            \EndWhile
+            \State \textbf{return} $best$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
 
