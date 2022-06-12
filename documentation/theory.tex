@@ -279,7 +279,6 @@ Evolution Strategies (ES) \cite{luke13metaheuristics} are a type of Evolutionary
 
 The only ES to be covered in this section is the $(\mu,\ \lambda)$ algorithm. We have chosen it because it is one of the simplest ES and therefore easier to understand. The design of $(\mu,\ \lambda)$ is essentially one version of the Abstract Generational Algorithm that details the way in which the new generation is built. This new generation is constructed by using both $\mu$ and $\lambda$ parameters.
 
-
 In this algorithm, we have an initial population of $\lambda$ number of individuals which are randomly generated. Then, we evaluate the fitness of all individuals, as we did in the Abstract Generational Algorithm, and we calculate the best individual in the generation. The next step is to create the new generation. To do so, $(\mu,\ \lambda)$ performs the Truncation Selection on the parents, selecting the $\mu$ number of parents with greatest fitness, and for each parent a $\lambda \div \mu$ number of children are generated. A mutation operation is performed to create the offspring from a copy of their parent. This whole process is done until we arrive at an optimal solution or the maximum time runs out. The pseudocode of the $(\mu,\ \lambda)$ algorithm is shown as follows.
 
 \begin{algorithm}[H]
@@ -351,4 +350,5 @@ The Genetic Algorithm (GA) \cite{luke13metaheuristics} is a type of Evolutionary
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
+
 
