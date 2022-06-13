@@ -175,12 +175,12 @@ Next, we will solve the Bootaku problem using a greedy algorithm. The greedy alg
             \State {$best \gets \epsilon$}
             \For {$\ \text{each freelancer } F_{i} \in F$}
                 \For {$\ \text{each review } R_{j} \in R$}
-                    \State {$assignments[F_{i},\ R_{j}] = false$} \Comment{We initialise the assignments matrix (to false or cero, it does not matter)}
+                    \State {$assignments[F_{i},\ R_{j}] = false$} \Comment{We initialise the assignments matrix (to false or cero, it does not matter).}
                 \EndFor
             \EndFor
             \For {$\ \text{each review } R_{j} \in R$}
                 \State {$best \gets bestFreelancerFor(profits,\ assignments,\ R_{j})$}
-                \State {$assignments[best,\ R_{j}] = true$} \Comment{Again, it can be true or one, depending on the implementation}
+                \State {$assignments[best,\ R_{j}] = true$} \Comment{Again, it can be true or one, depending on the implementation.}
             \EndFor
             \State \textbf{return} $assignments$
         \EndProcedure
@@ -254,7 +254,7 @@ Below is the pseudocode for an abstract generational algorithm.
             \State {$best\gets \epsilon$}
             \State {$currentTime\gets \text{get current time}$}
             \While {$\ !idealSolution(P)\ \text{ and } currentTime \leq maxTime$}
-                \State {$evaluate(P)$}\Comment{Calculate the fitness of all individuals}
+                \State {$evaluate(P)$}\Comment{Calculate the fitness of all individuals.}
                 \For {$\ \text{each individual } P_{i} \in P$}
                     \If {$\ best = \epsilon \text{ and } Fitness(P_{i}) > Fitness(best)$}
                         \State {$best\gets P_{i}$}
@@ -279,7 +279,7 @@ Evolution Strategies (ES) \cite{luke13metaheuristics} are a type of Evolutionary
 
 The only ES to be covered in this section is the $(\mu,\ \lambda)$ algorithm. We have chosen it because it is one of the simplest ES and therefore easier to understand. The design of $(\mu,\ \lambda)$ is essentially one version of the Abstract Generational Algorithm that details the way in which the new generation is built. This new generation is constructed by using both $\mu$ and $\lambda$ parameters.
 
-In this algorithm, we have an initial population of $\lambda$ number of individuals which are randomly generated. Then, we evaluate the fitness of all individuals, as we did in the Abstract Generational Algorithm, and we calculate the best individual in the generation. The next step is to create the new generation. To do so, $(\mu,\ \lambda)$ performs the Truncation Selection on the parents, selecting the $\mu$ number of parents with greatest fitness, and for each parent a $\lambda \div \mu$ number of children are generated. A mutation operation is performed to create the offspring from a copy of their parent. This whole process is done until we arrive at an optimal solution or the maximum time runs out. The pseudocode of the $(\mu,\ \lambda)$ algorithm is shown as follows.
+In this algorithm, we have an initial population of $\lambda$ number of individuals which are randomly generated. Then, we evaluate the fitness of all individuals, as we did in the Abstract Generational Algorithm, and we calculate the best individual in the generation. The next step is to create the new generation. To do so, $(\mu,\ \lambda)$ performs the Truncation Selection on the parents, selecting the $\mu$ number of parents with greatest fitness, and for each parent a $\lambda / \mu$ number of children are generated. A mutation operation is performed to create the offspring from a copy of their parent. This whole process is done until we arrive at an optimal solution or the maximum time runs out. The pseudocode of the $(\mu,\ \lambda)$ algorithm is shown as follows.
 
 \begin{algorithm}[H]
     \caption{The $(\mu,\ \lambda)$ Evolution Strategy}
@@ -291,7 +291,7 @@ In this algorithm, we have an initial population of $\lambda$ number of individu
                 \State {$P\gets P \cup \{ \text{new random individual} \}$}
             \EndFor
             \While {$\ !idealSolution(P)\ \text{ and } currentTime \leq maxTime$}
-                \State {$evaluate(P)$}\Comment{Calculate the fitness of all individuals}
+                \State {$evaluate(P)$}\Comment{Calculate the fitness of all individuals.}
                 \For {$\ \text{each individual } P_{i} \in P$}
                     \If {$\ best = \epsilon \text{ and } Fitness(P_{i}) > Fitness(best)$}
                         \State {$best\gets P_{i}$}
@@ -300,7 +300,7 @@ In this algorithm, we have an initial population of $\lambda$ number of individu
                 \State {$Q\gets \mu \text{ individuals with the highest to lowest fitness}$}
                 \State {$P \gets \{ \}$} 
                 \For {$\ \text{each individual } Q_{j} \in Q$}
-                    \For {$\ \lambda \div \mu \text{ times}$}
+                    \For {$\ \lambda / \mu \text{ times}$}
                         \State {$P\gets P \cup \{ mutation(copy(Q_{j})) \}$}
                     \EndFor
                 \EndFor
@@ -318,7 +318,7 @@ To conclude the section, simply note that there is another algorithm, very simil
 
 \subsection{Genetic algorithms}
 
-The Genetic Algorithm (GA) \cite{luke13metaheuristics} is a type of Evolutionary Algorithms with a strong similarity towards the $(\mu,\ \lambda)$ Evolution Stategy. What separates the two algorithms the most is the selection operation and the way a new generation is created. In $(\mu,\ \lambda)$, candidates were chosen by truncated selection. Once the candidates are selected, the next generation is populated by mutations of the parental copies. However, in the GA, a pair of parents is selected and their offspring are immediately created, adding them to the new generation. This process of simultaneous selection and reproduction occurs until the population reaches the maximum number of individuals set. Further discussion of the GA will follow, once we have seen its pseudocode.
+The Genetic Algorithm (GA) \cite{luke13metaheuristics} is a type of Evolutionary Algorithms with a strong similarity towards the $(\mu,\ \lambda)$ Evolution Stategy. What separates the two algorithms the most is the selection operation and the way a new generation is created. In $(\mu,\ \lambda)$, candidates were chosen by Truncated Selection. Once the candidates are selected, the next generation is populated by mutations of the parental copies. However, in the GA, a pair of parents is selected and their offspring are immediately created, adding them to the new generation. This process of simultaneous selection and reproduction occurs until the population reaches the maximum number of individuals set. Further discussion of the GA will follow, once we have seen its pseudocode.
 
 \begin{algorithm}[H]
     \caption{The Genetic Algorithm (GA)}
@@ -330,14 +330,14 @@ The Genetic Algorithm (GA) \cite{luke13metaheuristics} is a type of Evolutionary
                 \State {$P\gets P \cup \{ \text{new random individual} \}$}
             \EndFor
             \While {$\ !idealSolution(P)\ \text{ and } currentTime \leq maxTime$}
-                \State {$evaluate(P)$}\Comment{Calculate the fitness of all individuals}
+                \State {$evaluate(P)$}\Comment{Calculate the fitness of all individuals.}
                 \For {$\ \text{each individual } P_{i} \in P$}
                     \If {$\ best = \epsilon \text{ and } Fitness(P_{i}) > Fitness(best)$}
                         \State {$best\gets P_{i}$}
                     \EndIf
                 \EndFor
-                \State {$Q\gets \{ \}$} \Comment{Here the GA begins to differ from $(\mu,\ \lambda)$}
-                \For {$\ popsize \div 2 \text{ times}$}
+                \State {$Q\gets \{ \}$} \Comment{Here the GA begins to differ from $(\mu,\ \lambda)$.}
+                \For {$\ popsize / 2 \text{ times}$}
                     \State {$\text{Parent } P_{a} \gets selectWithReplacement(P)$}
                     \State {$\text{Parent } P_{b} \gets selectWithReplacement(P)$}
                     \State {$\text{Children } C_{a}, C_{b} \gets crossover(copy(P_{a}), copy(P_{b}))$}
@@ -350,5 +350,105 @@ The Genetic Algorithm (GA) \cite{luke13metaheuristics} is a type of Evolutionary
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
+
+As we said before, the GA is differentiated from the $(\mu,\ \lambda)$ ES by means of its selection, crossover and mutation operators. We will now elaborate on these operators, defining them and explaining some of their implementations.
+
+\subsubsection{Selection}
+
+We begin with the selection operator. Even if the selection variant in the GA is different from the one in $(\mu,\ \lambda)$, the concept of selection is equivalent in both algorithms. In other words, both use the operation of selection to obtain the parents who will produce the children of the future generation.. There can be multiple ways to implement the selection operator, including \textit{Random Selection}, \textit{Fitness-Proportionate Selection}, \textit{Stochastic Universal Sampling}, \textit{Tournament Selection} and a variant of the GA which includes \textit{elitism}.
+
+The random selection variant, as its name implies, picks two random parents, removing them from the population. After generating the offspring, another pair of parents is selected and so on, until the new population is complete. In the GA designed to solve the problem of classroom management, we used this variant combined with a tournament between the randomly selected pair of parents and their two generated children to select the best two individuals out of the four (in terms of fitness).
+
+\begin{algorithm}[H]
+    \caption{Random Selection}
+    \begin{algorithmic}[1]
+        \Procedure {RandomSelection}{P}
+            \State {$selected \gets \text{random individual from population $P$}$} 
+            \State {$remove(selected,\ P)$} \Comment{The individual is removed from the population.}
+            \State \textbf{return} $selected$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+Next, we will address the topic of Fitness-Proportionate Selection, also known as \textit{Roulette Selection}. In this variant, all individuals are dimensioned according to their fitness. If we think of this process as a lottery, the larger the size of an individual, i.e. the greater the fitness, the more likely the individual is to win the lottery prize. In this case that prize is to be selected to be a parent. This means that a random number $n$ such that $0 \leq n \leq \text{the total sum of all fitness values}$ will fall in range of one of the individuals, thus selecting such an individual.
+
+\begin{algorithm}[H]
+    \caption{Fitness-Proportionate Selection}
+    \begin{algorithmic}[1]
+        \Procedure {GenerationPreparations}{P}\Comment{Executed only one time at the start of each generation.}
+            \State {$\textbf{global}\ \vec{p} \gets \langle p_{1},p_{2},...,p_{l} \rangle$} \Comment{Vector which copies all individuals in P.}
+            \State {$\textbf{global}\ \vec{f} \gets  \langle f_{1},f_{2},...,p_{l} \rangle$} \Comment{Vector with the fitness values of all the individuals in $\vec{l}$, keeping the order.}
+            \If {$\ \vec{f} \text{ contains only zeros}$}
+                \State {Substitute all items of $\vec{f}$ with ones}
+            \EndIf
+            \For {$\ i \text{ from } 2 \text{ to } l$} \Comment{Convert $\vec{f}$ into a cumulative distribution.}
+                \State {$f_{i}\gets f_{i} + f_{i-1}$}
+            \EndFor
+        \EndProcedure
+        \Procedure {FitnessProportionateSelection}{P}
+            \State {$n\gets \text{random number from $0$ to $f_{i}$ inclusive}$} 
+            \State {$selected \gets p_{1}$}
+            \For {$\ i \text{ from } 2 \text{ to } l$}
+                \If {$\ f_{i-1} < n \leq f_{i}$}
+                    \State {$selected \gets p_{i}$}
+                \EndIf
+            \EndFor
+            \State \textbf{return} $selected$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+We can observe that this operator uses two procedures. The first one is an auxiliary procedure named \textit{GenerationPreparations}, which defines the global vector variables $\vec{p}$ and $\vec{f}$ representing the individuals of the population and their fitness values. The second and main one is the actual selection. In this main procedure we obtain a random number and extract the individual whose range of values contains that chosen random number.
+
+A derivative of the Fitness-Proportionate Selection operator mentioned at the beginning of the section is called Stochastic Universal Sampling (SUS). SUS has two very similar procedures to the ones shown before, one executed one time each generation (normally) that defines some global variables and a main procedure which performs the selection. The main difference comes in how the selection is performed. Let $s$ be the sum of all fitness values and $l$ be the population size. A random number generated between $0$ and $s / l$ will select the individual in that range. For every remaining selection the position value, which started in the random number, is increased by $s / l$ and a new selection is carried out (up to a maximum of $l$ times).
+
+\begin{algorithm}[H]
+    \caption{Stochastic Universal Sampling Selection}
+    \begin{algorithmic}[1]
+        \Procedure {GenerationPreparations}{P}\Comment{Executed only one time at the start of each generation.}
+            \State {$\textbf{global}\ \vec{p} \gets \langle p_{1},p_{2},...,p_{l} \rangle$} \Comment{Vector which copies all individuals in P.}
+            \State {$\vec{p} \gets shuffle(\vec{p})$}
+            \State {$\textbf{global}\ \vec{f} \gets \langle f_{1},f_{2},...,p_{l} \rangle$} \Comment{Vector with the fitness values of all the individuals in $\vec{l}$, keeping the order.}
+            \State {$\textbf{global}\ index \gets 0$}
+            \If {$\ \vec{f} \text{ contains only zeros}$}
+                \State {Substitute all items of $\vec{f}$ with ones}
+            \EndIf
+            \For {$\ i \text{ from } 2 \text{ to } l$} \Comment{Convert $\vec{f}$ into a cumulative distribution.}
+                \State {$f_{i}\gets f_{i} + f_{i-1}$}
+            \EndFor
+            \State {$\textbf{global}\ value \gets \text{random number from $0$ to $f_{l}/l$ inclusive}$}
+        \EndProcedure
+        \Procedure {SUS}{P}
+            \While {$\ f_{index} < value$}
+                \State {$index \gets index + 1$}
+            \EndWhile
+            \State {$value \gets value + f_{l}/l$}
+            \State \textbf{return} $selected$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+The main advantage of Stochastic Universal Sampling over Fitness-Proportionate selection lies in the fact that while an individual with a high fitness (higher than $s/l$) might never be chosen in a Fitness-Proportionate selection, in the Stochastic Universal Sampling variant its selection is guaranteed.
+
+The last variant we will explain is the Tournament Selection. In contrast with these past two variants, the Tournament Selection is a very straightforward algorithm. In it, a $t$ number of candidates are selected and the fittest is returned, like a sports competition. Every time a $t_{i}$ candidate is selected, it is removed from the population. The pseudocode for this variant is shown below. 
+
+\begin{algorithm}[H]
+    \caption{Tournament Selection}
+    \begin{algorithmic}[1]
+        \Procedure {TournamentSelection}{P, t}
+            \State {$best \gets \text{random individual from population $P$}$}
+            \State {$remove(best,\ P)$}
+            \For {$\ i \text{ from } 2 \text{ to } t$}
+                \State {$next \gets \text{random individual from population $P$}$}
+                \State {$remove(next,\ P)$}
+                \If {$\ fitness(next) > fitness(best)$}
+                    \State {$best \gets next$}
+                \EndIf
+            \EndFor
+            \State \textbf{return} $best$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
 
 
