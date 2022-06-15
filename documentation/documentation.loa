@@ -1,0 +1,14 @@
+\contentsline {algorithm}{\numberline {1}{\ignorespaces Generic Greedy Algorithm\relax }}{17}{algorithm.1}%
+\contentsline {algorithm}{\numberline {2}{\ignorespaces Greedy Algorithm for the Bootaku problem\relax }}{18}{algorithm.2}%
+\contentsline {algorithm}{\numberline {3}{\ignorespaces bestFreelancerFor procedure for the Bootaku problem\relax }}{18}{algorithm.3}%
+\contentsline {algorithm}{\numberline {4}{\ignorespaces Abstract Generational Algorithm\relax }}{21}{algorithm.4}%
+\contentsline {algorithm}{\numberline {5}{\ignorespaces The $(\mu ,\ \lambda )$ Evolution Strategy\relax }}{23}{algorithm.5}%
+\contentsline {algorithm}{\numberline {6}{\ignorespaces The Genetic Algorithm (GA)\relax }}{25}{algorithm.6}%
+\contentsline {algorithm}{\numberline {7}{\ignorespaces Random Selection\relax }}{26}{algorithm.7}%
+\contentsline {algorithm}{\numberline {8}{\ignorespaces Fitness-Proportionate Selection\relax }}{27}{algorithm.8}%
+\contentsline {algorithm}{\numberline {9}{\ignorespaces Stochastic Universal Sampling Selection\relax }}{28}{algorithm.9}%
+\contentsline {algorithm}{\numberline {10}{\ignorespaces Tournament Selection\relax }}{29}{algorithm.10}%
+\contentsline {algorithm}{\numberline {11}{\ignorespaces One-Point Crossover\relax }}{31}{algorithm.11}%
+\contentsline {algorithm}{\numberline {12}{\ignorespaces Two-Point Crossover\relax }}{31}{algorithm.12}%
+\contentsline {algorithm}{\numberline {13}{\ignorespaces Uniform Crossover\relax }}{32}{algorithm.13}%
+\contentsline {algorithm}{\numberline {14}{\ignorespaces Order Crossover (OX)\relax }}{33}{algorithm.14}%
