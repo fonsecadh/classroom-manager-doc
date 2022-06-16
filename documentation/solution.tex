@@ -216,13 +216,105 @@ Lastly, a final remark. We can say that from now on, until the prototype termina
 
 \section{Greedy algorithm}
 
+\begin{algorithm}[H]
+    \caption{ClassManager Greedy Algorithm}
+    \begin{algorithmic}[1]
+        \Procedure {GreedyAlgorithm}{assignments}
+            \State {$solution\gets copy(assignments)$}
+            \State {$repairs\gets \{\}$}
+            \State {$solution\gets preprocess(solution)$}
+            \For {$\ i \text{ from } 0 \text{ to } length(solution) - 1$}
+                \If {$\ !isAssigned(A_{i})$}
+                    \State {$c\gets bestClassroomFor(A_{i})$}
+                    \If {$\ c \neq \epsilon$}
+                        \State {$assignClassroomToGroup(c,\ A_{i},\ solution)$}
+                        \State {$assignClassroomToSameGroups(c,\ A_{i},\ solution)$}
+                    \Else
+                        \State {$addToRepairs(A_{i},\ repairs)$}
+                    \EndIf
+                \EndIf
+            \EndFor
+            \State {$solution\gets repair(repairs,\ solution)$}
+            \State \textbf{return} $solution$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
 
 \subsection{Preprocessing}
 
+\begin{algorithm}[H]
+    \caption{ClassManager Greedy Algorithm Preprocessing}
+    \begin{algorithmic}[1]
+        \Procedure {Preprocess}{solution}
+            \For {$\ i \text{ from } 0 \text{ to } length(solution) - 1$}
+                \If {$\ !isAssigned(A_{i})$}
+                    \State {$filtered\gets filterClassroomsFor(group(A_{i}))$}
+                    \If {$\ length(filtered) = 1$}
+                        \State {$c\gets bestClassroomFor(A_{i})$}
+                        \If {$\ c \neq \epsilon$}
+                            \State {$assignClassroomToGroup(c,\ A_{i},\ solution)$}
+                        \EndIf
+                    \EndIf
+                \EndIf
+            \EndFor
+            \State \textbf{return} $solution$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+
 \subsection{Heuristic}
+
+\begin{algorithm}[H]
+    \caption{ClassManager Greedy Algorithm Assignment Heuristic}
+    \begin{algorithmic}[1]
+        \Procedure {BestClassroomFor}{$A_{i}$}
+            \State {$selected \gets \epsilon$}
+            \State {$filtered \gets filterClassroomsFor(group(A_{i}))$}
+            \For {$\ j \text{ from } 0 \text{ to } length(filtered) - 1$}
+                \State {$selected \gets F_{j}$} \Comment{Filtered classroom $j$}
+                \If {$\ !collisionExistsFor(group(A_{i}),\ selected)$}
+                    \State {Break out of the filtered classrooms \textit{for loop}}
+                \EndIf
+                \State {$selected \gets \epsilon$}
+            \EndFor
+            \State \textbf{return} $selected$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
 
 \subsection{Repairs}
 
+\begin{algorithm}[H]
+    \caption{ClassManager Greedy Algorithm Repairing Process}
+    \begin{algorithmic}[1]
+        \Procedure {Repair}{repairs, solution}
+            \For {$\ i \text{ from } 0 \text{ to } length(repairs) - 1$}
+                \State {$filtered \gets filterClassroomsFor(group(A_{i}))$}
+                \For {$\ j \text{ from } 0 \text{ to } length(filtered) - 1$}
+                    \State {$collisions \gets collisionsFor(group(A_{i}),\ F_{j})$}
+                    \If {$\ length(collisions) > 1$}
+                        \State {Break out of the filtered classrooms \textit{for loop}} \Comment{Assignment could not be repaired.}
+                    \EndIf
+                    \State {$group \gets firstElement(collisions)$}
+                    \State {$a \gets assignmentFor(group)$}
+                    \State {$removeClassroomFromGroup(F_{j},\ a,\ solution)$}
+                    \State {$assignClassroomToGroup(F_{j},\ A_{i},\ solution)$}
+                    \State {$c \gets bestClassroomFor(a)$}
+                    \If {$\ c \neq \epsilon$}
+                        \State {$assignClassroomToGroup(c,\ a,\ solution)$} \Comment{Assignment repaired.}
+                    \Else
+                        \State {$removeClassroomFromGroup(F_{j},\ A_{i},\ solution)$} \Comment{Assignment could not be repaired.}
+                        \State {$assignClassroomToGroup(F_{j},\ a,\ solution)$}
+                    \EndIf
+                \EndFor
+            \EndFor
+            \State \textbf{return} $solution$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
 
 
 \section{Genetic algorithm}

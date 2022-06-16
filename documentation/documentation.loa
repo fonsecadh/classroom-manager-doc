@@ -1,6 +1,6 @@
 \contentsline {algorithm}{\numberline {1}{\ignorespaces Generic Greedy Algorithm\relax }}{17}{algorithm.1}%
 \contentsline {algorithm}{\numberline {2}{\ignorespaces Greedy Algorithm for the Bootaku problem\relax }}{18}{algorithm.2}%
-\contentsline {algorithm}{\numberline {3}{\ignorespaces bestFreelancerFor procedure for the Bootaku problem\relax }}{18}{algorithm.3}%
+\contentsline {algorithm}{\numberline {3}{\ignorespaces BestFreelancerFor procedure for the Bootaku problem\relax }}{18}{algorithm.3}%
 \contentsline {algorithm}{\numberline {4}{\ignorespaces Abstract Generational Algorithm\relax }}{21}{algorithm.4}%
 \contentsline {algorithm}{\numberline {5}{\ignorespaces The $(\mu ,\ \lambda )$ Evolution Strategy\relax }}{23}{algorithm.5}%
 \contentsline {algorithm}{\numberline {6}{\ignorespaces The Genetic Algorithm (GA)\relax }}{25}{algorithm.6}%
@@ -14,3 +14,7 @@
 \contentsline {algorithm}{\numberline {14}{\ignorespaces Order Crossover (OX)\relax }}{34}{algorithm.14}%
 \contentsline {algorithm}{\numberline {15}{\ignorespaces Bit-Flip Mutation\relax }}{35}{algorithm.15}%
 \contentsline {algorithm}{\numberline {16}{\ignorespaces Swap Mutation\relax }}{35}{algorithm.16}%
+\contentsline {algorithm}{\numberline {17}{\ignorespaces ClassManager Greedy Algorithm\relax }}{48}{algorithm.17}%
+\contentsline {algorithm}{\numberline {18}{\ignorespaces ClassManager Greedy Algorithm Preprocessing\relax }}{49}{algorithm.18}%
+\contentsline {algorithm}{\numberline {19}{\ignorespaces ClassManager Greedy Algorithm Assignment Heuristic\relax }}{49}{algorithm.19}%
+\contentsline {algorithm}{\numberline {20}{\ignorespaces ClassManager Greedy Algorithm Repairing Process\relax }}{50}{algorithm.20}%
