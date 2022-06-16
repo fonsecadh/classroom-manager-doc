@@ -137,7 +137,7 @@ The important thing to notice here is that the values for the $P$ matrix right n
 With this, we have discussed an assignment problem, looked at its main components and analysed its non-valid, valid and optimal solutions. Some final remarks about the relation between a general assignment problem and the Bootaku problem follow. The actors that perform the jobs, in this case the freelancers that \textit{write} the reviews, are called the \textit{agents}. The \textit{tasks} to be performed are, in the Bootaku problem, the book reviews. Nevertheless, the agents in an assignment problem do not need to be persons (or even things that carry out actions), they can be machines, warehouses, or classrooms. The same can be said for the tasks.
 
 
-\section{Greedy algorithms}
+\section{Greedy algorithms}\label{theory-greedy}
 
 One way of solving the Bootaku problem described earlier can be found in \textit{greedy algorithms}. A greedy algorithm \cite{guerequetavallecillo98algdesign} will try to find a subset of candidates that meet the problem constraints and that form the optimal solution. To do so, the algoritm is run iteratively. In each iteration, it will select the best candidate for that precise moment, neglecting future consequences (that is why they are called \textit{greedy})\footnote{For example, let's say I'm walking down the street and I get thirsty. On my mental list of candidate drinks, water has a value of 5 points, lemonade 3 and tea 1. The first vending machine I come across on the street only sells lemonade and tea, so I buy lemonade. However, on the next street I find another vending machine that sells water, but as I am no longer thirsty I don't buy any more drinks. That is, I found a valid solution but not the optimal solution.}. Before adding a candidate to the solution, the algorithm will determine if it is promising. If the answer is yes, then the candidate is added to the solution. Otherwise, the candidate is no longer evaluated. Each time a candidate is added to the solution, the greedy checks whether the current solution is valid or not.
 
@@ -423,7 +423,7 @@ A derivative of the Fitness-Proportionate Selection operator mentioned at the be
                 \State {$index \gets index + 1$}
             \EndWhile
             \State {$value \gets value + f_{l}/l$}
-            \State \textbf{return} $selected$
+            \State \textbf{return} $P_{index}$
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
@@ -451,6 +451,8 @@ The last variant we will explain is the Tournament Selection. In contrast with t
 \end{algorithm}
 
 This variant is both simple and flexible. Its flexibily comes from the variable size of candidates for the tournaments. Some considerations for the value of $t$ follow. If $t$ is very low, the operator behaves like a random search. However, if $t$ is very high, the individual with the greatest fitness value will have a much higher likelihood of showing up and getting picked every time. As we stated when talking about Random Selection, a combination of both Random and Tournament selections were implemented in the final design of the GA used in the prototype.
+
+To conclude, we will explain the concept of elitism in the AG. Elitism simply takes a predetermined number of individuals from the previous generation sorted by fitness and includes them directly in the next one before spawning offspring. This decreases the number of offspring created to maintain the fixed population number. A GA with elitism is therefore similar to the $(\mu + \lambda)$ ES and can terminate with premature convergence if not set up correctly. 
 
 
 \subsubsection{Crossover}
@@ -572,8 +574,8 @@ We now display a pseudocode for the OX.
             \If {$\ x \neq y$}
                 \For {$\ i \text{ from } 0 \text{ to } popsize - 1$}
                     \If {$\ P_{bi} \notin \text{ y-x section} $}
-                        \State{$index \gets \text{ relative order position $\notin$ y-x section}$}
-                        \State{$C_{index} \gets P_{bi}$}
+                        \State{$index \gets \text{ relative order position of $value(P_{bi})$ $\notin$ y-x section}$}
+                        \State{$C_{index} \gets value(P_{bi})$}
                     \EndIf
                 \EndFor
             \EndIf
@@ -581,4 +583,64 @@ We now display a pseudocode for the OX.
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
+
+
+\subsubsection{Mutation}
+
+We end these sections on operators by discussing the mutation operator in the GA. Mutation takes an individual and modifies its genome. This can be done in many ways. We will talk about two, \textit{Bit-Flip Mutation} and swapping elements.
+
+Bit-Flip mutation can only work with genomes represented by boolean values (0 and 1). This operator works in a somewhat comparable fashion to the Uniform Crossover operator. We define a flip probability and select a random number from $0.0$ to $1.0$. If the number is greater than the flip probability, we flip the boolean value in that position of the chromosome.
+
+\begin{algorithm}[H]
+    \caption{Bit-Flip Mutation}
+    \begin{algorithmic}[1]
+        \Procedure {BitFlip}{$C$, popsize, probSwap}
+            \For {$\ i \text{ from } 0 \text{ to } popsize - 1$}
+                \If {$\ probSwap \geq \text{ random number from $0.0$ to $1.0$ inclusive }$}
+                    \State {$C_{i} \gets invertValue(C_{i})$}
+                \EndIf
+            \EndFor
+            \State \textbf{return} $C$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+Swap mutation consists of taking a pair of values and exchanging their positions. The advantage of this variant over Bit-Flip is that Swap Mutation can be used with chromosomes consisting of non-boolean values. 
+
+\begin{algorithm}[H]
+    \caption{Swap Mutation}
+    \begin{algorithmic}[1]
+        \Procedure {SwapMutation}{$C$, popsize}
+            \State {$x\gets \text{random number from $0$ to $popsize - 1$}$}
+            \State {$y\gets \text{random number from $0$ to $popsize - 1$}$}
+            \While {$x = y$}
+                \State {$y\gets \text{random number from $0$ to $popsize - 1$}$}
+            \EndWhile
+            \State {Swap positions of $C_{x}$ and $C_{y}$}
+            \State \textbf{return} $C$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+
+
+\section{Mixing it all together}
+
+In this chapter we have discussed assignment problems, greedy algorithms, heuristics, metaheuristics and evolutionary computation. We studied the Bootaku problem and gave a solution with a greedy algorithm. However, although we have mentioned several times in the paper that the actual algorithm developed in this thesis contains a genetic algorithm guided by a greedy algorithm, we have not gone into the specifics of what this combination involves.
+
+In this section we will solve the Bootaku problem with the completion times extension explained in \ref{theory-greedy}. First of all, we need to define a chromosome representation for the Bootaku problem. Because the tasks of the problem are the book reviews, the chromosome is represented by the book codes, in this case some initials to uniquely identify them.
+
+Some possible genomes for the problem will have the following structure.
+
+\begin{align}
+    Individual\ A &= \{ DC, EQ, VN, TM \}\\
+    Individual\ B &= \{ VN, EQ, DC, TM \}\\
+    Individual\ C &= \{ TM, VN, EQ, DC \}
+\end{align}
+
+This genomes represent \textit{the order in which the book reviews will be assigned}. As each freelancer can only write a number of book reviews that do not exceed a maximum completion time, the order in which these reviews are assigned is a very important factor if we want to obtain the optimal solution. The use of different orders helps to overcome the main problem of greedy algorithms, which is the difficulty of converting local optimum to global optimum.
+
+Next we choose the operators we want to use for the Genetic Algorithm. We decide that we want a Tournament Selection, an OX for the crossover operator and a Swap Mutation. The initial generation is created by generating random individuals and verifying every time that they are unique, before adding them to the population. The function for evaluating fitness will execute the Greedy Algorithm with the assignments performed in the order specified by the chromosome. It will then calculate the total sum of the benefit obtained, which will indicate the fitness of the individual.
+
+Finally, the parameters of the genetic algorithm will be calculated by experimenting with different problem instances and checking that the assignments made are of the expected quality.
 
