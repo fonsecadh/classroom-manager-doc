@@ -319,6 +319,60 @@ Lastly, a final remark. We can say that from now on, until the prototype termina
 
 \section{Genetic algorithm}
 
+\begin{algorithm}[H]
+    \caption{ClassManager Genetic Algorithm (GA)}
+    \begin{algorithmic}[1]
+        \Procedure {GeneticAlgorithm}{popsize, numgen, maxTime, crossProb, mutProb}
+            \State {$best\gets \epsilon$}
+            \State {$currentTime\gets \text{get current time}$}
+            \State {$gen\gets 0$}
+            \State {$P \gets \{ \}$} 
+            \For {$\ popsize \text{ times}$}
+                \State {$P\gets P \cup \{ \text{new random individual} \}$}
+            \EndFor
+            \Repeat
+                \State {$evaluate(P)$}\Comment{Calculate the fitness of all individuals.}
+                \For {$\ \text{each individual } P_{i} \in P$}
+                    \If {$\ best = \epsilon \text{ and } Fitness(P_{i}) > Fitness(best)$}
+                        \State {$best\gets P_{i}$}
+                    \EndIf
+                \EndFor
+                \State {$Q\gets nextGeneration(P,\ popsize,\ crossProb,\ mutProb)$}
+                \State {$P\gets Q$}
+                \State {$currentTime\gets \text{update time}$}
+                \State {$gen\gets gen + 1$}
+            \Until {$\ gen \geq numgen\ \text{ or } currentTime \geq maxTime$}
+            \State \textbf{return} $best$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[H]
+    \caption{ClassManager Genetic Algorithm Next Generation}
+    \begin{algorithmic}[1]
+        \Procedure {NextGeneration}{$P$, popsize, crossProb, mutProb}
+            \State {$Q\gets \{ \}$}
+            \For {$\ popsize / 2 \text{ times}$}
+                \State {$\text{Parent } P_{a} \gets selectAndRemove(P)$}
+                \State {$\text{Parent } P_{b} \gets selectAndRemove(P)$}
+                \State {$\text{Child } C_{a} \gets copy(P_{a})$}
+                \State {$\text{Child } C_{b} \gets copy(P_{b})$}
+                \If {$\ \text{random number from $0.0$ to $1.0$} > crossProb$}
+                    \State {$C_{a} \gets crossover(copy(P_{a}),\ copy(P_{b}))$}
+                    \State {$C_{b} \gets crossover(copy(P_{b}),\ copy(P_{a}))$}
+                \EndIf
+                \If {$\ \text{random number from $0.0$ to $1.0$} > mutProb$}
+                    \State {$C_{a} \gets mutation(copy(C_{a}))$}
+                    \State {$C_{b} \gets mutation(copy(C_{b}))$}
+                \EndIf
+                \State {$\text{Winners } W_{a}, W_{b} \gets tournament(P_{a},\ P_{b},\ C_{a},\ C_{b})$}
+                \State {$Q\gets Q \cup \{ W_{a}, W_{b} \}$}
+            \EndFor
+            \State \textbf{return} $Q$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
 
 \subsection{Fitness function}
 

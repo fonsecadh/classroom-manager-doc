@@ -325,6 +325,7 @@ The Genetic Algorithm (GA) \cite{luke13metaheuristics} is a type of Evolutionary
     \begin{algorithmic}[1]
         \Procedure {GeneticAlgorithm}{popsize, maxTime}
             \State {$best\gets \epsilon$}
+            \State {$currentTime\gets \text{get current time}$}
             \State {$P \gets \{ \}$} 
             \For {$\ popsize \text{ times}$}
                 \State {$P\gets P \cup \{ \text{new random individual} \}$}
