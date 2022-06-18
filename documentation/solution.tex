@@ -26,7 +26,7 @@ This implies that there are as many assignments as the number of groups for the 
 
 \subsection{Solutions}
 
-A \textit{solution} for this problem is represented by a set of all the assignments must be performed for the semester. As presented in the previous section, the total number of assignments equals the total number of groups in that semester. So we have the next statement.
+A \textit{solution} for this problem is represented by a set of all the assignments that must be performed for the semester. As presented in the previous section, the total number of assignments equals the total number of groups in that semester. So we have the next statement.
 
 \begin{equation}
     Solution = \{ (G_{1}, C_{x}), (G_{2}, C_{y}), ..., (G_{m}, C_{z})) \}
@@ -216,6 +216,8 @@ Lastly, a final remark. We can say that from now on, until the prototype termina
 
 \section{Greedy algorithm}
 
+The greedy algorithm (see \ref{theory-greedy} for details) performs the assignments taking care not to infringe any hard constraint. To meet this objective, the LFD and the LCM are used. Its pseudocode is as follows.
+
 \begin{algorithm}[H]
     \caption{ClassManager Greedy Algorithm}
     \begin{algorithmic}[1]
@@ -240,8 +242,14 @@ Lastly, a final remark. We can say that from now on, until the prototype termina
     \end{algorithmic}
 \end{algorithm}
 
+As can be noted, the algorithm receives a set of empty or partial assignments as an input parameter and returns another set with the assignments made. It iterates over all assignments and calculates those that are not already completed. It does this by obtaining the best class for an assignment, and if found, it assigns it not only to that group, but to all groups to which that group is related. So what does it mean if one group is related to another? It's simple, if the group is a lab group, the classroom is assigned to that group and to all lab groups belonging to its subject. If, on the other hand, the group is a theory group, the classroom found is assigned to that group and to all the theory groups in its course that share the same name.
+
+If no class is found for a group, the group is added to the repair set. Groups belonging to that set are attempted to be fixed at the end of the procedure, before returning the set with the solution.
+
 
 \subsection{Preprocessing}
+
+The greedy algorithm preprocesses the input set with the assignments, working on those that are not yet complete. The first thing it looks at is whether the set of filtered classes for a given group contains only one element, i.e. whether only one class can be assigned to that group. If this is the case, an attempt is made to make the assignment directly, checking that there are no conflicts.
 
 \begin{algorithm}[H]
     \caption{ClassManager Greedy Algorithm Preprocessing}
@@ -263,8 +271,12 @@ Lastly, a final remark. We can say that from now on, until the prototype termina
     \end{algorithmic}
 \end{algorithm}
 
+We can observe that in this procedure the class found is not assigned to the groups related to the one we are evaluating, as it is done in the greedy algorithm itself later on. The reason for this is that additional assignments may cause another group with only one filtered class to remain unassigned, so priority is given to such groups.
+
 
 \subsection{Heuristic}
+
+The heuristic used by the greedy algorithm is very simple. Classes are filtered by type, capacity and constraints (positive and negative). Once filtered, they are iterated until one is found that does not cause a collision between the evaluated group and the rest of the groups.
 
 \begin{algorithm}[H]
     \caption{ClassManager Greedy Algorithm Assignment Heuristic}
@@ -275,7 +287,7 @@ Lastly, a final remark. We can say that from now on, until the prototype termina
             \For {$\ j \text{ from } 0 \text{ to } length(filtered) - 1$}
                 \State {$selected \gets F_{j}$} \Comment{Filtered classroom $j$}
                 \If {$\ !collisionExistsFor(group(A_{i}),\ selected)$}
-                    \State {Break out of the filtered classrooms \textit{for loop}}
+                    \State {break out of the filtered classrooms \textit{for loop}}
                 \EndIf
                 \State {$selected \gets \epsilon$}
             \EndFor
@@ -287,6 +299,10 @@ Lastly, a final remark. We can say that from now on, until the prototype termina
 
 \subsection{Repairs}
 
+To conclude with the greedy algorithm components, we must talk about the assignment repair process, which is probably the most complex of all components. As previously explained, in the case of not finding an appropriate class for a group, such a group is put into the repair set. The repair process iterates each group in this set and tries to fix its assignment. For this purpose, it obtains the filtered classes of the group and, for each class, it obtains the groups that are in conflict with the evaluated group. If there is only one conflict for a class, the assignment of the conflicting group is removed and the class is assigned to the group under repair. Then, an attempt is made to obtain a new class for the conflicting group. If successful, both end up with an assigned class and the repair succeeds. If unsuccessful, the previous class is reassigned to the conflicting group and the process is repeated for each conflicting group in each class. If after all this the repair is unsuccessful, the group is finally unassigned.
+
+The pseudocode for this process follows.
+
 \begin{algorithm}[H]
     \caption{ClassManager Greedy Algorithm Repairing Process}
     \begin{algorithmic}[1]
@@ -296,7 +312,7 @@ Lastly, a final remark. We can say that from now on, until the prototype termina
                 \For {$\ j \text{ from } 0 \text{ to } length(filtered) - 1$}
                     \State {$collisions \gets collisionsFor(group(A_{i}),\ F_{j})$}
                     \If {$\ length(collisions) > 1$}
-                        \State {Break out of the filtered classrooms \textit{for loop}} \Comment{Assignment could not be repaired.}
+                        \State {break out of the filtered classrooms \textit{for loop}} \Comment{Assignment could not be repaired.}
                     \EndIf
                     \State {$group \gets firstElement(collisions)$}
                     \State {$a \gets assignmentFor(group)$}
@@ -317,7 +333,10 @@ Lastly, a final remark. We can say that from now on, until the prototype termina
 \end{algorithm}
 
 
-\section{Genetic algorithm}
+
+\section{Genetic Algorithm}
+
+The Genetic Algorithm (GA) (see \ref{theory-GA} for details) generates sets of assignments, empty or partial, with random ordering. This sets are later piped into the greedy algorithm, which performs and returns the final assignments to the GA. The GA then evaluates the solution by calculating its fitness function. This is done until a predetermined time or number of generations is reached, returning the best random order of assignments, that is, the best individual found.
 
 \begin{algorithm}[H]
     \caption{ClassManager Genetic Algorithm (GA)}
@@ -348,7 +367,7 @@ Lastly, a final remark. We can say that from now on, until the prototype termina
 \end{algorithm}
 
 \begin{algorithm}[H]
-    \caption{ClassManager Genetic Algorithm Next Generation}
+    \caption{ClassManager GA Next Generation}
     \begin{algorithmic}[1]
         \Procedure {NextGeneration}{$P$, popsize, crossProb, mutProb}
             \State {$Q\gets \{ \}$}
@@ -373,6 +392,9 @@ Lastly, a final remark. We can say that from now on, until the prototype termina
     \end{algorithmic}
 \end{algorithm}
 
+\subsection{Genome representation}
+
+The individuals of the GA are represented by a vector chromosome of group codes.
 
 \subsection{Fitness function}
 
@@ -380,11 +402,29 @@ Lastly, a final remark. We can say that from now on, until the prototype termina
 
 \subsubsection{Selection}
 
+Ref algorithm.
+
 \subsubsection{Crossover}
+
+Ref algorithm.
 
 \subsubsection{Mutation}
 
+Ref algorithm.
+
 \subsubsection{Tournament}
+
+\begin{algorithm}[H]
+    \caption{ClassManager GA Tournament Selection}
+    \begin{algorithmic}[1]
+        \Procedure {TournamentSelection}{A, B, C, D}
+            \State {$I \gets \{ \}$}
+            \State {$I \gets I \cup \{ A,\ B,\ C,\ D \}$}
+            \State {sort $I$ by fitness, from highest to lowest}
+            \State \textbf{return} $I_{1} \text{ and } I_{2}$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
 
 \subsection{Parameters}
 
