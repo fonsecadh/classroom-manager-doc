@@ -1,6 +1,6 @@
 \contentsline {algorithm}{\numberline {1}{\ignorespaces Generic Greedy Algorithm\relax }}{17}{algorithm.1}%
-\contentsline {algorithm}{\numberline {2}{\ignorespaces Greedy Algorithm for the Bootaku problem\relax }}{18}{algorithm.2}%
-\contentsline {algorithm}{\numberline {3}{\ignorespaces BestFreelancerFor procedure for the Bootaku problem\relax }}{18}{algorithm.3}%
+\contentsline {algorithm}{\numberline {2}{\ignorespaces Bootaku Greedy Algorithm\relax }}{18}{algorithm.2}%
+\contentsline {algorithm}{\numberline {3}{\ignorespaces Bootaku Greedy Algorithm BestFreelancerFor\relax }}{18}{algorithm.3}%
 \contentsline {algorithm}{\numberline {4}{\ignorespaces Abstract Generational Algorithm\relax }}{21}{algorithm.4}%
 \contentsline {algorithm}{\numberline {5}{\ignorespaces The $(\mu ,\ \lambda )$ Evolution Strategy\relax }}{23}{algorithm.5}%
 \contentsline {algorithm}{\numberline {6}{\ignorespaces The Genetic Algorithm (GA)\relax }}{25}{algorithm.6}%

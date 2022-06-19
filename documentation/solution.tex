@@ -2,6 +2,9 @@
 
 \chapter{Proposed solution}
 
+We have already studied the theoretical concepts necessary to solve this type of problem, and we have formalised the problem to be solved. In this section we explain which components, techniques and algorithms we have designed and used to solve the problem of assigning classes to groups. To do so, we will define the search space, introduce the concepts of collisions and class filters, and comment on the pseudocode of the proposed algorithms.
+
+
 
 \section{Search space}
 
@@ -52,7 +55,7 @@ Finally, a \textit{partial solution} is one in which not every assignment was pe
 
 A \textit{state} represents a phase in the problem. There can be three states. The \textit{initial state}, which stands for the empty solution of non allocated assignments. The \textit{final state}, which represents a complete solution with all the assignments performed. And the \textit{intermediate states} portraying partial solutions.
 
-A key concept to understand our solution is the following. Although by default we start the execution of the algorithms with an initial state, it is also possible to start the execution with an intermediate state. This is because we can receive as input a partial or total solution of assignments and work from there. Now we will discuss how we can jump from one state to the next, which is normally called \textit{state expansion}.
+A key concept to understand our design is the following. Although by default we start the execution of the algorithms with an initial state, it is also possible to start the execution with an intermediate state. This is because we can receive as input a partial or total solution of assignments and work from there. Now we will discuss how we can jump from one state to the next, which is normally called \textit{state expansion}.
 
 To expand a state, one of the non performed assignments in the solution is executed. This means that every time a classroom is assigned to a group the state is being expanded. To perform an assignment, the number of possible candidates is the same as the number of classrooms. So we have the following.
 
@@ -60,11 +63,11 @@ To expand a state, one of the non performed assignments in the solution is execu
     \scalebox{1.2}{$TotalNumberOfCandidates = \left|C\right|$}
 \end{equation}
 
-Nevertheless, as there exist constraints that indicate wether or not the solution is valid, there are filters which reduce the number of available classrooms for a group. This allows for optimized and easy to retrieve calculations in the execution of the greedy algorithm (this will be explained later in \ref{classroom-filters}). The important thing to note at this moment is that, because of these filters, not all states can be expanded.
+Nevertheless, as there exist constraints that indicate whether or not the solution is valid, there are filters which reduce the number of available classrooms for a group. This allows for optimized and easy to retrieve calculations in the execution of the greedy algorithm (this will be explained later in \ref{classroom-filters}). The important thing to note at this moment is that, because of these filters, not all states can be expanded.
 
 \subsection{Instances}
 
-The complexity of the calculations and completion time depend on many factors. Some of those factors follow. First, the number of groups for the semester, which directly translates to the number of assignments to be made. Second, the number of classrooms. If there are more classrooms, it is easier to avoid collisions. Obviously, the number of groups is much more volatile between semesters than the number of classes, which is likely to change very occasionally, if at all. Lastly, the case of starting the prototype with an intermediate state. This means that the set of assignments represents a partial solution given as input. The number of calculations decreases in direct proportion to the assignments already made, therefore the completion time would be lower.
+The complexity of the calculations and completion time depend on many factors. Some of those factors follow. First, the number of groups for the semester, which directly translates into the number of assignments to be made. Second, the number of classrooms. If there are more classrooms, it is easier to avoid collisions. Obviously, the number of groups is much more volatile between semesters than the number of classes, which is likely to change very occasionally, if at all. Lastly, the case of starting the prototype with an intermediate state. This means that the set of assignments represents a partial solution given as input, and since the number of calculations decreases in direct proportion to the assignments already made, the completion time would be lower.
 
 Because of the constraints of the problem, there are some groups where class allocations are more straightforward. For example, a group with only one positive restriction is either going to have that classroom assigned to it or, if it collides with other group, end up unallocated. This is why all the groups that just have one available classroom are assigned first. Also, the groups which have less students have more available classrooms than those with a large number of members.
 
@@ -108,7 +111,7 @@ Continuing with this example, imagine that we assign classroom $C_{x}$ to group 
     } \qquad
 \end{equation}
 
-Therefore, the values are updated with a $1$, which indicates that both groups \textit{collide}. This results in a different classroom $C_{y}$ being assigned to $G_{2}$. Now, $G_{3}$ has that classroom also available, so we check if it clashes with $G_{2}$. We learn that they do not collide. We update the matrix again.
+Therefore, the values are updated with a $1$, which indicates that both groups \textit{collide}. This results in a different classroom $C_{y}$ being assigned to $G_{2}$. Now, $G_{3}$ has that classroom also available, so we check if it clashes with $G_{2}$. We learn that they do not collide, so we update the matrix again.
 
 \begin{equation}
     LCM = \bordermatrix{
@@ -151,7 +154,7 @@ As there is only one Lazy Collision Matrix, all calculations performed by the gr
 
 \section{Classroom filters}\label{classroom-filters}
 
-A classroom filter is a function. It receives as input either the $C$ set or a subset $I \subset C$, and outputs a new subset $F \subset C$ with the available classrooms for a given group. It filters out the classrooms that do not comply with the hard constraints for that particular group (except collisions, which are calculated later with the LCM, see \ref{lcm}). All groups have the \textit{same} classroom filters.
+A classroom filter is a function. It receives as input either the $C$ set or a subset $I \subset C$, and outputs a new subset $F \subset C$ with the available classrooms for a given group. It filters out the classrooms that do not comply with the hard constraints for that particular group (except collisions, which are calculated later with the LCM, refer to \ref{lcm}). All groups have the \textit{same} classroom filters.
 
 For example, let us consider a group $G_{i}$ with type $T_{j}$ and $x$ students. A type filter for $G_{i}$ would remove from the result set all the classrooms with a type different from $T_{j}$. A capacity filter would then take the  set resulting from the previous type filter and use it as input. Then it would eliminate from the set all classrooms with a capacity lower than $x$ and return the new $F$ set.
 
@@ -208,9 +211,7 @@ With each $F_{i} \subset C$ being the filtered classrooms for each group. Exampl
     F_{3} &= \{ \}
 \end{align}
 
-We can observe that the for $G_{1}$, classroom $C_{2}$ was filtered out. In the case of $G_{2}$, both classrooms passed al the constraints. And for $G_{3}$, there are no classes available. This is very important, because it implies that with these filters, $G_{3}$ will \textit{always} end up without a classroom. Therefore, a complete solution cannot be found for this case unless the filters are changed.
-
-Lastly, a final remark. We can say that from now on, until the prototype terminates, the greedy will not have to perform the filters for any of the groups again, as the results are already stored in the dictionary. 
+We can observe that the for $G_{1}$, classroom $C_{2}$ was filtered out. In the case of $G_{2}$, both classrooms passed al the constraints. And for $G_{3}$, there are no classes available. This is very important, because it implies that with these filters, $G_{3}$ will \textit{always} end up without a classroom. Therefore, a complete solution cannot be found for this case unless the filters are changed. Lastly, a final remark. We can say that from now on, until the prototype terminates, the greedy will not have to perform the filters for any of the groups again, as the results are already stored in the dictionary. 
 
 
 
@@ -276,7 +277,7 @@ We can observe that in this procedure the class found is not assigned to the gro
 
 \subsection{Heuristic}
 
-The heuristic used by the greedy algorithm is very simple. Classes are filtered by type, capacity and constraints (positive and negative). Once filtered, they are iterated until one is found that does not cause a collision between the evaluated group and the rest of the groups.
+The heuristic used by the greedy algorithm is very simple. Classes are filtered by type, capacity and constraints (positive and negative). Once filtered, they are iterated until one is found that does not cause a collision between the evaluated group and the rest of the groups previously assigned to that classroom.
 
 \begin{algorithm}[H]
     \caption{ClassManager Greedy Algorithm Assignment Heuristic}
@@ -336,7 +337,7 @@ The pseudocode for this process follows.
 
 \section{Genetic Algorithm}
 
-The Genetic Algorithm (GA) (see \ref{theory-GA} for details) generates sets of assignments, empty or partial, with random ordering. This sets are later piped into the greedy algorithm, which performs and returns the final assignments to the GA. The GA then evaluates the solution by calculating its fitness function. This is done until a predetermined time or number of generations is reached, returning the best random order of assignments, that is, the best individual found.
+The Genetic Algorithm (GA) (see \ref{theory-GA} for details) generates sets of assignments, empty or partial, with different ordering. This sets are later piped into the greedy algorithm, which performs and returns the final assignments to the GA. The GA then evaluates the solution by calculating its fitness value. This is done until a predetermined time or number of generations is reached, returning the best order of assignments, that is, the best individual found.
 
 \begin{algorithm}[H]
     \caption{ClassManager Genetic Algorithm (GA)}
@@ -352,7 +353,7 @@ The Genetic Algorithm (GA) (see \ref{theory-GA} for details) generates sets of a
             \Repeat
                 \State {$evaluate(P)$}\Comment{Calculate the fitness of all individuals.}
                 \For {$\ \text{each individual } P_{i} \in P$}
-                    \If {$\ best = \epsilon \text{ and } Fitness(P_{i}) > Fitness(best)$}
+                    \If {$\ best = \epsilon \text{ or } Fitness(P_{i}) > Fitness(best)$}
                         \State {$best\gets P_{i}$}
                     \EndIf
                 \EndFor
@@ -366,7 +367,7 @@ The Genetic Algorithm (GA) (see \ref{theory-GA} for details) generates sets of a
     \end{algorithmic}
 \end{algorithm}
 
-This pseudocode is very similar to the general GA, except for two things. Here, instead of having a function that checks whether or not the individual represents a valid solution, our GA simply iterates through a number of generations, stopping when it reaches that number or when time runs out. The other thing in which they differ is that the operations carried out for creating the next generation are performed in a different procedure. This procedure selects the parents, checks whether or not the offspring should result from a crossover of its parents \footnote{This check is performed by calculating a random number that is compared with the crossover probability. If the selected number is greater than the probability, the crossover is executed.} and also if the offspring is mutated \footnote{Same check as for the crossover operator but comparing the number with the mutation probability.}. A tournament is then performed between the two pairs of parents and children and the two best, in terms of fitness, are present in the next generation. The pseudocode for this procedure follows.
+This pseudocode is very similar to the general GA, except for two things. Here, instead of having a function that checks whether or not the individual represents a valid solution, our GA simply iterates through a number of generations, stopping when it reaches that number or when time runs out. The other thing in which they differ is that the operations carried out for creating the next generation are performed in a different procedure. This procedure selects the parents, checks whether or not the offspring should result from a crossover of its parents \footnote{This check is performed by calculating a random number that is compared with the crossover probability. If the selected number is lower or equal to the probability, the crossover is executed.} and also if the offspring is mutated \footnote{Same check as for the crossover operator but comparing the number with the mutation probability.}. A tournament is then performed between the two pairs of parents and children and the two best, in terms of fitness, are added to the next generation. The pseudocode for this procedure follows.
 
 \begin{algorithm}[H]
     \caption{ClassManager GA Next Generation}
@@ -379,11 +380,11 @@ This pseudocode is very similar to the general GA, except for two things. Here, 
                 \State {$\text{Parent } P_{b} \gets selectAndRemove(P)$}
                 \State {$\text{Child } C_{a} \gets copy(P_{a})$}
                 \State {$\text{Child } C_{b} \gets copy(P_{b})$}
-                \If {$\ \text{random number from $0.0$ to $1.0$} > crossProb$}
+                \If {$\ crossProb \geq \text{random number from $0.0$ to $1.0$ inclusive}$}
                     \State {$C_{a} \gets crossover(copy(P_{a}),\ copy(P_{b}))$}
                     \State {$C_{b} \gets crossover(copy(P_{b}),\ copy(P_{a}))$}
                 \EndIf
-                \If {$\ \text{random number from $0.0$ to $1.0$} > mutProb$}
+                \If {$\ mutProb \geq \text{random number from $0.0$ to $1.0$ inclusive}$}
                     \State {$C_{a} \gets mutation(copy(C_{a}))$}
                     \State {$C_{b} \gets mutation(copy(C_{b}))$}
                 \EndIf
@@ -397,7 +398,7 @@ This pseudocode is very similar to the general GA, except for two things. Here, 
 
 \subsection{Genome representation}
 
-The individuals of the GA are represented by a vector chromosome of group codes. Each code uniquely identifies a group, therefore an assignment, and the genome tells the greedy algorithm in which order it must perform that assignment. The rationale behind this random ordering is clear if we think back on what we discussed about greedy algorithms. Their main flaw relies on not always finding the correct solution because they focus on local optimum instead of global ones. The GA helps the greedy by generating a bunch of random orderings and therefore testing which order gets closer to the optimal solution.
+The individuals of the GA are represented by a vector chromosome of group codes. Each code uniquely identifies a group, therefore an assignment, and the genome tells the greedy algorithm in which order it must perform that assignment. The rationale behind this random ordering is clear if we think back on what we discussed about greedy algorithms. Their main flaw relies on not always finding the correct solution because they focus on local optimum instead of global ones. The GA helps the greedy by generating a bunch of different orderings and therefore testing which order gets closer to the optimal solution.
 
 A vector chromosome looks like this. Let's say that $I$ represents an individual, represented by a set of group codes in a random order. Codes identify assignments, so they are indicated by $A_{i}$.
 
@@ -407,14 +408,14 @@ A vector chromosome looks like this. Let's say that $I$ represents an individual
 
 Where $m$ is the number of groups for that semester.
 
-To convert the individual representation into an actual set of assignments in random order, we have designed a \textit{decoder}. The decoder has a dictionary given by the function $Dict: Keys \rightarrow Values \cup \{ \epsilon \}$. The group codes work as keys, and the assignments related to each group is the corresponding value. When an individual is decoded, the decoder simply takes each group code, obtains the value associated to them by looking in the dictionary, and then returns a set with the order given by the representation.
+To convert the individual representation into an actual set of assignments in the specified order, we have designed a \textit{decoder}. The decoder has a dictionary given by the function $Dict: Keys \rightarrow Values \cup \{ \epsilon \}$. The group codes work as keys, and the assignments related to each group are the corresponding values. When an individual is decoded, the decoder simply takes each group code, obtains the value associated to them by looking in the dictionary, and then returns a set with the order given by the representation.
 
 
 \subsection{Fitness function}
 
-The fitness function of the GA has the following responsibilities. First, it passes the individual representation to the decoder in order to obtain the corresponding set of assignments. Then, the function gives the assignments to the greedy algorithm and receives the solution set. Finally, it returns the value of applying its formula to the solution set. 
+The fitness function of the GA has the following responsibilities. First, it passes the individual representation to the decoder in order to obtain the corresponding set of assignments. Then, the function gives the assignments to the greedy algorithm and receives the solution set. Finally, it returns the value of resulting from applying its formula to the solution set. 
 
-The formula of the fitness function is given by the sum of all fitness values multiplied by their corresponding fitness weights. Each value represents a soft constraint described in the problem definition (see \ref{problem-definition}), and has a weight associated with it. 
+The formula of the fitness function is given by the sum of all fitness values multiplied by their corresponding fitness weights. Each fitness value represents a soft constraint described in the problem definition (see \ref{problem-definition}), and has a weight associated with it. 
 
 The formula for the fitness function is therefore given by:
 
@@ -439,17 +440,17 @@ The GA uses Random Selection. This operator selects and removes a random individ
 
 As we explained when we introduced this operator, the Order Crossover (OX) is the crossover operator for the ClassManager GA. As in our case it only returns one child per pair of parents, OX is called two times, with the positions of the parents inverted (check the $NextGeneration$ pseudocode to see what I mean), that is, parent $a$ acts as the first parent in the first run and as the second parent in the second run (and vice versa for parent $b$). See \ref{theory-ga-ox} for its pseudocode.
 
-It is also important to note that offspring only result from a crossover if a random number between $0.0$ and $1.0$ is greater than the predetermined crossover probability.
+It is also important to note that the offspring are only created from a crossover if a random number between $0.0$ and $1.0$ is lower or equal to the predetermined crossover probability.
 
 
 \subsubsection{Mutation}
 
-For the mutation operator the GA uses Swap Mutation. This operator selects two group codes at random and swaps their positions. As in the crossover operator, the mutation only occurs if the randomly selected value surpasses the mutation probability. The pseudocode for Swap Mutation is indicated in \ref{theory-ga-sm}.   
+For the mutation operator the GA uses Swap Mutation. This operator selects two group codes at random and swaps their positions. As in the crossover operator, the mutation only occurs if a randomly selected value is lower or equal to the mutation probability. The pseudocode for Swap Mutation is indicated in \ref{theory-ga-sm}.   
 
 
 \subsubsection{Tournament}
 
-Finally, we introduce the specific version of Tournament Selection implemented for the ClassManager GA. It differs from the generic Tournament Selection (see \ref{theory-ga-ts}) in that the candidates for the tournament are not a $t$ number of randomly selected individuals, but instead the two pairs of parents and childs generated after executing the rest of operators. This four individuals are compared by their fitness and the best two survive, joining the new generation. Below we indicate the pseudocode for this version of Tournament Selection.
+Finally, we introduce the specific version of Tournament Selection implemented for the ClassManager GA. It differs from the generic Tournament Selection (see \ref{theory-ga-ts}) in that the candidates for the tournament are not a $t$ number of randomly selected individuals, but instead the two pairs of parents and children generated after executing the rest of operators. These four individuals are compared by their fitness and the best two survive, joining the new generation. Below we indicate the pseudocode for this version of Tournament Selection.
 
 \begin{algorithm}[H]
     \caption{ClassManager GA Tournament Selection}

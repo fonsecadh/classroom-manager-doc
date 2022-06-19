@@ -9,7 +9,7 @@ This makes assigning classrooms to groups a complicated task, since there can be
 
 All this assignments are done \textit{manually} by one person. The number of enrolled students can only be \textit{guessed} when this process is done. This means that groups can be created, modified or removed once the semester has already started, so more assignments are usually made, checking once again all the restrictions. These new assignments are difficult to manage as there is not much room for flexibility to change those made before the semester. This is due to the fact that both students and teachers already use the initial assignments as a reference.
 
-This project provides the supervisor of this process with a tool to help them calculating the assignments, reducing their workload. Not only does it generate assignments for all the groups of the semester, but can use previous assignments, total or partial, to calculate a subset of assignments (for example, the assignments for the new groups created in the middle of the semester). On top of that, the prototype developed in this thesis makes finding a set of free classrooms to hold events easy and fast, using the assignments generated previously by the system itself.
+This project provides the supervisor of this process with a tool to help them perform the assignments, reducing their workload. Not only does it generate assignments for all the groups of the semester, but can use previous assignments, total or partial, to calculate a subset of assignments (for example, the assignments for the new groups created in the middle of the semester). On top of that, the prototype developed in this thesis makes finding a set of free classrooms to hold events easy and fast, using the assignments generated previously by the system itself.
 
 
 \section{Situation overview}
@@ -25,9 +25,9 @@ The procedure of assigning the classrooms is done after configuring the student 
 
 This project aims to help the personnel of the School manage their classrooms. It will address two main functionalities, the automation of the process of assigning classrooms to all the groups of a given semester (starting from scratch or using a previous partial or total assignment), and a tool that searches for gaps in a previous set of assignments for single or multi-day events in one or more classes.
 
-The implementation of this system is intended to assist in the work of the supervisor for this process, and provide an efficient and flexible tool that expands the possibilities of such work. To do so, the program executes two algorithms, a genetic algorithm guided by a greedy algorithm. For a more detailed view on these algorithms the reader might refer to \ref{theory}. Once the assignments have been calculated, the system will allow the users to find classrooms to hold specific events in the middle of the semester.
+The implementation of this system is intended to assist in the work of the supervisor for this process, and provide an efficient and flexible tool that expands the possibilities of such work. To do so, the program executes two algorithms, a genetic algorithm and a greedy algorithm (the genetic being \textit{guided} by the greedy, more on that later). For a more detailed view on these algorithms the reader might refer to \ref{theory}. Once the assignments have been calculated, the system will allow the users to find classrooms to hold specific events in the middle of the semester.
 
-Along with the system, the system manuals are submitted. These have the purpose of teaching how to install, use, maintain and extend the system. Apart from the manuals, another tool to generate the necessary files for the program is handed.
+Along with the system, the system manuals are submitted. These have the purpose of teaching how to install, use, maintain and extend the system.
 
 
 \section{Scope}
@@ -36,7 +36,7 @@ The project needs to formally define the problem of assigning classrooms of the 
 
 A development of a software prototype that solves the problem is planned, designed, implemented and tested. This prototype will solve the two main functionalities indicated in \ref{purpose} and will consist of a command line application that takes input data in plain text files and outputs the solution to plain text files. The program is configured by different configuration files depending on the functionality being executed. An experimental study on the results of the software system is carried out, finding the most fitting default values for the configuration files. The project also contains the system manuals of the application, which consist of the installation, usage, user and programmer manuals. 
 
-Finally, an additional tool for automating the creation of the input files of the software is given. It uses a format agreed with the client and will use the same technical specifications of the main prototype, like the programming language and the development environment.
+Finally, the prototype also has a module for automating the creation of the input files required for the main functionalities to work. It uses a format agreed with the client and will parse files previously used by the School, making it easier to integrate with other systems already in use.
 
 
 \section{Project goals}
@@ -63,13 +63,13 @@ We can identify from the scope the following objectives. They need to be met in 
 
             \item It will be able to search a set of free classrooms for a specific event in one or more days.
 
+            \item It will be able to automate the creation of the input plain text files for the main functionalities.
+
         \end{enumerate}
 
     \item Make a set of experiments to find the best default values for the configuration files.
 
     \item Write a set of manuals to cover the essentials of the system.
-
-    \item Create another software tool that will automate the creation of the input plain text files for the main system.
 
     \item Validate solution with the users.
 
