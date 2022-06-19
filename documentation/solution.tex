@@ -172,7 +172,7 @@ We have a $M$ set of $n$ classroom filters, three groups $G_{1}$, $G_{2}$ and $G
     C &= \{ C_{1}, C_{2} \}
 \end{align}
 
-Then, we define the dictionary as a function $Dict: Keys \rightarrow Values \cup \{ \epsilon \}$ where $\epsilon$ is the $null$ character. That is, $\epsilon \notin Values$.
+Then, we define the dictionary as a function $Dict: Keys \rightarrow Values \cup \{ \epsilon \}$, where $\epsilon$ is the $null$ character. That is, $\epsilon \notin Values$.
 
 The keys are represented by the groups, so $Keys \equiv G$. The values depict the different sets of available classrooms for each group. Because the dictionary is as lazy as the LCM, the calculations are performed as needed, so the initial set of values are by default $\epsilon$. Then we can say that $Values = \{ \epsilon, \epsilon, \epsilon \}$.
 
@@ -366,8 +366,11 @@ The Genetic Algorithm (GA) (see \ref{theory-GA} for details) generates sets of a
     \end{algorithmic}
 \end{algorithm}
 
+This pseudocode is very similar to the general GA, except for two things. Here, instead of having a function that checks whether or not the individual represents a valid solution, our GA simply iterates through a number of generations, stopping when it reaches that number or when time runs out. The other thing in which they differ is that the operations carried out for creating the next generation are performed in a different procedure. This procedure selects the parents, checks whether or not the offspring should result from a crossover of its parents \footnote{This check is performed by calculating a random number that is compared with the crossover probability. If the selected number is greater than the probability, the crossover is executed.} and also if the offspring is mutated \footnote{Same check as for the crossover operator but comparing the number with the mutation probability.}. A tournament is then performed between the two pairs of parents and children and the two best, in terms of fitness, are present in the next generation. The pseudocode for this procedure follows.
+
 \begin{algorithm}[H]
     \caption{ClassManager GA Next Generation}
+    \label{cm-ga-ng}
     \begin{algorithmic}[1]
         \Procedure {NextGeneration}{$P$, popsize, crossProb, mutProb}
             \State {$Q\gets \{ \}$}
@@ -394,25 +397,59 @@ The Genetic Algorithm (GA) (see \ref{theory-GA} for details) generates sets of a
 
 \subsection{Genome representation}
 
-The individuals of the GA are represented by a vector chromosome of group codes.
+The individuals of the GA are represented by a vector chromosome of group codes. Each code uniquely identifies a group, therefore an assignment, and the genome tells the greedy algorithm in which order it must perform that assignment. The rationale behind this random ordering is clear if we think back on what we discussed about greedy algorithms. Their main flaw relies on not always finding the correct solution because they focus on local optimum instead of global ones. The GA helps the greedy by generating a bunch of random orderings and therefore testing which order gets closer to the optimal solution.
+
+A vector chromosome looks like this. Let's say that $I$ represents an individual, represented by a set of group codes in a random order. Codes identify assignments, so they are indicated by $A_{i}$.
+
+\begin{equation}
+    I = \{ A_{1}, A_{2}, ..., A_{m}\}
+\end{equation}
+
+Where $m$ is the number of groups for that semester.
+
+To convert the individual representation into an actual set of assignments in random order, we have designed a \textit{decoder}. The decoder has a dictionary given by the function $Dict: Keys \rightarrow Values \cup \{ \epsilon \}$. The group codes work as keys, and the assignments related to each group is the corresponding value. When an individual is decoded, the decoder simply takes each group code, obtains the value associated to them by looking in the dictionary, and then returns a set with the order given by the representation.
+
 
 \subsection{Fitness function}
 
+The fitness function of the GA has the following responsibilities. First, it passes the individual representation to the decoder in order to obtain the corresponding set of assignments. Then, the function gives the assignments to the greedy algorithm and receives the solution set. Finally, it returns the value of applying its formula to the solution set. 
+
+The formula of the fitness function is given by the sum of all fitness values multiplied by their corresponding fitness weights. Each value represents a soft constraint described in the problem definition (see \ref{problem-definition}), and has a weight associated with it. 
+
+The formula for the fitness function is therefore given by:
+
+\begin{equation}
+    formula = \sum_{i=1}^{n} V_{i} W_{i}
+\end{equation}
+
+Where $n$ is the number of fitness values defined, $V_{i}$ is fitness value $i$ and $W_{i}$ the weight associated with $V_{i}$.
+
+
 \subsection{Operators}
+
+We will briefly talk about the selected operators for the ClassManager GA (see \ref{theory-GA} for a more in-depth explanation of all the operators discussed here). The order and use of these operators can be clearly illustrated with the help of the pseudocode of procedure $NextGeneration$ (see \ref{cm-ga-ng}).
+
 
 \subsubsection{Selection}
 
-Ref algorithm.
+The GA uses Random Selection. This operator selects and removes a random individual from the population. Since at the end of the offspring creation cycle there is a tournament between parents and offspring, a random selection of individuals is perfectly valid in this case. The pseudocode of this operator is displayed in \ref{theory-ga-ransel}
+
 
 \subsubsection{Crossover}
 
-Ref algorithm.
+As we explained when we introduced this operator, the Order Crossover (OX) is the crossover operator for the ClassManager GA. As in our case it only returns one child per pair of parents, OX is called two times, with the positions of the parents inverted (check the $NextGeneration$ pseudocode to see what I mean), that is, parent $a$ acts as the first parent in the first run and as the second parent in the second run (and vice versa for parent $b$). See \ref{theory-ga-ox} for its pseudocode.
+
+It is also important to note that offspring only result from a crossover if a random number between $0.0$ and $1.0$ is greater than the predetermined crossover probability.
+
 
 \subsubsection{Mutation}
 
-Ref algorithm.
+For the mutation operator the GA uses Swap Mutation. This operator selects two group codes at random and swaps their positions. As in the crossover operator, the mutation only occurs if the randomly selected value surpasses the mutation probability. The pseudocode for Swap Mutation is indicated in \ref{theory-ga-sm}.   
+
 
 \subsubsection{Tournament}
+
+Finally, we introduce the specific version of Tournament Selection implemented for the ClassManager GA. It differs from the generic Tournament Selection (see \ref{theory-ga-ts}) in that the candidates for the tournament are not a $t$ number of randomly selected individuals, but instead the two pairs of parents and childs generated after executing the rest of operators. This four individuals are compared by their fitness and the best two survive, joining the new generation. Below we indicate the pseudocode for this version of Tournament Selection.
 
 \begin{algorithm}[H]
     \caption{ClassManager GA Tournament Selection}
@@ -428,4 +465,5 @@ Ref algorithm.
 
 \subsection{Parameters}
 
+TODO: AFTER EXPERIMENTS
 

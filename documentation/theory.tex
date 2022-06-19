@@ -362,6 +362,7 @@ The Random Selection variant, as its name implies, picks two random parents, rem
 
 \begin{algorithm}[H]
     \caption{Random Selection}
+    \label{theory-ga-ransel}
     \begin{algorithmic}[1]
         \Procedure {RandomSelection}{P}
             \State {$selected \gets \text{random individual from population $P$}$} 
@@ -435,6 +436,7 @@ The last variant we will explain is the Tournament Selection. In contrast with t
 
 \begin{algorithm}[H]
     \caption{Tournament Selection}
+    \label{theory-ga-ts}
     \begin{algorithmic}[1]
         \Procedure {TournamentSelection}{P, t}
             \State {$best \gets \text{random individual from population $P$}$}
@@ -572,6 +574,7 @@ Displayed below is the pseudocode for the OX.
 
 \begin{algorithm}[H]
     \caption{Order Crossover (OX)}
+    \label{theory-ga-ox}
     \begin{algorithmic}[1]
         \Procedure {OX}{$F$, $S$, len} \Comment{$F$ and $S$ represent first and second parents, $len$ is the individual length}
             \State {$p_{1} \gets \text{random integer from $0$ to $popsize - 1$}$} 
@@ -622,6 +625,7 @@ Swap mutation consists of taking a pair of values and exchanging their positions
 
 \begin{algorithm}[H]
     \caption{Swap Mutation}
+    \label{theory-ga-sm}
     \begin{algorithmic}[1]
         \Procedure {SwapMutation}{$C$, popsize}
             \State {$x\gets \text{random number from $0$ to $popsize - 1$}$}
