@@ -268,7 +268,7 @@ Below is the pseudocode for an abstract generational algorithm.
     \end{algorithmic}
 \end{algorithm}
 
-The initial population in this kinds of algorithms is created by adding random individuals to a set until the maximum population size is reached. Some good practices for this process follow. The most important thing is not generating repeated individuals. This can be done with a dictionary in which we store the individuals as keys. For every new randomly generated individual we check if it is not already contained in said dictionary before adding it to the population set. Finally, it is possible to include individuals designed by hand into the initial population (this is called \textit{seeding} the population). However, the use of EAs already implies that finding a good heuristic for the problem is not trivial. So even if we think that the individuals we design may be going in the right direction, it is very likely that they will end up producing poor results.
+The initial population in these kinds of algorithms is created by adding random individuals to a set until the maximum population size is reached. Some good practices for this process follow. The most important thing is not to generate repeated individuals. This can be done with a dictionary in which we store the individuals as keys. For every new randomly generated individual we check if it is not already contained in said dictionary before adding it to the population set. Finally, it is possible to include individuals designed by hand into the initial population (this is called \textit{seeding} the population). However, the use of EAs already implies that finding a good heuristic for the problem is not trivial. So even if we think that the individuals we design may be going in the right direction, it is very likely that they will end up producing poor results.
 
 The main difference between generational EAs relies on how they create the new generation. This process is done by means of different operations such as \textit{selection}, \textit{crossover} and \textit{mutation}. Also, some EAs simply discard all the parents in the new generation and others include them again if they have an acceptable fitness. We will take a look at two specific EAs in the following sections, Evolution Strategies and Genetic Algorithms.
 
@@ -357,7 +357,7 @@ As we said before, the GA is differentiated from the $(\mu,\ \lambda)$ ES by mea
 
 \subsubsection{Selection}
 
-We begin with the selection operator. Even if the selection variant in the GA is different from the one in $(\mu,\ \lambda)$, the concept of selection is equivalent in both algorithms. In other words, both use the operation of selection to obtain the parents who will produce the children of the future generation.. There can be multiple ways to implement the selection operator, including \textit{Random Selection}, \textit{Fitness-Proportionate Selection}, \textit{Stochastic Universal Sampling}, \textit{Tournament Selection} and a variant of the GA which includes \textit{elitism}.
+We begin with the selection operator. Even if the selection variant in the GA is different from the one in $(\mu,\ \lambda)$, the concept of selection is equivalent in both algorithms. In other words, both use the operation of selection to obtain the parents who will produce the children of the future generation. There can be multiple ways to implement the selection operator, including \textit{Random Selection}, \textit{Fitness-Proportionate Selection}, \textit{Stochastic Universal Sampling}, \textit{Tournament Selection} and a variant of the GA which includes \textit{elitism}.
 
 The Random Selection variant, as its name implies, picks two random parents, removing them from the population. After generating the offspring, another pair of parents is selected and so on, until the new population is complete. In the GA designed to solve the problem of classroom management, we used this variant combined with a tournament between the randomly selected pair of parents and their two generated children to select the best two individuals out of the four (in terms of fitness).
 
@@ -411,7 +411,7 @@ A derivative of the Fitness-Proportionate Selection operator mentioned at the be
         \Procedure {GenerationPreparations}{P}\Comment{Executed only one time at the start of each generation.}
             \State {$\textbf{global}\ \vec{p} \gets \langle p_{1},p_{2},...,p_{l} \rangle$} \Comment{Vector which copies all individuals in P.}
             \State {$\vec{p} \gets shuffle(\vec{p})$}
-            \State {$\textbf{global}\ \vec{f} \gets \langle f_{1},f_{2},...,p_{l} \rangle$} \Comment{Vector with the fitness values of all the individuals in $\vec{l}$, keeping the order.}
+            \State {$\textbf{global}\ \vec{f} \gets \langle f_{1},f_{2},...,p_{l} \rangle$} \Comment{Vector with the fitness values of all the individuals in $\vec{p}$, keeping the order.}
             \State {$\textbf{global}\ index \gets 0$}
             \If {$\ \vec{f} \text{ contains only zeros}$}
                 \State {Substitute all items of $\vec{f}$ with ones}
@@ -475,15 +475,15 @@ We have the following chromosomes, representing the parents.
 One-Point picks a value at random from $0$ to $6$ and the outcome is $4$. The position at $4 - 1$ (the number selected marks the end of the section and is excluded from it) is the point in which the crossover between parents is produced. The operator then generates these two children.
 
 \begin{align}
-    C_{a} &= \color{red}{ \{ 1, 5, 3, 6,\ } \color{blue}{2, 7, 4} \}\\
-    C_{b} &= \color{blue}{ \{ 2, 5, 7, 3,\ } \color{red}{4, 6, 1} \}
+    C_{a} &= \color{red}{ \{ 1, 5, 3, 6,\ } \color{blue}{4, 6, 1} \}\\
+    C_{b} &= \color{blue}{ \{ 2, 5, 7, 3,\ } \color{red}{2, 7, 4} \}
 \end{align}
 
 In the case of Two-Point, two values are randomly selected, once again from $0$ to $6$. These values indicate the ends of the section that both parents will exchange, the first being the initial position included in the section and the second being the final position excluded from the section. The selected numbers are $2$ and $4$, which leads to the generation of the following offspring.
 
 \begin{align}
-    C_{a} &= \color{red}{ \{ 1, 5,\ } \color{blue}{3, 6,\ } \color{red}{2, 7, 4} \}\\
-    C_{b} &= \color{blue}{ \{ 2, 5,\ } \color{red}{7, 3,\ } \color{blue}{4, 6, 1} \}
+    C_{a} &= \color{red}{ \{ 1, 5,\ } \color{blue}{7, 3,\ } \color{red}{2, 7, 4} \}\\
+    C_{b} &= \color{blue}{ \{ 2, 5,\ } \color{red}{3, 6,\ } \color{blue}{4, 6, 1} \}
 \end{align}
 
 The pseudocode for these two variants is presented below.
@@ -526,7 +526,7 @@ The pseudocode for these two variants is presented below.
     \end{algorithmic}
 \end{algorithm}
 
-The main problem with both algorithms is that it is common to break the \textit{linkage} (or \textit{epistasis}) between the elements in the chromosome \cite{luke13metaheuristics}. Imagine that a pair of elements of an individual produces a high fitness with certain element values. This pair is considerably separated on the chromosome, so it is most likely that it will be split when executing the parental crossover. This implies that a section of the chromosome that could give a good fitness value is broken in two, and each half is given to the offspring produced by the crossover, which could overall produce a worse fitness for the new individuals. In this respect, Two-Point is better than One-Point, but still faces the same problem. 
+The main problem with both algorithms is that it is common to break the \textit{linkage} (or \textit{epistasis}) between the elements in the chromosome \cite{luke13metaheuristics}. Imagine that a pair of elements of an individual produces a high fitness with certain element values. This pair is considerably separated on the chromosome, so it is most likely that it will be split when executing the parental crossover. This implies that a section of the chromosome that could give a good fitness value is broken in two or more pieces, and each piece is given to the offspring produced by the crossover, which could overall produce a worse fitness for the new individuals. In this respect, Two-Point is better than One-Point, but still faces the same problem. 
 
 To reduce linkage breaks in the chromosome we can take a look at the Uniform Crossover variant. In this algorithm, all the elements of the chromosome are iterated and, for each one, a random choice of a number from 0.0 to 1.0 is made. If the number chosen is less or equal to a previously defined probability, the parent elements at that position are swapped. The pseudocode of the Uniform Crossover is provided below.
 
