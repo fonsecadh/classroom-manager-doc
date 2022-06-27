@@ -177,10 +177,96 @@ In order to better understand the system, we have performed an study on its comp
 
 \section{Analysis of use cases}
 
-\subsection{Performing the assignments}
-\subsection{Finding free classrooms}
-\subsection{Automating the creation of input files}
+This section presents the analysis of the use cases of the system. Three use cases have been identified, each one reflecting a main functionality of the prototype, being the assignment of classes to groups, the search for free classes by means of specific queries and the automatic generation of the system input files.
 
+\begin{table}[H]
+    \centering
+    \caption{Use case description: Perform the assignments}
+    \label{uc-table-assignments}
+    \begin{tabular}{|p{4cm}|p{12cm}|}
+        \hline
+        \multicolumn{2}{|c|}{\textbf{PERFORM THE ASSIGNMENTS}} \\
+        \hline
+        \rowcolor{blue!10}
+        \textbf{PRECONDITIONS} & \textit{The configuration files containing information about the GA and the input files need to be correctly formatted and must include the required data. Moreover, the input files with the classrooms, subjects, groups, group schedules, group academic weeks, restrictions, preferences and initial assignments must be correctly formatted.} \\
+        \rowcolor{blue!30}
+        \textbf{POSTCONDITIONS} & \textit{A text file with a report on the calculated assignments is generated. Also, a csv file with the assignments in the required format and a text file per classroom indicating its schedule in a timetable format are also written.} \\
+        \rowcolor{blue!10}
+        \textbf{DESCRIPTION} & 
+        \textit{\begin{itemize}
+                \item The user executes the program with the option flag signaling the calculation of the assignments and the path to the required configuration files.
+                \item The system parses the configuration files. 
+                \item The system parses the required and optional files indicated in the configuration files, as well as the GA parameters.
+                \item The system executes the algorithms.
+                \item The system outputs the best individual's information into a report text file, a csv file with the assignments and a text file for each classroom with its timetable.
+            \end{itemize}
+        } \\
+        \rowcolor{blue!30}
+        \textbf{SECONDARY SCENARIOS (VARIANTS)} & 
+        \textit{\begin{description}
+                \item \textbf{Variant 1. Errors on parsing.} If the system encounters any errors while parsing the input files, it will notify the user and store the information about such errors in the log file.
+                \item \textbf{Variant 2. Not enough permissions.} If the system cannot read from or write into a folder because of insufficient permissions, it will notify the user and store the information about the error in the log file.
+            \end{description}
+        } \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+    \centering
+    \caption{Use case description: Search for free classrooms}
+    \begin{tabular}{|p{4cm}|p{12cm}|}
+        \hline
+        \multicolumn{2}{|c|}{\textbf{SEARCH FOR FREE CLASSROOMS}} \\
+        \hline
+        \rowcolor{blue!10}
+        \textbf{PRECONDITIONS} & \textit{The configuration file containing information about the input files needs to be correctly formatted and must include the required data. Moreover, the input files with the classrooms, subjects, groups, group schedules, group academic weeks, assignments and queries must be correctly formatted.} \\
+        \rowcolor{blue!30}
+        \textbf{POSTCONDITIONS} & \textit{A text file with the query results is generated.} \\
+        \rowcolor{blue!10}
+        \textbf{DESCRIPTION} & 
+        \textit{\begin{itemize}
+                \item The user executes the program with the option flag signaling the execution of the queries for finding free classrooms and the path to the required configuration file.
+                \item The system parses the configuration file. 
+                \item The system parses the required files indicated in the configuration file.
+                \item The system executes the queries.
+                \item The system outputs the result of all queries into a text file.
+            \end{itemize}
+        }\\
+        \rowcolor{blue!30}
+        \textbf{SECONDARY SCENARIOS (VARIANTS)} & \textit{Same as in \ref{uc-table-assignments}} \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+    \centering
+    \caption{Use case description: Automatically create input files}
+    \begin{tabular}{|p{4cm}|p{12cm}|}
+        \hline
+        \multicolumn{2}{|c|}{\textbf{AUTOMATICALLY CREATE INPUT FILES}} \\
+        \hline
+        \rowcolor{blue!10}
+        \textbf{PRECONDITIONS} & \textit{The configuration file containing information about the input files needs to be correctly formatted and must include the required data. Moreover, the input files with the planning for the semester and the number of enrolled students for each group must be correctly formatted.} \\
+        \rowcolor{blue!30}
+        \textbf{POSTCONDITIONS} & \textit{The files with the data of the subjects, groups, group schedules and group academic weeks are generated.} \\
+        \rowcolor{blue!10}
+        \textbf{DESCRIPTION} & 
+        \textit{\begin{itemize}
+                \item The user executes the program with the option flag signaling the generation of the input files and the path to the required configuration file.
+                \item The system parses the configuration file. 
+                \item The system parses the required files indicated in the configuration file.
+                \item The system transforms the input files into the required format.
+                \item The system outputs the result of each transformation in their own files.
+            \end{itemize}
+        }\\
+        \rowcolor{blue!30}
+        \textbf{SECONDARY SCENARIOS (VARIANTS)} & \textit{Same as in \ref{uc-table-assignments}} \\
+        \hline
+    \end{tabular}
+\end{table}
 
 
 \section{Analysis of user interfaces}
