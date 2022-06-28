@@ -271,7 +271,123 @@ This section presents the analysis of the use cases of the system. Three use cas
 
 \section{Analysis of user interfaces}
 
+The prototype will have a Command Line Interface (CLI). The only interaction with the user occurs when calling the command in the shell, indicating the option we want the prototype to execute and the necessary configuration files. As we explained before in the document, there are three main options for calling the prototype. One for performing the assignments, the second for finding free classrooms and the third for automating the creation of the input files.
+
+Once the execution starts, the CLI will show relevant information to the user about the currently running processes (name and status). In the case of the GA execution, the selected parameters will be listed, as well as data on the results of each generation. The amount of information shown in the CLI about the GA can be controlled by the user through the configuration files. 
+
 
 
 \section{Test plan specification}
+
+Testing will focus on the parsing phase and on the quality of the solutions obtained. In order to verify that both areas operate as expected, a battery of functional tests and an experimentation with various scenarios and instances will be carried out. Further details of the conducted experimentation are given in its own section (see \ref{experimental-results}), here we will focus on the test suite.
+
+
+\begin{table}[H]
+    \centering
+    \caption{Test suite for UC: Perform the assignments}
+    \label{uc-table-assignments}
+    \begin{tabular}{|c|p{8cm}|}
+        \hline
+        \multicolumn{2}{|c|}{\textbf{PERFORM THE ASSIGNMENTS}} \\
+        \hline
+        \rowcolor{blue!10}
+        \textbf{Test} & \textbf{Expected result} \\
+        \rowcolor{blue!30}
+        No optional files & The assignment process will start from scratch and no restrictions or preferences are to be considered. \\
+        \rowcolor{blue!10}
+        \textbf{Test} & \textbf{Expected result} \\
+        \rowcolor{blue!30}
+        Preferences & The assignment process will start from scratch and no restrictions are to be considered. Positive and negative preferences will be evaluated as soft constraints. \\
+        \rowcolor{blue!10}
+        \textbf{Test} & \textbf{Expected result} \\
+        \rowcolor{blue!30}
+        Restrictions & The assignment process will start from scratch and no preferences are to be considered. Positive and negative restrictions will be evaluated as hard constraints. \\
+        \rowcolor{blue!10}
+        \textbf{Test} & \textbf{Expected result} \\
+        \rowcolor{blue!30}
+        Partial assignments & The assignment process will start from the initial assignments and no preferences or restrictions are to be considered. The initial assignments will remain as they were once the allocation process is completed. \\
+        \rowcolor{blue!10}
+        \textbf{Test} & \textbf{Expected result} \\
+        \rowcolor{blue!30}
+        All optional files & The assignment process will start from the initial assignments and the restrictions and preferences will be taken into account. \\
+        \rowcolor{blue!10}
+        \textbf{Test} & \textbf{Expected result} \\
+        \rowcolor{blue!30}
+        Incorrect config format & The system will notify the error to the user. \\
+        \rowcolor{blue!10}
+        \textbf{Test} & \textbf{Expected result} \\
+        \rowcolor{blue!30}
+        Incorrect input file format & The system will notify the error to the user. \\
+        \rowcolor{blue!10}
+        \textbf{Test} & \textbf{Expected result} \\
+        \rowcolor{blue!30}
+        Incorrect input data & The system will notify the error to the user \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+    \centering
+    \caption{Test suite for UC: Search for free classrooms}
+    \label{uc-table-assignments}
+    \begin{tabular}{|c|p{8cm}|}
+        \hline
+        \multicolumn{2}{|c|}{\textbf{SEARCH FOR FREE CLASSROOMS}} \\
+        \hline
+        \rowcolor{blue!10}
+        \textbf{Test} & \textbf{Expected result} \\
+        \rowcolor{blue!30}
+        Theory query & The system will look for theory classes that meet the requirements of the query. \\
+        \rowcolor{blue!10}
+        \textbf{Test} & \textbf{Expected result} \\
+        \rowcolor{blue!30}
+        Lab query & The system will look for laboratories that meet the requirements of the query. \\
+        \rowcolor{blue!10}
+        \textbf{Test} & \textbf{Expected result} \\
+        \rowcolor{blue!30}
+        Theory and lab query & The system will look for theory classes for one request and laboratories for the other. Each search must meet the requirements of its associated query. \\
+        \textbf{Test} & \textbf{Expected result} \\
+        \rowcolor{blue!30}
+        Incorrect config format & The system will notify the error to the user. \\
+        \rowcolor{blue!10}
+        \textbf{Test} & \textbf{Expected result} \\
+        \rowcolor{blue!30}
+        Incorrect input file format & The system will notify the error to the user. \\
+        \rowcolor{blue!10}
+        \textbf{Test} & \textbf{Expected result} \\
+        \rowcolor{blue!30}
+        Incorrect input data & The system will notify the error to the user \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+    \centering
+    \caption{Test suite for UC: Automatically create input files}
+    \label{uc-table-assignments}
+    \begin{tabular}{|c|p{8cm}|}
+        \hline
+        \multicolumn{2}{|c|}{\textbf{AUTOMATICALLY CREATE INPUT FILES}} \\
+        \hline
+        \rowcolor{blue!10}
+        \textbf{Test} & \textbf{Expected result} \\
+        \rowcolor{blue!30}
+        Automation & The system will generate the input files necessary for the GA execution. \\
+        \rowcolor{blue!10}
+        \textbf{Test} & \textbf{Expected result} \\
+        \rowcolor{blue!30}
+        Incorrect config format & The system will notify the error to the user. \\
+        \rowcolor{blue!10}
+        \textbf{Test} & \textbf{Expected result} \\
+        \rowcolor{blue!30}
+        Incorrect input file format & The system will notify the error to the user. \\
+        \rowcolor{blue!10}
+        \textbf{Test} & \textbf{Expected result} \\
+        \rowcolor{blue!30}
+        Incorrect input data & The system will notify the error to the user \\
+        \hline
+    \end{tabular}
+\end{table}
 
