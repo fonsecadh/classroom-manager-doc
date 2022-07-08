@@ -2,6 +2,11 @@
 
 \chapter{Analysis}
 
+In this second chapter of software engineering, we will present the analysis conducted on the system to be built, with a brief general definition of what is intended to be done, recapitulating what was previously discussed in the theoretical sections.
+
+The system requirements, both functional and non-functional, are also introduced, followed by an identification of the internal components of the system, the subsystems. An outline of class design is shown, focusing on the relationships between classes and data, which continues with an analysis of the identified use cases and the user interface. The chapter ends with a discussion of the tests to be carried out on the system.
+
+
 
 \section{System definition}
 
@@ -53,8 +58,8 @@ The functional and non-functional requirements of the system. The non-functional
 
     \item \textbf{RInput3} The system must receive the required configuration files as input.
         \begin{description}
-            \item \textbf{RInput3.1} The system must receive as input a configuration file with the parameters of the GA.
-            \item \textbf{RInput3.2} The system must receive as input a configuration file with the path to the input and output files.
+            \item \textbf{RInput3.1} The configuration files can be split into any number of files.
+            \item \textbf{RInput3.2} The configuration files must include the information required by each functionality.
         \end{description}
 
     \item \textbf{RConf} The system must be configured by plain text files.
@@ -145,7 +150,7 @@ The functional and non-functional requirements of the system. The non-functional
 
 \section{Subsystem mapping}
 
-In order to better understand the system, we have performed an study on its components and identified the following subsystems.
+In order to better understand the system, a study has been carried out on the subsystems that make up the system. The following subsystems have been identified:
 
 \begin{itemize}
 
@@ -181,12 +186,18 @@ In order to better understand the system, we have performed an study on its comp
   \includegraphics[scale=0.25]{initial_class_diagram_uml.png}
 \end{figure}
 
+Some notes on the previously shown class draft. It only contains classes from the business layer, because it is the most important part of the prototype.
 
+The \textit{alg} package contains all classes related to the genetic and greedy algorithms. They are both interconnected by means of the fitness function of the GA, which uses the Decoder to get the assignments in the order specified by an individual and then calls the greedy algorithm with such a list of assignments. In the case of the greedy algorithm, some of its components, like the ClassroomFilterManager (which models the LFD) and the CollisionManager (which models the LCM) have a dependency with some classes of the problem domain package. That is also the case for the Assignment class, which represents an assignment of a classroom to a group.
+
+The \textit{classfinder} package is a little more isolated than the alg package, but nevertheless has dependencies with some classes of the problem domain.
+
+Finally, the \textit{problem} package models the problem domain, and contains the information of the abstracted models of the School and its environment. It is a key package not only for the different packages of the business layer, but also for the persistence layer, which depends on it for implementing the DataAccess to each abstraction.
 
 
 \section{Analysis of use cases}
 
-This section presents the analysis of the use cases of the system. Three use cases have been identified, each one reflecting a main functionality of the prototype, being the assignment of classes to groups, the search for free classes by means of specific queries and the automatic generation of the system input files.
+This section presents the analysis of the use cases of the system. Three use cases have been identified, each one reflecting a main functionality of the prototype. Therefore we have a use case for the assignment of classes to groups, the search for free classes by means of specific queries and the automatic generation of the system input files.
 
 \begin{figure}[H]
     \caption{Use cases}
@@ -194,6 +205,7 @@ This section presents the analysis of the use cases of the system. Three use cas
   \includegraphics[scale=0.5]{use_cases_uml.png}
 \end{figure}
 
+For each use case, a table with information about the use case is presented. These tables contain the preconditions for the use case, the postconditions reached after its execution, a description of its steps, and a section with other variants of the use case. These tables are followed by a sequence and an activity diagrams, which will show the flow of the use case in a more visual way.
 
 \subsection{Perform the assignments}
 
@@ -340,7 +352,7 @@ This section presents the analysis of the use cases of the system. Three use cas
 
 \section{Analysis of user interfaces}
 
-The prototype will have a Command Line Interface (CLI). The only interaction with the user occurs when calling the command in the shell, indicating the option we want the prototype to execute and the necessary configuration files. As we explained before in the document, there are three main options for calling the prototype. One for performing the assignments, the second for finding free classrooms and the third for automating the creation of the input files.
+The prototype will have a Command Line Interface (CLI). The only interaction with the user occurs when they are calling the utility in the shell, indicating the option they want the prototype to execute and the necessary configuration files. As we explained before in the document, there are three main options for calling the prototype. One for performing the assignments, the second for finding free classrooms and the third for automating the creation of the input files.
 
 Once the execution starts, the CLI will show relevant information to the user about the currently running processes (name and status). In the case of the GA execution, the selected parameters will be listed, as well as data on the results of each generation. The amount of information shown in the CLI about the GA can be controlled by the user through the configuration files. 
 
@@ -348,7 +360,7 @@ Once the execution starts, the CLI will show relevant information to the user ab
 
 \section{Test plan specification}
 
-Testing will focus on the parsing phase and on the quality of the solutions obtained. In order to verify that both areas operate as expected, a battery of functional tests and an experimentation with various scenarios and instances will be carried out. Further details of the conducted experimentation are given in its own section (see \ref{experimental-results}), here we will focus on the test suite.
+Testing will focus on the parsing phase and the quality of the solutions obtained. In order to verify that both areas operate as expected, a battery of functional tests and an experimentation with various scenarios and instances will be carried out. Further details of the conducted experimentation are given in its own section (see Section \ref{experimental-results}), here we will focus on the test suite.
 
 
 \begin{table}[H]
