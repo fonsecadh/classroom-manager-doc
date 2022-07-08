@@ -28,7 +28,7 @@
 
 The \textit{classmanager} utility assigns classes to groups in the School for a given semester. In addition, it allows queries to be made on the classrooms to obtain those available in a range of dates and schedules. Finally, the utility has a built-in tool that allows for automatic conversion of the files currently used by the school into files compatible with the system. 
 
-A \textit{FILE} represents a configuration file. Each option requires one or more configuration files. If a file is not provided, or if the file cannot be parsed due to lack of permissions, the utility will notify the user of the error. The same goes for the required data not submitted in the configuration file. 
+A \textit{FILE} represents a configuration file. Each option requires a set of properties with values of different types. As long as these properties are given to the utility, you are free to split them in as many configuration files as you want. If a file is not provided, or if the file cannot be parsed due to lack of permissions, the utility will notify the user of the error. The same goes for the required data not submitted in the configuration files. 
 
 
 \subsection*{OPTIONS}
@@ -113,7 +113,44 @@ If you find a bug, you can create an Issue in \href{https://github.com/fonsecadh
 
 \subsection*{EXAMPLES}
 
-TODO
+Show help:
+
+\verb|java -jar classmanager.jar -h|
+
+\verb|java -jar classmanager.jar --help|
+
+Show version:
+
+\verb|java -jar classmanager.jar -v|
+
+\verb|java -jar classmanager.jar --version|
+
+Performing the assignments:
+
+\verb|java -jar classmanager.jar -a algFolder/algorithm.properties|
+
+\verb|              ioFolder/io.properties|
+
+Note that the user has decided to split the properties in two files, but they could have used only one if they wanted.
+
+Another way of performing the assignments:
+
+\verb|java -jar classmanager.jar --algorithm all.properties|
+
+Searching for classrooms:
+
+\verb|java -jar classmanager.jar -q classfinder.properties|
+
+\verb|java -jar classmanager.jar --query one.properties|
+
+\verb|              two.properties three.properties|
+
+Transforming the files of the School into the files used by the utility:
+
+\verb|java -jar classmanager.jar -t automation.properties|
+
+\verb|java -jar classmanager.jar --transform automation.properties|
+
 
 
 \subsection*{SEE ALSO}
