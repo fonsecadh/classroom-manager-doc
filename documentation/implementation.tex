@@ -3,37 +3,25 @@
 \chapter{System implementation}
 
 
-\section{Standards and references}
+\section{License and references}
 
-\subsection{Standards}
-
-\subsection{Licenses}
+\subsection{License}
 
 The software of this project is licensed under the GNU General Public License v2.0.
 
-\subsection{Other references}
+\subsection{References}
 
-\textit{Java Code Conventions.} Set of guidelines and conventions for programmers to consider when using the Java programming language.
+\begin{itemize}
+    \item \textit{Java Code Conventions.} Set of guidelines and conventions for programmers to consider when using the Java programming language.
+
+    \item \textit{Linux kernel coding style.} \footnote{Available at \url{https://www.kernel.org/doc/Documentation/process/coding-style.rst}} Set of guidelines and conventions for programmers to consider when programming in the Linux kernel. The stylistic choices in this guide have, for the most part, been the ones adopted for formatting the prototype code, as we believe that the readability of the code is preferable to the Java Code Conventions guidelines.
+\end{itemize}
+
 
 
 \section{Programming languages}
 
-There were two programming languages considered for the implementation of the system, \textbf{C} and \textbf{Java}.
-
-Considering that:
-
-\begin{itemize}
-    \item The author and only developer of the system has worked with Java throughout his university studies, but only used C in one subject and in some of his personal projects.
-
-    \item Java is probably less efficient than C when executing the genetic and greedy algorithms.
-
-    \item Java code is more easy to run in other systems than C code.
-
-    \item The program is going to be executed only a few times a year.
-\end{itemize}
-
-For this reasons, even if C would be faster in execution, because the program will not be running every day, and taking into account the other two advantages, Java was the language of choice for implementing the system.
-
+The use of C or Java for programming the system was discussed. In the end we opted for Java for two reasons. The first is simple, I, the developer, have more experience in Java than in C (although I have used both in this School). Perhaps C would be a suitable language to implement the algorithms described in this document more efficiently, but the extra time I would have to spend learning the language in an advanced way makes it unmanageable for this project. The second reason is also obvious. If this project is to be continued by our colleagues at the School, it would be preferable if it were written in the language that has been learnt throughout the degree courses, i.e, Java.
 
 \section{Tools and programs used in development}
 
