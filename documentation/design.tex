@@ -86,5 +86,42 @@ This section presents the different class diagrams that make up the whole system
 
 \section{File format design}
 
-TODO
+We can differentiate files into system files and external files. System files are those that we have originally defined in order for the system to function correctly. External files are those files whose existence precedes this project.
+
+All files are plain text files, and can have the extensions CSV, TXT or PROPERTIES. TXT files contain elements of the solution that are understandable by the user but not processable by the system. CSV and PROPERTIES files are usually input files, in most cases, or output files, in some other cases.
+
+It should be noted that the utility can process as many PROPERTIES files as the user wants. Since these configuration files contain keys and values, the user is free to define them in as many PROPERTIES files as desired, as long as all the required keys are present.
+
+In the case of CSVs, it is expected that these are always separated by semicolons, and that they always include a header with the column names, as the utility always ignores the first line except in special cases. Empty lines will cause errors when parsing, so they must be removed.
+
+All the files involved in the system are now displayed. For real examples, the reader is referred to Annex \ref{annex-file-format}.
+
+Input / Output:
+
+\begin{itemize}
+    \item Classrooms (System CSV file)
+    \item Subjects (System CSV file)
+    \item Groups (System CSV file)
+    \item Group schedules (System CSV file)
+    \item Group academic weeks (System CSV file)
+    \item Preferences (System CSV file)
+    \item Restrictions (System CSV file)
+    \item Assignments (System CSV file)
+    \item Assignments Summary (System TXT file)
+    \item Classroom Timetable (System TXT file)
+    \item Classfinder queries (System CSV file)
+    \item Classfinder query results (System TXT file)
+    \item Plan file (External CSV file): It must be manually edited to change the separator to a semicolon and remove its empty lines.
+    \item Enrolled students (External CSV file): It must be manually created from the Excel file with the enrolled student tables.
+\end{itemize}
+
+Configuration:
+
+\begin{itemize}
+    \item Algorithm configuration (System PROPERTIES file): for the \textit{perform the assignments} use case.
+    \item Classfinder configuration (System PROPERTIES file): for the \textit{search for free classrooms} use case.
+    \item Automation configuration (System PROPERTIES file): for the \textit{automatically create input files} use case.
+\end{itemize}
+
+It is again stressed that these configuration files are an agglomeration of all the keys needed for each use case. If the user prefers to split it into other files, as long as they contain all the keys between them, they can do so.
 
