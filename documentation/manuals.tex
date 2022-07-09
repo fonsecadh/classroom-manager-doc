@@ -28,7 +28,7 @@
 
 The \textit{classmanager} utility assigns classes to groups in the School for a given semester. In addition, it allows queries to be made on the classrooms to obtain those available in a range of dates and schedules. Finally, the utility has a built-in tool that allows for automatic conversion of the files currently used by the school into files compatible with the system. 
 
-A \textit{FILE} represents a configuration file. Each option requires a set of properties with values of different types. As long as these properties are given to the utility, you are free to split them in as many configuration files as you want. If a file is not provided, or if the file cannot be parsed due to lack of permissions, the utility will notify the user of the error. The same goes for the required data not submitted in the configuration files. 
+A \textit{FILE} represents a configuration file. Each option requires a set of properties with values of different types. As long as these properties are given to the utility, the user is free to split them in as many configuration files as they want. If a file is not provided, or if the file cannot be parsed due to lack of permissions, the utility will notify the user of the error. The same goes for the required data not submitted in the configuration files. 
 
 
 \subsection*{OPTIONS}
@@ -82,7 +82,7 @@ The program can terminate in two states: \textit{OK} and \textit{ERROR}. The OK 
 
 \subsection*{NOTES}
 
-Make sure that all CSV files have a header with the column names, because the program expects such a header to exist. Otherwise it will skip the first row of the CSV. Also, the CSV files cannot have empty rows or the utility will complain.
+Make sure that all CSV files have a header with the column names, because the program expects such a header to exist. Otherwise it will skip the first row of the CSV. Also, the CSV files cannot have empty rows or the utility will complain. Finally, the utility expects the separator of \textit{all} CSVs to \textit{always} be the semicolon.
 
 
 \subsection*{COPYRIGHT}
