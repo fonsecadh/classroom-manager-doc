@@ -61,10 +61,141 @@ With this initial fitness function, we proceed to experiment with the following 
     \item \textbf{Base greedy + Repairs + Biases}: Algorithm with repairs and biases towards preferences and shared classrooms.
 \end{itemize}
 
+Experiments are launched ten times per run. Each run executes the greedy algorithm another ten times and returns the best result. An overview of the results will now be given.
+
+
+Each run stores a number of metrics related to the fitness values. These metrics are listed and defined below.
+
+\begin{itemize}
+    \item Average CPU time.
+    \item Best fitness.
+    \item Average fitness. 
+    \item Assignments without classroom. 
+    \item Average number of free labs by hour.
+    \item Preferences met. 
+    \item Fitness which evaluates whether the Spanish and English groups go to different classes.  
+    \item Fitness that assesses whether the laboratory groups of a subject go to the same laboratory.
+    \item Fitness which measures whether theory groups with the same name and course go to the same classroom.
+\end{itemize}
+
 
 \subsubsection{Fitness reviews}
 
-\subsubsection{Metric reviews}
+Although the greedy does not factor in fitness to execute its operations, it can be an indicative value of the quality of a version of the algorithm.
+
+The inclusion of the repair process does not seem to influence the results of the greedy algorithm in excess. However, the biases introduce a substantial improvement, as can be seen in the following summary table of the best fitness values (see Table \ref{table-fn-review}).
+
+
+\begin{table}[H]
+    \centering
+    \caption{Greedy algorithm review: Best fitness summary}
+    \label{table-fn-review}
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Version} & \textbf{Best fitness summary} \\
+        \hline
+        \rowcolor{blue!30}
+        Base greedy & 149.31 \\
+        \rowcolor{blue!10}
+        Greedy + Repairs & 149.81 \\
+        \rowcolor{blue!30}
+        Greedy + Rep + Bias & 166.69 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+\subsubsection{Other metrics review}
+
+Evaluating the results, we can see a clear difference between the behaviours of these three versions of the greedy algorithm in terms of assignments and preferences. None of them leaves more groups unassigned than the others (see Tables \ref{table-assign-01} and \ref{table-assign-02}). 
+
+
+\begin{table}[H]
+    \centering
+    \caption{Greedy algorithm review: Unassigned groups for instance rr\_20\_21\_s1}
+    \label{table-assign-01}
+    \begin{tabular}{|c|c|}
+        \hline
+        \multicolumn{2}{|c|}{\textbf{RegGroups-RegConstraints Course 20-21 Semester 1}} \\
+        \hline
+        \textbf{Version} & \textbf{Average groups unassigned (out of 340)} \\
+        \hline
+        \rowcolor{blue!30}
+        Base greedy & 11 \\
+        \rowcolor{blue!10}
+        Greedy + Repairs & 9 \\
+        \rowcolor{blue!30}
+        Greedy + Rep + Bias & 8 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+    \centering
+    \caption{Greedy algorithm review: Unassigned groups for instance cr\_21\_22\_s2}
+    \label{table-assign-02}
+    \begin{tabular}{|c|c|}
+        \hline
+        \multicolumn{2}{|c|}{\textbf{CharGroups-RegConstraints Course 21-22 Semester 2}} \\
+        \hline
+        \textbf{Version} & \textbf{Average groups unassigned (out of 314)} \\
+        \hline
+        \rowcolor{blue!30}
+        Base greedy & 6 \\
+        \rowcolor{blue!10}
+        Greedy + Repairs & 5 \\
+        \rowcolor{blue!30}
+        Greedy + Rep + Bias & 5 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+However, when we look at the preferences respected by each version, the picture changes. There is a clear advantage of the algorithm with bias over the other two versions. The tables for the previous two instances are now shown except that they now refer to preferences (see Table \ref{table-prefs-01} and \ref{table-prefs-02}).
+
+
+\begin{table}[H]
+    \centering
+    \caption{Greedy algorithm review: Preferences met for instance rr\_20\_21\_s1}
+    \label{table-prefs-01}
+    \begin{tabular}{|c|c|}
+        \hline
+        \multicolumn{2}{|c|}{\textbf{RegGroups-RegConstraints Course 20-21 Semester 1}} \\
+        \hline
+        \textbf{Version} & \textbf{Average preferences met (out of 18)} \\
+        \hline
+        \rowcolor{blue!30}
+        Base greedy & 1 \\
+        \rowcolor{blue!10}
+        Greedy + Repairs & 1 \\
+        \rowcolor{blue!30}
+        Greedy + Rep + Bias & 10 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+
+\begin{table}[H]
+    \centering
+    \caption{Greedy algorithm review: Preferences met for instance cr\_21\_22\_s2}
+    \label{table-prefs-02}
+    \begin{tabular}{|c|c|}
+        \hline
+        \multicolumn{2}{|c|}{\textbf{CharGroups-RegConstraints Course 21-22 Semester 2}} \\
+        \hline
+        \textbf{Version} & \textbf{Average preferences met (out of 43)} \\
+        \hline
+        \rowcolor{blue!30}
+        Base greedy & 10 \\
+        \rowcolor{blue!10}
+        Greedy + Repairs & 12 \\
+        \rowcolor{blue!30}
+        Greedy + Rep + Bias & 17 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+In the shared classroom metrics, an improvement is also observed in the algorithm with bias, since its heuristic contemplates this situation. In the rest of the metrics the difference is not so pronounced
 
 
 \subsection{(Genetic + Greedy) parameter reviews}
