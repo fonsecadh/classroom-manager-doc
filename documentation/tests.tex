@@ -2,3 +2,130 @@
 
 \chapter{Test development}
 
+As previously stated, the testing phase will focus on checking the correct functioning of the system, especially in the persistence layer. The overall quality of the solutions is assessed in the experimentation stage.
+
+In this chapter, a battery of tests is presented for each use case, each test containing the following information: ID, description, expected outcome, real outcome.
+
+
+
+\section{Perform the assignments}
+
+\begin{itemize}
+    \item \textbf{ID}: PA-01-NOF
+        \begin{itemize}
+            \item \textbf{Description}: The utility is executed with a configuration that disables the optional files.
+            \item \textbf{Expected outcome}: The assignment process will start from scratch and no restrictions or preferences are to be considered.
+            \item \textbf{Real outcome}: OK
+        \end{itemize}
+    \item \textbf{ID}: PA-02-PREFS
+        \begin{itemize}
+            \item \textbf{Description}: The utility is executed with a configuration that considers preferences.
+            \item \textbf{Expected outcome}: The assignment process will start from scratch and no restrictions are to be considered. Positive and negative preferences will be evaluated as soft constraints.
+            \item \textbf{Real outcome}: OK
+        \end{itemize}
+    \item \textbf{ID}: PA-03-RES
+        \begin{itemize}
+            \item \textbf{Description}: The utility is executed with a configuration that considers restrictions.
+            \item \textbf{Expected outcome}: The assignment process will start from scratch and no preferences are to be considered. Positive and negative restrictions will be evaualted as hard constraints.
+            \item \textbf{Real outcome}: OK
+        \end{itemize}
+    \item \textbf{ID}: PA-04-PAR
+        \begin{itemize}
+            \item \textbf{Description}: The utility is executed with a configuration that considers a partial list of assignments previously made by the user or the system.
+            \item \textbf{Expected outcome}: The assignment process will start from the initial assignments and no preferences or restrictions are to be considered. The initial assignments will remain as they were once the allocation process is completed.
+            \item \textbf{Real outcome}: OK
+        \end{itemize}
+    \item \textbf{ID}: PA-05-CONF
+        \begin{itemize}
+            \item \textbf{Description}: The utility is executed with a configuration file with missing properties.
+            \item \textbf{Expected outcome}: The system will notify the error to the user.
+            \item \textbf{Real outcome}: OK
+        \end{itemize}
+    \item \textbf{ID}: PA-06-INFOR
+        \begin{itemize}
+            \item \textbf{Description}: The utility is executed with a configuration that points to input files with incorrect format.
+            \item \textbf{Expected outcome}: The system will notify the error to the user.
+            \item \textbf{Real outcome}: OK
+        \end{itemize}
+    \item \textbf{ID}: PA-06-INDATA
+        \begin{itemize}
+            \item \textbf{Description}: The utility is executed with a configuration that points to input files with incorrect information (e.g a group schedule with a reference to a group code that is not present in the system).
+            \item \textbf{Expected outcome}: The system will notify the error to the user.
+            \item \textbf{Real outcome}: OK
+        \end{itemize}
+\end{itemize}
+
+
+
+\section{Search for free classrooms}
+
+\begin{itemize}
+    \item \textbf{ID}: SF-01-THEO
+        \begin{itemize}
+            \item \textbf{Description}: The utility is executed with a configuration that points to a query file that contains one request for finding a theory classroom.
+            \item \textbf{Expected outcome}: The system will look for theory classes that meet the requirements of the query.
+            \item \textbf{Real outcome}: OK
+        \end{itemize}
+    \item \textbf{ID}: SF-02-LAB
+        \begin{itemize}
+            \item \textbf{Description}: The utility is executed with a configuration that points to a query file that contains one request for finding a laboratory.
+            \item \textbf{Expected outcome}: The system will look for laboratories that meet the requirements of the query.
+            \item \textbf{Real outcome}:
+        \end{itemize}
+    \item \textbf{ID}: SF-03-ALL
+        \begin{itemize}
+            \item \textbf{Description}: The utility is executed with a configuration that points to a query file that contains two requests. One to consult free classrooms and another to consult free laboratories. 
+            \item \textbf{Expected outcome}: The system will look for theory classrooms for one request and laboratories for the other. Each search must meet the requirements of its associated query.
+            \item \textbf{Real outcome}: OK
+        \end{itemize}
+    \item \textbf{ID}: SF-04-CONF
+        \begin{itemize}
+            \item \textbf{Description}: The utility is executed with a configuration file with missing properties.
+            \item \textbf{Expected outcome}: The system will notify the error to the user.
+            \item \textbf{Real outcome}: OK
+        \end{itemize}
+    \item \textbf{ID}: SF-05-INFOR
+        \begin{itemize}
+            \item \textbf{Description}: The utility is executed with a configuration that points to input files with incorrect format.
+            \item \textbf{Expected outcome}: The system will notify the error to the user.
+            \item \textbf{Real outcome}: OK
+        \end{itemize}
+    \item \textbf{ID}: SF-06-INDATA
+        \begin{itemize}
+            \item \textbf{Description}: The utility is executed with a configuration that points to input files with incorrect information (e.g a group schedule with a reference to a group code that is not present in the system).
+            \item \textbf{Expected outcome}: The system will notify the error to the user.
+            \item \textbf{Real outcome}: OK
+        \end{itemize}
+\end{itemize}
+
+
+
+\section{Automatically create input files}
+
+\begin{itemize}
+    \item \textbf{ID}: AC-01-AUTO
+        \begin{itemize}
+            \item \textbf{Description}: The utility is executed with the correct configuration.
+            \item \textbf{Expected outcome}: The system will generate the input files necessary for the GA execution.
+            \item \textbf{Real outcome}: OK
+        \end{itemize}
+    \item \textbf{ID}: AC-02-CONF
+        \begin{itemize}
+            \item \textbf{Description}: The utility is executed with a configuration file with missing properties.
+            \item \textbf{Expected outcome}: The system will notify the error to the user.
+            \item \textbf{Real outcome}: OK
+        \end{itemize}
+    \item \textbf{ID}: AC-03-INFOR
+        \begin{itemize}
+            \item \textbf{Description}: The utility is executed with a configuration that points to input files with incorrect format.
+            \item \textbf{Expected outcome}: The system will notify the error to the user.
+            \item \textbf{Real outcome}: OK
+        \end{itemize}
+    \item \textbf{ID}: AC-04-INDATA
+        \begin{itemize}
+            \item \textbf{Description}: The utility is executed with a configuration that points to input files with incorrect information (e.g a record of enrolled students of a group that does not exist in the planning file).
+            \item \textbf{Expected outcome}: The system will notify the error to the user.
+            \item \textbf{Real outcome}: OK
+        \end{itemize}
+\end{itemize}
+
