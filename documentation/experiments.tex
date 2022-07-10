@@ -214,7 +214,7 @@ The results are summarised in Table \ref{table-combinations}.
 
 \begin{table}[H]
     \centering
-    \caption{(Genetic + Greedy): Parameter combinations results}
+    \caption{(Genetic + Greedy): Parameter combinations results (Best fitness)}
     \label{table-combinations}
     \resizebox{\textwidth}{!}{ 
     \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
@@ -283,7 +283,7 @@ Comb	& rr\_20\_21\_s1	& rr\_20\_21\_s2	& rc\_20\_21\_s1	& rc\_20\_21\_s2	& cr\_2
 \end{table}
 
 
-We decided on combination 17 as it had the best results, although there is not much of a difference between the different configurations. The content of this combination are shown below.
+We decided on combination 17 as it had the best fitness results, although there is not much of a difference between the different configurations. The content of this combination are shown below.
 
 \begin{lstlisting}[basicstyle=\small]
 POP_SIZE = 250
@@ -293,5 +293,124 @@ MUTA_PROB = 0.2
 
 
 
+\subsection{Greedy against (Genetic + Greedy)}
+
+We will now use the parameters in the combination 17 for the GA with the initial fitness function, testing the three versions of the greedy algorithm in combination with the genetic algorithm. For this comparison, we will use the previous tables, adding the values obtained with the combination of both algorithms.
+
+We begin by showing the values of the best fitness found (see Table \ref{table-greedgen-fn}).
+
+
+\begin{table}[H]
+    \centering
+    \caption{Greedy against (Genetic + Greedy): Best fitness summary}
+    \label{table-greedgen-fn}
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Version} & \textbf{Best fitness summary} \\
+        \hline
+        \rowcolor{blue!30}
+        Base greedy & 149.31 \\
+        \rowcolor{blue!10}
+        Genetic + Base greedy & 169.50 \\
+        \rowcolor{blue!30}
+        Greedy + Repairs & 149.81 \\
+        \rowcolor{blue!10}
+        Genetic + (Greedy + Repairs) & 168.75 \\
+        \rowcolor{blue!30}
+        Greedy + Rep + Bias & 166.69 \\
+        \rowcolor{blue!10}
+        Genetic + (Greedy + Rep + Bias) & 179.63 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Next, the two algorithms will be compared on the other metrics. The four tables in the greedy review are summarised in two tables (See Tables \ref{table-greedgen-met-01} and \ref{table-greedgen-met-02}).
+
+
+\begin{table}[H]
+    \centering
+    \caption{Greedy against (Genetic + Greedy): Metrics for instance rr\_20\_21\_s1}
+    \label{table-greedgen-met-01}
+    \resizebox{\textwidth}{!}{ 
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \multicolumn{3}{|c|}{\textbf{RegGroups-RegConstraints Course 20-21 Semester 1}} \\
+        \hline
+        \textbf{Version} & \textbf{Average groups unassigned (out of 340)} & \textbf{Average preferences met (out of 18)}  \\
+        \hline
+        \rowcolor{blue!30}
+        Base greedy & 11 & 1\\
+        \rowcolor{blue!10}
+        Genetic + Base greedy & 7 & 7 \\
+        \rowcolor{blue!30}
+        Greedy + Repairs & 9 & 1 \\
+        \rowcolor{blue!10}
+        Genetic + (Greedy + Repairs) & 6 & 6 \\
+        \rowcolor{blue!30}
+        Greedy + Rep + Bias & 8 & 10\\
+        \rowcolor{blue!10}
+        Genetic + (Greedy + Rep + Bias) & 6 & 13 \\
+        \hline
+    \end{tabular}
+    }
+\end{table}
+
+
+\begin{table}[H]
+    \centering
+    \caption{Greedy against (Genetic + Greedy): Metrics for instance cr\_21\_22\_s2}
+    \label{table-greedgen-met-02}
+    \resizebox{\textwidth}{!}{ 
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \multicolumn{3}{|c|}{\textbf{CharGroups-RegConstraints Course 21-22 Semester 2}} \\
+        \hline
+        \textbf{Version} & \textbf{Average groups unassigned (out of 314)} & \textbf{Average preferences met (out of 43)} \\
+        \hline
+        \rowcolor{blue!30}
+        Base greedy & 6 & 10\\
+        \rowcolor{blue!10}
+        Genetic + Base greedy & 4 & 18 \\
+        \rowcolor{blue!30}
+        Greedy + Repairs & 5 & 12\\
+        \rowcolor{blue!10}
+        Genetic + (Greedy + Repairs) & 5 & 18 \\
+        \rowcolor{blue!30}
+        Greedy + Rep + Bias & 5 & 17\\
+        \rowcolor{blue!10}
+        Genetic + (Greedy + Rep + Bias) & 4 & 18 \\
+        \hline
+    \end{tabular}
+    }
+\end{table}
+
+From these tables we can conclude that the greedy algorithm still fares very well when compared to the combination of the greedy and genetic algorithms, but that ultimately the best option is to combine the two.
+
+
+
 \subsection{Further fitness functions}
+
+As a final experiment, we decided to perform a comparison between different values of the fitness weights. For this we considered four scenarios:
+
+\begin{itemize}
+    \item \textbf{Shared labs and theories}: In this scenario we test whether the genetic algorithm achieves better results by ignoring language separation and focusing on clustering groups in the same classrooms, according to the criteria set out earlier in this document.
+    \item \textbf{Group separation by language}: The reverse of the first scenario. Here we focus on separating the groups by language, ignoring whether or not they are grouped in the same classrooms.
+    \item \textbf{Equal weights}: All fitness value have a weight of one.
+    \item \textbf{Weights for fitness values of collisions and preferences}: Only the unassigned classrooms (collisions) and the preferences get a weight value of 1.0 and 0, respectively. The rest are set to zero.
+\end{itemize}
+
+Analysing the results, we can see that the worst configuration is the one where the weights are equal. Granted, it has higher fitness, but in the other metrics it is far inferior to the rest of the configurations.
+
+Naturally, scenario 2 (group separation by language) ends up with results whose language fitness is higher than scenario 1 (shared labs and theories), but lower fitness in shared classes compared to the latter. In terms of assignments without classrooms and fulfilled preferences, both configurations work in a similar way.
+
+If we compare scenarios 1 and 2 with scenario 4, we see that the difference is not so overwhelming as to justify not assigning weights to language or shared class values.
+
+
+
+\subsection{Experimental findings}
+
+Reflecting on the previous experiments, one can come to a conclusion that was already anticipated at the beginning of the chapter. This problem is not so complex, therefore, a greedy algorithm with a good heuristic can achieve an acceptable solution in short times.
+
+But, in order to really obtain the best possible solution with these algorithms, it is necessary to use the genetic algorithm with the right combination of parameters and weights.
+
 
