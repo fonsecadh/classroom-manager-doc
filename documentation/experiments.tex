@@ -2,3 +2,72 @@
 
 \chapter{Experimental results}\label{experimental-results}
 
+This chapter shows the various experimental studies carried out to evaluate the quality of the prototype and its algorithms. We advance the main thesis we have arrived at after this study: The greedy algorithm is able to solve the problem without the help of the genetic algorithm. However, it is not powerful enough to find the best solutions obtained with other configurations. Only when coupled with the best version of the genetic algorithm does the software perform at its best.
+
+
+\subsection{Instances}
+
+Four scenarios have been identified for this phase. One scenario is a combination of a group loading level and a constraint loading level. We have groups from the first and second semester of two different academic years, and we have restrictions and preferences obtained from client meetings.
+
+For the charged load level, one group per subject was created for each instance with a 10\% probability, and one restriction or preference with a 20\% probability. Once created, the results were checked for incorrect data or contradictions.
+
+We therefore have the following scenarios:
+
+\begin{itemize}
+    \item \textbf{Charged groups - Charged constraints}
+    \item \textbf{Charged groups - Regular constraints}
+    \item \textbf{Regular groups - Charged constraints}
+    \item \textbf{Regular groups - Regular constraints}
+\end{itemize}
+
+
+\subsection{Initial fitness function}
+
+The initial fitness function is created based on the client's expectations of results. The highest weight is given to all assignments being performed, followed by the fulfilment of preferences, then the remaining fitness values.
+
+The values for the initial fitness function follow.
+
+\begin{lstlisting}[basicstyle=\small]
+# Fitness weights
+
+# COL_WEIGHT: Weight for the collisions fitness value
+COL_WEIGHT = 1.0
+
+# FREE_LABS_WEIGHT: Weight for the free labs fitness value
+FREE_LABS_WEIGHT = 0.25
+
+# LANG_WEIGHT: Weight for the group language fitness value
+LANG_WEIGHT = 0.25
+
+# SHARED_LABS_WEIGHT: Weight for the shared labs fitness value
+SHARED_LABS_WEIGHT = 0.25
+
+# SHARED_THEORY_WEIGHT: Weight for the shared theory classes fitness value
+SHARED_THEORY_WEIGHT = 0.25
+
+# PREFS_WEIGHT: Weight for the preferences fitness value
+PREFS_WEIGHT = 0.5
+\end{lstlisting}
+
+
+
+\subsection{Greedy Algorithm reviews}
+
+With this initial fitness function, we proceed to experiment with the following versions of the greedy algorithm:
+
+\begin{itemize}
+    \item \textbf{Base greedy}: Algorithm without repairs and biases.
+    \item \textbf{Base greedy + Repairs}: Algorithm with repairs but without biases.
+    \item \textbf{Base greedy + Repairs + Biases}: Algorithm with repairs and biases towards preferences and shared classrooms.
+\end{itemize}
+
+
+\subsubsection{Fitness reviews}
+
+\subsubsection{Metric reviews}
+
+
+\subsection{(Genetic + Greedy) parameter reviews}
+
+\subsection{Further fitness functions}
+
