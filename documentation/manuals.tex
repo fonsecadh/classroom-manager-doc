@@ -5,6 +5,37 @@
 
 \section{Installation manual}
 
+\subsection*{SETUP}
+
+In order to be able to execute the \textbf{classmanager} utility, two things are required. The first is Java 8 or higher, the second is the creation of the runtime environment. This environment simply consists of having the utility at the same level (in terms of folders) as a folder that the user must create, called \textbf{classmanager\_log}.
+
+\subsection*{FOLDER TREE}
+
+When we run the jar file, we will do it from this folder. If the configuration files have relative paths, they must be relative to the jar file. An example of this is shown below.
+
+\begin{description}
+    \item \textbf{Classmanager/} (FOLDER)
+        \begin{description}
+            \item \textit{classmanager.jar} (Executable JAR)
+            \item \textbf{classmanager\_log/} (Required FOLDER)
+                \begin{description}
+                    \item \textit{Some logs...}
+                \end{description}
+            \item \textbf{inputfiles/} (User FOLDER)
+                \begin{description}
+                    \item \textit{classrooms.csv}
+                    \item \textit{...}
+                \end{description}
+            \item \textbf{output/} (User FOLDER)
+            \item \textbf{config/} (User FOLDER)
+                \begin{description}
+                    \item \textit{myConfig.properties}
+                \end{description}
+        \end{description}
+\end{description}
+
+We have the previously described folder in our computer. Let's say we are creating the configuration file \textit{myConfig.properties}, and we want to give a path to the CLASSROOMS\_FILE\_PATH property. Should we specify the relative path from the configuration file or from the jar? As said before, the path is \textbf{relative to the jar file}, so in our case, \verb|CLASSROOMS_FILE_PATH = ./inputfiles/classrooms.csv|.
+
 
 
 \section{Execution manual}
@@ -161,7 +192,137 @@ You can view the updated documentation at \href{https://github.com/fonsecadh/cla
 
 \section{User manual}
 
+This manual explains the different files involved in the three possible use cases. See Annex \ref{annex-file-format} for examples of each use case.
+
+
+\subsection*{PERFORM THE ASSIGNMENTS}
+
+
+\subsubsection*{CONFIG}
+
+A default configuration is provided for the greedy algorithm and for the genetic algorithm. The only notable thing about this property file is that you can specify the path to the optional files but disable their use with boolean keys.
+
+\subsubsection*{INPUT}
+
+Files submitted for classes and subjects can be reused. It is important to keep the headers of each CSV file and not to have empty rows, as discussed in the execution manual. 
+
+If a group or subject code is referenced in another csv file, a check will be made to see if that code exists. However, the codes will not be checked to see if they are well-formed in the original files, so special care must be taken.
+
+The format of dates and times should also be taken into account, so it is recommended to study the files already submitted for reference. The utility will check if they are incorrectly formatted and will warn the user of any problems.
+
+If you start from an existing mapping file, note that there can be no classless mappings or the utility will interpret this as an error when parsing the file.
+
+
+\subsubsection*{OUTPUT}
+
+Several types of files are generated. It can be categorised into three types, the csv file of assignments, the txt file with the summary of assignments and the files with the timetable in tabular form.
+
+The summary file indicates first the assignments without a class, then the groups whose assignments do not meet the preferences, and finally the assignments sorted by course and subject.
+
+The timetables show in table format the timetable of each class. If there is more than one group in a cell, it means that both groups have the same time, but it is understood that they never overlap in their academic weeks.
+
+
+\subsection*{SEARCH FOR FREE CLASSROOMS}
+
+
+\subsubsection*{INPUT}
+
+As the queries are entered via CSV, as many queries as the user wants can be introduced. Care should be taken not to enter a start date that is later than the end date.
+
+\subsubsection*{OUTPUT}
+
+A txt file is generated. This file contains, for each query, its parameters and results. The results include a class, a week, a day and a series of ranges of free slots for that classroom.
+
+
+
+\subsection*{AUTOMATICALLY CREATE INPUT FILES}
+
+
+\subsubsection*{INPUT}
+
+Input files must be correctly adapted to the system. This involves using the semicolon separator and deleting all empty lines. A header must also be created for both files (see example files provided in the Annex).
+
+\subsubsection*{OUTPUT}
+
+The group, group schedules and group academic weeks are generated. Since the system does not contain the subjects in memory for this use case, the entries are sorted by the code of the groups.
+
+
 
 
 \section{Programmer manual}
+
+
+\subsection*{LOG}
+
+\begin{lstlisting}[basicstyle=\tiny]
+DETALLADO: START Persistence logic
+jul 05, 2022 12:23:15 AM main.Program main
+GRAVE: Wrong integer in GROUPS csv file (cero or negative: 0), line 42
+business.errorhandler.exceptions.InputValidationException: Wrong integer in GROUPS csv file (cero or negative: 0), line 42
+	at persistence.problem.csv.utils.ValidationUtils.validatePositiveInt(ValidationUtils.java:56)
+	at persistence.problem.csv.GroupsDataAccessCsv.validate(GroupsDataAccessCsv.java:106)
+	at persistence.problem.csv.GroupsDataAccessCsv.lineToGroup(GroupsDataAccessCsv.java:51)
+	at persistence.problem.csv.GroupsDataAccessCsv.loadGroups(GroupsDataAccessCsv.java:29)
+	at main.Program.executeExperiments(Program.java:855)
+	at main.Program.main(Program.java:94)
+
+jul 05, 2022 12:24:50 AM main.Program main
+DETALLADO: START Persistence logic
+jul 05, 2022 12:24:50 AM main.Program main
+GRAVE: Non existing code for group in PREFERENCES csv file (CPM.L.+), line 6
+business.errorhandler.exceptions.InputValidationException: Non existing code for group in PREFERENCES csv file (CPM.L.+), line 6
+	at persistence.problem.csv.PreferencesDataAccessCsv.lineToPreferences(PreferencesDataAccessCsv.java:97)
+	at persistence.problem.csv.PreferencesDataAccessCsv.loadPreferences(PreferencesDataAccessCsv.java:34)
+	at main.Program.executeExperiments(Program.java:883)
+	at main.Program.main(Program.java:94)
+
+jul 05, 2022 12:25:21 AM main.Program main
+DETALLADO: START Persistence logic
+jul 05, 2022 12:25:21 AM main.Program main
+DETALLADO: END Persistence logic
+jul 05, 2022 12:25:21 AM main.Program main
+DETALLADO: START Business logic
+jul 05, 2022 12:25:21 AM business.alg.gen.logic.GeneticAlgorithm geneticAlgorithm
+DETALLADO: START Genetic Algorithm
+jul 05, 2022 12:25:21 AM business.alg.gen.logic.GeneticAlgorithm geneticAlgorithm
+MUY DETALLADO: Parameters:
+
+	-> Max number of generations: 10
+	-> Max time (ms): 360000
+	-> Mutation probability: 0.5
+	-> Crossover probability: 0.9
+	-> Population size: 200
+	-> Fitness function: business.alg.gen.logic.fitness.DefaultFitnessFunction
+	-> Individual length: 311
+jul 05, 2022 12:25:29 AM business.alg.gen.logic.GeneticAlgorithm geneticAlgorithm
+DETALLADO: END Genetic Algorithm
+jul 05, 2022 12:25:29 AM main.Program main
+DETALLADO: END Business logic
+\end{lstlisting}
+
+The above is an extract from the log file. We can see a trace of the flow of the application in three different executions. The first two fail, each with a different error, in the groups and preferences files. The last one occurs after the errors have been fixed and the parameters of the genetic algorithm used for the execution can be observed. Once the execution of the genetic is finished, an entry indicating this fact and another one reporting the completion of the business logic are created.
+
+
+
+\subsection*{UTILITIES}
+
+CSV and problem domain validation utilities can be used to lighten and de-code new implementations.
+
+If a new exception type is to be introduced, it must be defined in the business layer error handler package and specified as an expected exception by instructing the ErrorType.
+
+
+
+\subsection*{NOTES}
+
+Some notes follow.
+
+\begin{itemize}
+    \item New use cases should be executed in the Program class as a unique function with a series of steps (see the other use cases).
+    \item All printing to the terminal must be via the CommandLineInterface class.
+    \item Changes to the problem domain classes and to the utility classes should be reviewed carefully, as much of the system depends on such classes. 
+    \item If more GA operators are to be developed, a Strategy Design Pattern approach, similar to the FitnessFunction, is recommended.
+    \item New fitness values for the GA should follow the current procedure of returning a value between 0 and 100.
+    \item If data collections are shared between objects, copies of the collections must be shared. If the objects in these collections are to be modified, the shared collection must contain cloned objects (this can be seen in the Decoder class).
+\end{itemize}
+
 
