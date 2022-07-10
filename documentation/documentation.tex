@@ -87,12 +87,26 @@
 % Documentation cover page
 \input{cover.tex}
 
+\begingroup
+
+\justify % Justify text
+\setlength{\parskip}{\baselineskip} % Separate paragraphs by one line
+\onehalfspacing
+
+% Word of thanks
+\input{wot.tex}
+
+% Abstract
+\newpage
+\input{abstract.tex}
+
+\endgroup
+
+\newpage
+\chapter{Index}
 
 \renewcommand{\contentsname}{\empty}
 \renewcommand{\documentname}{Index}
-
-
-\chapter{Index}
 
 \begingroup
 \let\clearpage\relax

@@ -1,23 +1,23 @@
-\contentsline {algorithm}{\numberline {1}{\ignorespaces Generic Greedy Algorithm\relax }}{19}{algorithm.1}%
-\contentsline {algorithm}{\numberline {2}{\ignorespaces Bootaku Greedy Algorithm\relax }}{20}{algorithm.2}%
-\contentsline {algorithm}{\numberline {3}{\ignorespaces Bootaku Greedy Algorithm BestFreelancerFor\relax }}{20}{algorithm.3}%
-\contentsline {algorithm}{\numberline {4}{\ignorespaces Abstract Generational Algorithm\relax }}{23}{algorithm.4}%
-\contentsline {algorithm}{\numberline {5}{\ignorespaces The $(\mu ,\ \lambda )$ Evolution Strategy\relax }}{25}{algorithm.5}%
-\contentsline {algorithm}{\numberline {6}{\ignorespaces The Genetic Algorithm (GA)\relax }}{27}{algorithm.6}%
-\contentsline {algorithm}{\numberline {7}{\ignorespaces Random Selection\relax }}{28}{algorithm.7}%
-\contentsline {algorithm}{\numberline {8}{\ignorespaces Fitness-Proportionate Selection\relax }}{29}{algorithm.8}%
-\contentsline {algorithm}{\numberline {9}{\ignorespaces Stochastic Universal Sampling Selection\relax }}{30}{algorithm.9}%
-\contentsline {algorithm}{\numberline {10}{\ignorespaces Tournament Selection\relax }}{31}{algorithm.10}%
-\contentsline {algorithm}{\numberline {11}{\ignorespaces One-Point Crossover\relax }}{33}{algorithm.11}%
-\contentsline {algorithm}{\numberline {12}{\ignorespaces Two-Point Crossover\relax }}{33}{algorithm.12}%
-\contentsline {algorithm}{\numberline {13}{\ignorespaces Uniform Crossover\relax }}{34}{algorithm.13}%
-\contentsline {algorithm}{\numberline {14}{\ignorespaces Order Crossover (OX)\relax }}{36}{algorithm.14}%
-\contentsline {algorithm}{\numberline {15}{\ignorespaces Bit-Flip Mutation\relax }}{37}{algorithm.15}%
-\contentsline {algorithm}{\numberline {16}{\ignorespaces Swap Mutation\relax }}{37}{algorithm.16}%
-\contentsline {algorithm}{\numberline {17}{\ignorespaces ClassManager Greedy Algorithm\relax }}{50}{algorithm.17}%
-\contentsline {algorithm}{\numberline {18}{\ignorespaces ClassManager Greedy Algorithm Preprocessing\relax }}{51}{algorithm.18}%
-\contentsline {algorithm}{\numberline {19}{\ignorespaces ClassManager Greedy Algorithm Assignment Heuristic\relax }}{52}{algorithm.19}%
-\contentsline {algorithm}{\numberline {20}{\ignorespaces ClassManager Greedy Algorithm Repairing Process\relax }}{53}{algorithm.20}%
-\contentsline {algorithm}{\numberline {21}{\ignorespaces ClassManager Genetic Algorithm (GA)\relax }}{54}{algorithm.21}%
-\contentsline {algorithm}{\numberline {22}{\ignorespaces ClassManager GA Next Generation\relax }}{55}{algorithm.22}%
-\contentsline {algorithm}{\numberline {23}{\ignorespaces ClassManager GA Tournament Selection\relax }}{58}{algorithm.23}%
+\contentsline {algorithm}{\numberline {1}{\ignorespaces Generic Greedy Algorithm\relax }}{22}{algorithm.1}%
+\contentsline {algorithm}{\numberline {2}{\ignorespaces Bootaku Greedy Algorithm\relax }}{23}{algorithm.2}%
+\contentsline {algorithm}{\numberline {3}{\ignorespaces Bootaku Greedy Algorithm BestFreelancerFor\relax }}{23}{algorithm.3}%
+\contentsline {algorithm}{\numberline {4}{\ignorespaces Abstract Generational Algorithm\relax }}{26}{algorithm.4}%
+\contentsline {algorithm}{\numberline {5}{\ignorespaces The $(\mu ,\ \lambda )$ Evolution Strategy\relax }}{28}{algorithm.5}%
+\contentsline {algorithm}{\numberline {6}{\ignorespaces The Genetic Algorithm (GA)\relax }}{30}{algorithm.6}%
+\contentsline {algorithm}{\numberline {7}{\ignorespaces Random Selection\relax }}{31}{algorithm.7}%
+\contentsline {algorithm}{\numberline {8}{\ignorespaces Fitness-Proportionate Selection\relax }}{32}{algorithm.8}%
+\contentsline {algorithm}{\numberline {9}{\ignorespaces Stochastic Universal Sampling Selection\relax }}{33}{algorithm.9}%
+\contentsline {algorithm}{\numberline {10}{\ignorespaces Tournament Selection\relax }}{34}{algorithm.10}%
+\contentsline {algorithm}{\numberline {11}{\ignorespaces One-Point Crossover\relax }}{36}{algorithm.11}%
+\contentsline {algorithm}{\numberline {12}{\ignorespaces Two-Point Crossover\relax }}{36}{algorithm.12}%
+\contentsline {algorithm}{\numberline {13}{\ignorespaces Uniform Crossover\relax }}{37}{algorithm.13}%
+\contentsline {algorithm}{\numberline {14}{\ignorespaces Order Crossover (OX)\relax }}{39}{algorithm.14}%
+\contentsline {algorithm}{\numberline {15}{\ignorespaces Bit-Flip Mutation\relax }}{40}{algorithm.15}%
+\contentsline {algorithm}{\numberline {16}{\ignorespaces Swap Mutation\relax }}{40}{algorithm.16}%
+\contentsline {algorithm}{\numberline {17}{\ignorespaces ClassManager Greedy Algorithm\relax }}{53}{algorithm.17}%
+\contentsline {algorithm}{\numberline {18}{\ignorespaces ClassManager Greedy Algorithm Preprocessing\relax }}{54}{algorithm.18}%
+\contentsline {algorithm}{\numberline {19}{\ignorespaces ClassManager Greedy Algorithm Assignment Heuristic\relax }}{55}{algorithm.19}%
+\contentsline {algorithm}{\numberline {20}{\ignorespaces ClassManager Greedy Algorithm Repairing Process\relax }}{56}{algorithm.20}%
+\contentsline {algorithm}{\numberline {21}{\ignorespaces ClassManager Genetic Algorithm (GA)\relax }}{57}{algorithm.21}%
+\contentsline {algorithm}{\numberline {22}{\ignorespaces ClassManager GA Next Generation\relax }}{58}{algorithm.22}%
+\contentsline {algorithm}{\numberline {23}{\ignorespaces ClassManager GA Tournament Selection\relax }}{61}{algorithm.23}%
