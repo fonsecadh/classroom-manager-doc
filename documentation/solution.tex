@@ -279,7 +279,7 @@ We can observe that in this procedure the classroom found is not assigned to the
 
 The heuristic used by the greedy algorithm is as follows. Classes are filtered by type, capacity and constraints (positive and negative). 
 
-Once filtered, they are sorted according to two criteria. If there are preferences for that group, they are ordered in such a way that first the classes included in the positive preferences are iterated, then the classes with no preference, and finally the classes included in the negative preferences. Each of these three subsets is ordered according to the number of available sites, from lowest to highest. If there are no preferences for that group, the classes are simply ordered by number of available sites, also from lowest to highest.
+Once filtered, they are sorted according to two criteria. If there are preferences for that group, they are ordered in such a way that first the classes included in the positive preferences are iterated, then the classes with no preference, and finally the classes included in the negative preferences. Each of these three subsets is ordered according to the number of available seats, from lowest to highest. If there are no preferences for that group, the classes are simply ordered by number of available seats, also from lowest to highest.
 
 Then, the filtered classes are iterated until one is found that does not cause a collision between the evaluated group and the rest of the groups previously assigned to that classroom.
 
