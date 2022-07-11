@@ -179,16 +179,19 @@ In order to better understand the system, a study has been carried out on the su
 
 \section{Preliminary class diagram}
 
+The preliminary class diagram is shown in Figure \ref{pre-class-diagram}.
+
 
 \begin{figure}[H]
     \caption{Preliminary class diagram}
+    \label{pre-class-diagram}
   \centering
   \includegraphics[scale=0.25]{initial_class_diagram_uml.png}
 \end{figure}
 
 Some notes on the previously shown class draft. It only contains classes from the business layer, because it is the most important part of the prototype.
 
-The \textit{alg} package contains all classes related to the genetic and greedy algorithms. They are both interconnected by means of the fitness function of the GA, which uses the Decoder to get the assignments in the order specified by an individual and then calls the greedy algorithm with such a list of assignments. In the case of the greedy algorithm, some of its components, like the ClassroomFilterManager (which models the LFD) and the CollisionManager (which models the LCM) have a dependency with some classes of the problem domain package. That is also the case for the Assignment class, which represents an assignment of a classroom to a group.
+The \textit{alg} package contains all classes related to the genetic and greedy algorithms. They are both interconnected by means of the fitness function of the GA, which uses the Decoder in the \textit{greed} package to get the assignments in the order specified by an individual and then calls the greedy algorithm with such a list of assignments. In the case of the greedy algorithm, some of its components, like the ClassroomFilterManager (which models the LFD) and the CollisionManager (which models the LCM) have a dependency with some classes of the problem domain package. That is also the case for the Assignment class, which represents an assignment of a classroom to a group.
 
 The \textit{classfinder} package is a little more isolated than the alg package, but nevertheless has dependencies with some classes of the problem domain.
 
@@ -197,10 +200,11 @@ Finally, the \textit{problem} package models the problem domain, and contains th
 
 \section{Analysis of use cases}
 
-This section presents the analysis of the use cases of the system. Three use cases have been identified, each one reflecting a main functionality of the prototype. Therefore we have a use case for the assignment of classes to groups, the search for free classes by means of specific queries and the automatic generation of the system input files.
+This section presents the analysis of the use cases of the system. Three use cases have been identified (see Figure \ref{fig-uc-overview}), each one reflecting a main functionality of the prototype. Therefore we have a use case for the assignment of classes to groups, the search for free classes, by means of specific queries, and the automatic generation of the system input files.
 
 \begin{figure}[H]
     \caption{Use cases}
+    \label{fig-uc-overview}
   \centering
   \includegraphics[scale=0.5]{use_cases_uml.png}
 \end{figure}

@@ -2,12 +2,16 @@
 
 \chapter{Experimental results}\label{experimental-results}
 
-This chapter shows the various experimental studies carried out to evaluate the quality of the prototype and its algorithms. We advance the main thesis we have arrived at after this study: The greedy algorithm is able to solve the problem without the help of the genetic algorithm. However, it is not powerful enough to find the best solutions obtained with other configurations. Only when coupled with the best version of the genetic algorithm does the software perform at its best.
+This chapter shows the experimental study carried out to evaluate the quality of the prototype and its algorithms. We advance the main thesis we have arrived at after this study: The greedy algorithm is able to solve the problem without the help of the genetic algorithm. However, it is not powerful enough to find the best solutions obtained with other configurations. Only when coupled with the best version of the genetic algorithm does the software perform at its best.
+
+The experiments were run on a Linux cluster (Intel Xeon 2.26 GHz, 128 GB RAM).
 
 
 \subsection{Instances}
 
 Four scenarios have been identified for this phase. One scenario is a combination of a group loading level and a constraint loading level. We have groups from the first and second semester of two different academic years, and we have restrictions and preferences obtained from client meetings.
+
+A charge level has two states: regular and charged. Regular groups are simply those found in the academic course planning. Regular constraints are those indicated by the clients. Loaded groups introduce new groups artificially, generating them automatically by code. The same applies to the constraints.
 
 For the charged load level, one group per subject was created for each instance with a 10\% probability, and one restriction or preference with a 20\% probability. Once created, the results were checked for incorrect data or contradictions.
 
@@ -20,12 +24,13 @@ We therefore have the following scenarios:
     \item \textbf{Regular groups - Regular constraints}
 \end{itemize}
 
+Each scenario has instances created from the first and second semester of the academic years 20-21 and 21-22.
 
-\subsection{Initial fitness function}
+\subsection{Fitness function}
 
-The initial fitness function is created based on the client's expectations of results. The highest weight is given to all assignments being performed, followed by the fulfilment of preferences, then the remaining fitness values.
+The fitness function is created based on the client's expectations of results. The highest weight is given to all assignments being performed, followed by the fulfilment of preferences, then the remaining fitness values.
 
-The values for the initial fitness function follow.
+The values for the fitness function follow.
 
 \begin{lstlisting}[basicstyle=\small]
 # Fitness weights
@@ -51,9 +56,9 @@ PREFS_WEIGHT = 0.5
 
 
 
-\subsection{Greedy Algorithm reviews}
+\subsection{Greedy Algorithm}
 
-With this initial fitness function, we proceed to experiment with the following versions of the greedy algorithm:
+With this fitness function, we proceed to experiment with the following versions of the greedy algorithm:
 
 \begin{itemize}
     \item \textbf{Base greedy}: Algorithm without repairs and biases.
@@ -79,16 +84,16 @@ Each run stores a number of metrics related to the fitness values. These metrics
 \end{itemize}
 
 
-\subsubsection{Fitness reviews}
+\subsubsection{Fitness assesment}
 
 Although the greedy does not factor in fitness to execute its operations, it can be an indicative value of the quality of a version of the algorithm.
 
-The inclusion of the repair process does not seem to influence the results of the greedy algorithm in excess. However, the biases introduce a substantial improvement, as can be seen in the following summary table of the best fitness values (see Table \ref{table-fn-review}).
+The inclusion of the repair process does not seem to influence the results of the greedy algorithm a lot. However, the biases introduce a substantial improvement, as can be seen in the following summary table of the best fitness values (see Table \ref{table-fn-review}).
 
 
 \begin{table}[H]
     \centering
-    \caption{Greedy algorithm review: Best fitness summary}
+    \caption{Greedy algorithm: Best fitness summary}
     \label{table-fn-review}
     \begin{tabular}{|c|c|}
         \hline
@@ -105,14 +110,14 @@ The inclusion of the repair process does not seem to influence the results of th
 \end{table}
 
 
-\subsubsection{Other metrics review}
+\subsubsection{Other metrics}
 
-Evaluating the results, we can see a clear difference between the behaviours of these three versions of the greedy algorithm in terms of assignments and preferences. None of them leaves more groups unassigned than the others (see Tables \ref{table-assign-01} and \ref{table-assign-02}). 
+Evaluating the results, we can see a clear difference between the behaviours of these three versions of the greedy algorithm in terms of assignments and preferences. The algorithms behave similarly in terms of number of unassigned groups (see Tables \ref{table-assign-01} and \ref{table-assign-02}). 
 
 
 \begin{table}[H]
     \centering
-    \caption{Greedy algorithm review: Unassigned groups for instance rr\_20\_21\_s1}
+    \caption{Greedy algorithm: Unassigned groups for instance rr\_20\_21\_s1}
     \label{table-assign-01}
     \begin{tabular}{|c|c|}
         \hline
@@ -133,7 +138,7 @@ Evaluating the results, we can see a clear difference between the behaviours of 
 
 \begin{table}[H]
     \centering
-    \caption{Greedy algorithm review: Unassigned groups for instance cr\_21\_22\_s2}
+    \caption{Greedy algorithm: Unassigned groups for instance cr\_21\_22\_s2}
     \label{table-assign-02}
     \begin{tabular}{|c|c|}
         \hline
@@ -156,7 +161,7 @@ However, when we look at the preferences respected by each version, the picture 
 
 \begin{table}[H]
     \centering
-    \caption{Greedy algorithm review: Preferences met for instance rr\_20\_21\_s1}
+    \caption{Greedy algorithm: Preferences met for instance rr\_20\_21\_s1}
     \label{table-prefs-01}
     \begin{tabular}{|c|c|}
         \hline
@@ -177,7 +182,7 @@ However, when we look at the preferences respected by each version, the picture 
 
 \begin{table}[H]
     \centering
-    \caption{Greedy algorithm review: Preferences met for instance cr\_21\_22\_s2}
+    \caption{Greedy algorithm: Preferences met for instance cr\_21\_22\_s2}
     \label{table-prefs-02}
     \begin{tabular}{|c|c|}
         \hline
@@ -198,7 +203,7 @@ However, when we look at the preferences respected by each version, the picture 
 In the shared classroom metrics, an improvement is also observed in the algorithm with bias, since its heuristic contemplates this situation. In the rest of the metrics the difference is not so pronounced
 
 
-\subsection{(Genetic + Greedy) parameter reviews}
+\subsection{(Genetic + Greedy) parameter assesment}
 
 Considering the results of the previous section, the greedy algorithm with repairs and bias is chosen for the genetic algorithm experiments. In this section we will describe the tests performed to tune the GA parameters.
 
@@ -324,7 +329,7 @@ We begin by showing the values of the best fitness found (see Table \ref{table-g
     \end{tabular}
 \end{table}
 
-Next, the two algorithms will be compared on the other metrics. The four tables in the greedy review are summarised in two tables (See Tables \ref{table-greedgen-met-01} and \ref{table-greedgen-met-02}).
+Next, the two algorithms will be compared on the other metrics. The four tables in the greedy algorithm evaluation are summarised in two tables (See Tables \ref{table-greedgen-met-01} and \ref{table-greedgen-met-02}).
 
 
 \begin{table}[H]

@@ -3,18 +3,19 @@
 \chapter{System design}
 
 
-Until now we have seen a theoretical view of the algorithms, with some pseudocode, and an abstracted technical view of the system with the analysis discussed in the previous session. This chapter presents to the reader, with the help of different diagrams, a more technical side to the prototype in which the actual code of the utility will be based. The software architecture, the detailed class diagram and the format of the files used by the system follow.
+Until now we have seen a theoretical view of the algorithms, with some pseudocode, and an abstracted technical view of the system with the analysis discussed in the previous chapter. This chapter presents to the reader, with the help of different diagrams, a more technical side to the prototype in which the actual code of the utility will be based. The software architecture, the detailed class diagram and the format of the files used by the system follow.
 
 
 \section{System architecture}
 
 The architecture of the system is laid out in two diagrams, the component diagram, which models the relationship between the subsystems and their interfaces; and the package diagram, which shows the logical layout of the code.
 
-The component diagram is depicted below.
+The component diagram is depicted below (see Figure \ref{compo-diagram}).
 
 
 \begin{figure}[H]
     \caption{Components diagram}
+    \label{compo-diagram}
   \centering
   \includegraphics[scale=0.4]{components_diagram_uml.png}
 \end{figure}
@@ -23,10 +24,11 @@ It can be seen that the central subsystem is responsible for connecting the majo
 
 The relationship between the persistence layer and the problem domain subsystem is due to the fact that it is the former that creates the data for the latter, and once the central subsystem receives this data, it is responsible for providing said data to the different components that require it.
 
-Thus, the package diagram follows.
+The package diagram follows (see Figure \ref{pack-diagram}).
 
 \begin{figure}[H]
     \caption{Packages diagram}
+    \label{pack-diagram}
   \centering
   \includegraphics[scale=0.3]{packages_diagram_uml.png}
 \end{figure}
