@@ -17,7 +17,7 @@ An assignment is a tuple which associates a group with a classroom.
     \scalebox{1.5}{$(G_{i}, C_{j})$}
 \end{equation}
 
-Because a group can only have \textit{one} classroom assigned, an assignment can be identified by the \textit{code} \footnote{The name convention previously mentioned: \textit{subject.type.name} (e.g. Com.T.1).} of the group. For example, the assignment for group SI.T.1 can be identified by the code SI.T.1 as well.
+Because a group can only have \textit{one} classroom assigned, an assignment can be identified by the \textit{code}\footnote{The name convention previously mentioned: \textit{subject.type.name} (e.g. Com.T.1).} of the group. For example, the assignment for group SI.T.1 can be identified by the code SI.T.1 as well.
 
 Assigning just \textit{one} classroom to each group means that the total number of assignments is calculated by the following expression.
 
@@ -29,7 +29,7 @@ This implies that there are as many assignments as the number of groups for the 
 
 \subsection{Solutions}
 
-A \textit{solution} for this problem is represented by a set of all the assignments that must be performed for the semester. As presented in the previous section, the total number of assignments equals the total number of groups in that semester. So we have the next statement.
+A \textit{solution} for this problem is represented by a set of all the assignments that must be performed for the semester. For a solution to be valid, all hard constraints must be satisfied. As presented in the previous section, the total number of assignments equals the total number of groups in that semester. So we have the next statement.
 
 \begin{equation}
     Solution = \{ (G_{1}, C_{x}), (G_{2}, C_{y}), ..., (G_{m}, C_{z})) \}
@@ -53,21 +53,21 @@ Finally, a \textit{partial solution} is one in which not every assignment was pe
 
 \subsection{States}
 
-A \textit{state} represents a phase in the problem. There can be three states. The \textit{initial state}, which stands for the empty solution of non allocated assignments. The \textit{final state}, which represents a complete solution with all the assignments performed. And the \textit{intermediate states} portraying partial solutions.
+A \textit{state} represents a phase in the problem. We distinguish three kinds of states. The \textit{initial state}, which stands for the empty solution of non allocated assignments. The \textit{final state}, which represents a complete solution with all the assignments performed. And the \textit{intermediate states} portraying partial solutions.
 
-A key concept to understand our design is the following. Although by default we start the execution of the algorithms with an initial state, it is also possible to start the execution with an intermediate state. This is because we can receive as input a partial or total solution of assignments and work from there. Now we will discuss how we can jump from one state to the next, which is normally called \textit{state expansion}.
+A key concept to understand our design is the following. Although by default we start the execution of the algorithms with an initial state, it is also possible to start the execution with an intermediate state. This is because we can receive as input a partial solution of assignments and work from there. Now we will discuss how we can jump from one state to the next one, which is normally called \textit{state expansion}.
 
-To expand a state, one of the non performed assignments in the solution is executed. This means that every time a classroom is assigned to a group the state is being expanded. To perform an assignment, the number of possible candidates is the same as the number of classrooms. So we have the following.
+To expand a state, one of the non performed assignments in the solution is executed. This means that every time a classroom is assigned to a group the state is being expanded. To perform an assignment, the number of possible candidates is at most the number of classrooms. So we have the following.
 
 \begin{equation}
     \scalebox{1.2}{$TotalNumberOfCandidates = \left|C\right|$}
 \end{equation}
 
-Nevertheless, as there exist constraints that indicate whether or not the solution is valid, there are filters which reduce the number of available classrooms for a group. This allows for optimized and easy to retrieve calculations in the execution of the greedy algorithm (this will be explained later in \ref{classroom-filters}). The important thing to note at this moment is that, because of these filters, not all states can be expanded.
+As there exist constraints that indicate whether or not the solution is valid, there are filters which reduce the number of available classrooms for a group. This allows for optimized and easy to retrieve calculations in the execution of the greedy algorithm (this will be explained later in Section \ref{classroom-filters}). The important thing to note at this moment is that, because of these filters, not all states may be generated.
 
 \subsection{Instances}
 
-The complexity of the calculations and completion time depend on many factors. Some of those factors follow. First, the number of groups for the semester, which directly translates into the number of assignments to be made. Second, the number of classrooms. If there are more classrooms, it is easier to avoid collisions. Obviously, the number of groups is much more volatile between semesters than the number of classes, which is likely to change very occasionally, if at all. Lastly, the case of starting the prototype with an intermediate state. This means that the set of assignments represents a partial solution given as input, and since the number of calculations decreases in direct proportion to the assignments already made, the completion time would be lower.
+The complexity of the calculations and completion time depend on many factors. Some of those factors follow. First, the number of groups for the semester, which directly translates into the number of assignments to be made. Second, the number of classrooms. If there are more classrooms, it is easier to avoid collisions. Obviously, the number of groups is much more volatile between semesters than the number of classes, which is likely to change very occasionally, if at all. Lastly, the case of starting the prototype with an intermediate state. This means that the set of assignments represents a partial solution given as input, and since the number of calculations decreases in direct proportion to the assignments already made, the completion time could be expected to be lower.
 
 Because of the constraints of the problem, there are some groups where class allocations are more straightforward. For example, a group with only one positive restriction is either going to have that classroom assigned to it or, if it collides with other group, end up unallocated. This is why all the groups that just have one available classroom are assigned first. Also, the groups which have less students have more available classrooms than those with a large number of members.
 
@@ -79,7 +79,7 @@ A collision is an overlap of the timetable of two different groups. For a collis
 
 \subsection{Lazy Collision Matrix}\label{lcm}
 
-Due to the large number of assignments that have to be made throughout the execution cycle of the genetic algorithm, the chosen data structures were properly analysed. This is where the \textit{Lazy Collision Matrix} comes in.
+Due to the large number of assignments that have to be made throughout the execution cycle of the genetic algorithm, the chosen data structures were properly analysed. This is where the \textit{Lazy Collision Matrix} (LCM) comes in.
 
 Imagine that we have the following group set.
 
@@ -148,26 +148,26 @@ Where a value $g_{ij}$ can be
 
 The main advantage of this design is that we do not have to calculate all collisions. For example, a collision between a laboratory group and a theory group would be pointless to calculate because they would never be allocated in the same classroom. Therefore we alleviate the number of calculations. 
 
-As there is only one Lazy Collision Matrix, all calculations performed by the greedy algorithm across all populations in all generations are stored in just one place. This means that all collisions are being calculated only when necessary and only once. Think of the previous example. In a future iteration the greedy algorithm wants to check if groups $G_{1}$ and $G_{2}$ collide. It access the corresponding location in the LCM, and because it contains a $1$, the greedy concludes that they indeed collide. This is done with a $O(1)$ complexity, as the matrix is coded as a dictionary of dictionaries. If instead the greedy wanted to check if groups $G_{1}$ and $G_{3}$ collide, because the LCM has a $-1$ in that position, the greedy would have to perform the collision check and then update the matrix.
+As there is only one Lazy Collision Matrix, all calculations performed by the greedy algorithm across all populations in all generations are stored in just one place. This means that all collisions are being calculated only when necessary and only once. Think of the previous example. In a future iteration the greedy algorithm wants to check if groups $G_{1}$ and $G_{2}$ collide. It accesses the corresponding location in the LCM, and because it contains a $1$, the greedy algorithm concludes that they indeed collide. These operations are done in amortised constant time, as the matrix is coded as a dictionary of dictionaries. If instead the greedy algorithm wanted to check if groups $G_{1}$ and $G_{3}$ collide, because the LCM has a $-1$ in that position, the greedy would have to perform the collision check and then update the matrix.
 
 
 
 \section{Classroom filters}\label{classroom-filters}
 
-A classroom filter is a function. It receives as input either the $C$ set or a subset $I \subset C$, and outputs a new subset $F \subset C$ with the available classrooms for a given group. It filters out the classrooms that do not comply with the hard constraints for that particular group (except collisions, which are calculated later with the LCM, refer to \ref{lcm}). All groups have the \textit{same} classroom filters.
+A classroom filter is a function. It receives as input either the set $C$ of classrooms or a subset $I \subseteq C$, and outputs a new subset $F \subset C$ with the available classrooms for a given group. It filters out the classrooms that do not comply with the hard constraints for that particular group (except collisions, which are calculated later with the LCM, described in Section \ref{lcm}). All groups have the \textit{same} classroom filters.
 
-For example, let us consider a group $G_{i}$ with type $T_{j}$ and $x$ students. A type filter for $G_{i}$ would remove from the result set all the classrooms with a type different from $T_{j}$. A capacity filter would then take the  set resulting from the previous type filter and use it as input. Then it would eliminate from the set all classrooms with a capacity lower than $x$ and return the new $F$ set.
+For example, let us consider a group $G_{i}$ with type $T_{j}$ and $x$ students. A type filter for $G_{i}$ would remove from the result set all the classrooms with a type different from $T_{j}$. A capacity filter would then take the  set resulting from the previous type filter and use it as input. Then it would eliminate from the set all classrooms with a capacity lower than $x$ and return the new set $F$.
 
-This reduces the number of classrooms that the greedy has to evaluate and therefore decreases the complexity of the calculations. Furthermore, the filters are deterministic, that is, the execution of the filters of a group will always give the same results. This means that, if needed, the filters are only performed once per group per execution.
+This reduces the number of classrooms that the greedy algorithm has to evaluate and therefore decreases the complexity of the calculations. Furthermore, the filters are deterministic, that is, the execution of the filters of a group will always give the same results. This means that, if needed, the filters are only performed once per group per execution.
 
-This may lead us to this question. \textit{If all classroom filters are executed only once per group every time you run the prototype, why bother using a lazy approach for storing them? Would it not be better to perform and store them in a dictionary at the start of the execution?} The answer is no. It is true that if we start from an empty solution the lazy approach does not present a big advantage. Nonetheless, in the case of partial solutions, it reduces the number of calculations. For example, if we want to assign a classroom to a new group created in the middle of the semester, the only thing we care about is if the group collides with any other group. The filters for the rest of the groups are, in that situation, irrelevant. This is due to the fact that they have already been allocated to their corresponding classrooms.
+This may lead us to this question. \textit{If all classroom filters are executed only once per group every time you run the prototype, why bother using a lazy approach for storing them? Would it not be better to perform and store them in a dictionary at the start of the execution?} The answer is no. It is true that if we start from an empty solution the lazy approach does not present a big advantage. Nonetheless, in the case of partial solutions, it reduces the number of calculations. For example, if we want to assign a classroom to a new group created in the middle of the semester, the only thing we need to care about is if the group collides with any other group. The filters for the rest of the groups are, in that situation, irrelevant. This is due to the fact that they have already been allocated to their corresponding classrooms.
 
 
 \subsection{Lazy Filter Dictionary}\label{lfd}
 
 The filters work in a similar way to the Lazy Collision Matrix. Again, the election of the data structures is crucial to optimise the execution times. That is why the classroom filters are coded using a dictionary of sets. Once more, we will explain this with an example.
 
-We have a $M$ set of $n$ classroom filters, three groups $G_{1}$, $G_{2}$ and $G_{3}$, and two classrooms $C_{1}$ and $C_{2}$.
+We have a set $M$ of $n$ classroom filters, three groups $G_{1}$, $G_{2}$ and $G_{3}$, and two classrooms $C_{1}$ and $C_{2}$.
 
 \begin{align}
     M &= \{ M_{1}, M_{2}, ..., M_{n} \}\\
@@ -184,26 +184,26 @@ Accordingly, we have the following cases.
 \[
     Dict(x) =
     \begin{cases}
-        \epsilon\text{,} &\quad\text{if} x = G_{1}\\
-        \epsilon\text{,} &\quad\text{if} x = G_{2}\\
-        \epsilon\text{,} &\quad\text{if} x = G_{3}\\
+        \epsilon\text{,} &\quad\text{if}\ x = G_{1}\\
+        \epsilon\text{,} &\quad\text{if}\ x = G_{2}\\
+        \epsilon\text{,} &\quad\text{if}\ x = G_{3}\\
         \epsilon\text{,} &\quad\text{otherwise}
     \end{cases}
 \]
 
-We are now in the first execution of the greedy algorithm. Because we start from an empty state and not from an intermediate step, the greedy will try to assign a classroom for all groups. As a result of the values in the dictionary being $null$, the greedy knows that it must execute the filters, updating the dictionary. This is the LFD after the first execution for this case.
+We are now in the first execution of the greedy algorithm. Because we start from an empty state and not from an intermediate step, the greedy algorithm will try to assign a classroom for all groups. As a result of the values in the dictionary being $null$, the greedy algorithm knows that it must execute the filters, updating the dictionary. This is the LFD after the first execution for this case.
 
 \[
     Dict(x) =
     \begin{cases}
-        F_{1}\text{,} &\quad\text{if} x = G_{1}\\
-        F_{2}\text{,} &\quad\text{if} x = G_{2}\\
-        F_{3}\text{,} &\quad\text{if} x = G_{3}\\
+        F_{1}\text{,} &\quad\text{if}\ x = G_{1}\\
+        F_{2}\text{,} &\quad\text{if}\ x = G_{2}\\
+        F_{3}\text{,} &\quad\text{if}\ x = G_{3}\\
         \epsilon\text{,} &\quad\text{otherwise}
     \end{cases}
 \]
 
-With each $F_{i} \subset C$ being the filtered classrooms for each group. Example of values for the $F$ sets follow.
+With each $F_{i} \subseteq C$ being the filtered classrooms for each group. Example of values for the $F$ sets follow.
 
 \begin{align}
     F_{1} &= \{ C_{1} \}\\
@@ -211,13 +211,13 @@ With each $F_{i} \subset C$ being the filtered classrooms for each group. Exampl
     F_{3} &= \{ \}
 \end{align}
 
-We can observe that the for $G_{1}$, classroom $C_{2}$ was filtered out. In the case of $G_{2}$, both classrooms comply with all constraints. And for $G_{3}$, there are no classes available. This is very important, because it implies that with these filters, $G_{3}$ will \textit{always} end up without a classroom. Therefore, a complete solution cannot be found for this case unless the filters are changed. Lastly, a final remark. We can say that from now on, until the prototype terminates, the greedy will not have to perform the filters for any of the groups again, as the results are already stored in the dictionary. 
+We can observe that the for $G_{1}$, classroom $C_{2}$ was filtered out. In the case of $G_{2}$, both classrooms comply with all constraints. And for $G_{3}$, there are no classes available. This is very important, because it implies that with these filters, $G_{3}$ will \textit{always} end up without a classroom. Therefore, a complete solution cannot be found for this case unless the some hard constraints are changed. Lastly, a final remark. We can say that from now on, until the prototype terminates, the greedy algorithm will not have to perform the filtering operations for any of the groups again, as the results are already stored in the dictionary. 
 
 
 
 \section{Greedy algorithm}
 
-The greedy algorithm (see \ref{theory-greedy} for details) performs the assignments taking care not to infringe any hard constraint. To meet this objective, the LFD and the LCM are used. Its pseudocode is as follows.
+The greedy algorithm (see Section \ref{theory-greedy} for details) performs the assignments taking care not to infringe any hard constraint. To meet this objective, the LFD and the LCM are used. Its pseudocode is as follows.
 
 \begin{algorithm}[H]
     \caption{ClassManager Greedy Algorithm}
@@ -243,14 +243,14 @@ The greedy algorithm (see \ref{theory-greedy} for details) performs the assignme
     \end{algorithmic}
 \end{algorithm}
 
-As can be noted, the algorithm receives a set of empty or partial assignments as an input parameter and returns another set with the assignments made. It iterates over all assignments and calculates those that are not already completed. It does this by obtaining the best class for an assignment, and if found, it assigns it not only to that group, but to all groups to which that group is related. So what does it mean if one group is related to another? It's simple, if the group is a lab group, the classroom is assigned to that group and to all lab groups belonging to its subject. If, on the other hand, the group is a theory group, the classroom found is assigned to that group and to all the theory groups in its course that share the same name.
+As can be noted, the algorithm receives a set of empty or partial assignments as an input parameter and returns another set with the assignments made. It iterates over all assignments and calculates those that are not already completed. It does this by obtaining the best classroom for an assignment, and if found, it assigns it not only to that group, but to all groups to which that group is related (unless collisions occur, in which case these groups are left unassigned until the greedy algorithm iterates over them). So what does it mean if one group is related to another? It's simple, if the group is a lab group, the classroom is assigned to that group and to all lab groups belonging to its subject. If, on the other hand, the group is a theory group, the classroom found is assigned to that group and to all the theory groups in its course that share the same name.
 
 If no class is found for a group, the group is added to the repair set. Groups belonging to that set are attempted to be fixed at the end of the procedure, before returning the set with the solution.
 
 
 \subsection{Preprocessing}
 
-The greedy algorithm preprocesses the input set with the assignments, working on those that are not yet complete. The first thing it looks at is whether the set of filtered classes for a given group contains only one element, i.e. whether only one class can be assigned to that group. If this is the case, an attempt is made to make the assignment directly, checking that there are no conflicts.
+The greedy algorithm preprocesses the input set with the assignments, working on those that are not yet complete. The first thing it looks at is whether the set of filtered classrooms for a given group contains only one element, i.e. whether only one classroom can be assigned to that group. If this is the case, an attempt is made to make the assignment directly, checking that there are no conflicts.
 
 \begin{algorithm}[H]
     \caption{ClassManager Greedy Algorithm Preprocessing}
@@ -272,12 +272,16 @@ The greedy algorithm preprocesses the input set with the assignments, working on
     \end{algorithmic}
 \end{algorithm}
 
-We can observe that in this procedure the class found is not assigned to the groups related to the one we are evaluating, as it is done in the greedy algorithm itself later on. The reason for this is that additional assignments may cause another group with only one filtered class to remain unassigned, so priority is given to such groups.
+We can observe that in this procedure the classroom found is not assigned to the groups related to the one we are evaluating, as it is done in the greedy algorithm itself later on. The reason for this is that additional assignments may cause another group with only one filtered classroom to remain unassigned, so priority is given to such groups.
 
 
 \subsection{Heuristic}
 
-The heuristic used by the greedy algorithm is very simple. Classes are filtered by type, capacity and constraints (positive and negative). Once filtered, they are iterated until one is found that does not cause a collision between the evaluated group and the rest of the groups previously assigned to that classroom.
+The heuristic used by the greedy algorithm is as follows. Classes are filtered by type, capacity and constraints (positive and negative). 
+
+Once filtered, they are sorted according to two criteria. If there are preferences for that group, they are ordered in such a way that first the classes included in the positive preferences are iterated, then the classes with no preference, and finally the classes included in the negative preferences. Each of these three subsets is ordered according to the number of available sites, from lowest to highest. If there are no preferences for that group, the classes are simply ordered by number of available sites, also from lowest to highest.
+
+Then, the filtered classes are iterated until one is found that does not cause a collision between the evaluated group and the rest of the groups previously assigned to that classroom.
 
 \begin{algorithm}[H]
     \caption{ClassManager Greedy Algorithm Assignment Heuristic}
@@ -300,7 +304,7 @@ The heuristic used by the greedy algorithm is very simple. Classes are filtered 
 
 \subsection{Repairs}
 
-To conclude with the greedy algorithm components, we must talk about the assignment repair process, which is probably the most complex of all components. As previously explained, in the case of not finding an appropriate class for a group, such a group is put into the repair set. The repair process iterates each group in this set and tries to fix its assignment. For this purpose, it obtains the filtered classes of the group and, for each class, it obtains the groups that are in conflict with the evaluated group. If there is only one conflict for a class, the assignment of the conflicting group is removed and the class is assigned to the group under repair. Then, an attempt is made to obtain a new class for the conflicting group. If successful, both end up with an assigned class and the repair succeeds. If unsuccessful, the previous class is reassigned to the conflicting group and the process is repeated for each conflicting group in each class. If, after the execution of this process, the repair is unsuccessful, the group is finally unassigned.
+To conclude with the greedy algorithm components, we must describe the assignment repair process, which is probably the most complex of all components. As previously explained, in the case of not finding an appropriate classroom for a group, such a group is put into the repair set. The repair process iterates each group in this set and tries to fix its assignment. For this purpose, it obtains the filtered classrooms of the group and, for each classroom, it obtains the groups that are in conflict with the evaluated group. If there is only one conflict for a classroom, the assignment of the conflicting group is removed and the classroom is assigned to the group under repair. Then, an attempt is made to obtain a new classroom for the conflicting group. If successful, both end up with an assigned classroom and the repair succeeds. If unsuccessful, the previous classroom is reassigned to the conflicting group and the process is repeated for each conflicting group in each classroom. If, after the execution of this process, the repair is unsuccessful, the group is finally left unassigned.
 
 The pseudocode for the repairing procedure follows.
 
@@ -337,7 +341,7 @@ The pseudocode for the repairing procedure follows.
 
 \section{Genetic Algorithm}
 
-The Genetic Algorithm (GA) (see \ref{theory-GA} for details) generates sets of assignments, empty or partial, with different ordering. This sets are later piped into the greedy algorithm, which performs and returns the final assignments to the GA. The GA then evaluates the solution by calculating its fitness value. This is done until a predetermined time or number of generations is reached, returning the best order of assignments, that is, the best individual found.
+The Genetic Algorithm (GA) (see Section \ref{theory-GA} for details) generates sets of assignments, empty or partial, with different orderings. These sets are later piped into the greedy algorithm, which performs and returns the final assignments to the GA. The GA then evaluates the solution by calculating its fitness value. This is done until a predetermined time or number of generations is reached, returning the best order of assignments, that is, the best individual found.
 
 \begin{algorithm}[H]
     \caption{ClassManager Genetic Algorithm (GA)}
@@ -367,7 +371,7 @@ The Genetic Algorithm (GA) (see \ref{theory-GA} for details) generates sets of a
     \end{algorithmic}
 \end{algorithm}
 
-This pseudocode is very similar to the general GA, except for two things. Here, instead of having a function that checks whether or not the individual represents a valid solution, our GA simply iterates through a number of generations, stopping when it reaches that number or when time runs out. The other thing in which they differ is that the operations carried out for creating the next generation are performed in a different procedure. This procedure selects the parents, checks whether or not the offspring should result from a crossover of its parents \footnote{This check is performed by calculating a random number that is compared with the crossover probability. If the selected number is lower or equal to the probability, the crossover is executed.} and also if the offspring is mutated \footnote{Same check as for the crossover operator but comparing the number with the mutation probability.}. A tournament is then performed between the two pairs of parents and children and the two best, in terms of fitness, are added to the next generation. The pseudocode for this procedure follows.
+This pseudocode is very similar to the general GA, except for two things. Here, instead of having a function that checks whether or not the individual represents a valid solution, our GA simply iterates through a number of generations, stopping when it reaches that number or when time runs out. The other thing in which they differ is that the operations carried out for creating the next generation are performed in a different procedure. This procedure selects the parents, checks whether or not the offspring should result from a crossover of its parents\footnote{This check is performed by calculating a random number that is compared with the crossover probability. If the selected number is lower than or equal to the probability, the crossover operator is executed.} and also if the offspring is mutated\footnote{Same check as for the crossover operator but comparing the number with the mutation probability.}. A tournament is then performed between the two pairs of parents and children and the two best, in terms of fitness, are kept into the next generation. The pseudocode for this procedure follows.
 
 \begin{algorithm}[H]
     \caption{ClassManager GA Next Generation}
@@ -398,7 +402,7 @@ This pseudocode is very similar to the general GA, except for two things. Here, 
 
 \subsection{Genome representation}
 
-The individuals of the GA are represented by a vector chromosome of group codes. Each code uniquely identifies a group, therefore an assignment, and the genome tells the greedy algorithm in which order it must perform that assignment. The rationale behind this random ordering is clear if we think back on what we discussed about greedy algorithms. Their main flaw relies on not always finding the correct solution because they focus on local optimum instead of global ones. The GA helps the greedy by generating a bunch of different orderings and therefore testing which order gets closer to the optimal solution.
+The individuals of the GA are represented by a vector chromosome of group codes. Each code uniquely identifies a group, therefore an assignment, and the genome tells the greedy algorithm in which order it must perform that assignment. The rationale behind this random ordering is clear if we think back on what we discussed about greedy algorithms. Their main flaw relies on not always finding the correct solution because they focus on local optimum instead of global ones. The GA helps the greedy algorithm by generating a bunch of different orderings and therefore testing which order produces the best solutions.
 
 A vector chromosome looks like this. Let's say that $I$ represents an individual, represented by a set of group codes in a random order. Codes identify assignments, so they are indicated by $A_{i}$.
 
@@ -408,19 +412,19 @@ A vector chromosome looks like this. Let's say that $I$ represents an individual
 
 Where $m$ is the number of groups for that semester.
 
-To convert the individual representation into an actual set of assignments in the specified order, we have designed a \textit{decoder}. The decoder has a dictionary given by the function $Dict: Keys \rightarrow Values \cup \{ \epsilon \}$. The group codes work as keys, and the assignments related to each group are the corresponding values. When an individual is decoded, the decoder simply takes each group code, obtains the value associated to them by looking in the dictionary, and then returns a set with the order given by the representation.
+To convert the individual representation into an actual list of assignments in the specified order, we have designed a \textit{decoder}. The decoder has a dictionary given by the function $Dict: Keys \rightarrow Values \cup \{ \epsilon \}$. The group codes work as keys, and the assignments related to each group are the corresponding values. When an individual is decoded, the decoder simply takes each group code, obtains the value associated to them by looking in the dictionary, and then returns a list with the order given by the representation.
 
 
 \subsection{Fitness function}
 
 The fitness function of the GA has the following responsibilities. First, it passes the individual representation to the decoder in order to obtain the corresponding set of assignments. Then, the function gives the assignments to the greedy algorithm and receives the solution set. Finally, it returns the value resulting from applying its formula to the solution set. 
 
-The formula of the fitness function is given by the sum of all fitness values multiplied by their corresponding fitness weights. Each fitness value represents a soft constraint described in the problem definition (see \ref{problem-definition}), and has a weight associated with it. 
+The formula of the fitness function is given by the sum of all fitness values multiplied by their corresponding fitness weights. Each fitness value represents a soft constraint described in the problem definition (see Chapter \ref{problem-definition}), and has a weight associated with it. 
 
 The formula for the fitness function is therefore given by:
 
 \begin{equation}
-    formula = \sum_{i=1}^{n} V_{i} W_{i}
+    fitness = \sum_{i=1}^{n} V_{i} W_{i}
 \end{equation}
 
 Where $n$ is the number of fitness values defined, $V_{i}$ is fitness value $i$ and $W_{i}$ the weight associated with $V_{i}$.
@@ -428,29 +432,29 @@ Where $n$ is the number of fitness values defined, $V_{i}$ is fitness value $i$ 
 
 \subsection{Operators}
 
-We will briefly talk about the selected operators for the ClassManager GA (see \ref{theory-GA} for a more in-depth explanation of all the operators discussed here). The order and use of these operators can be clearly illustrated with the help of the pseudocode of procedure $NextGeneration$ (see \ref{cm-ga-ng}).
+We will briefly describe the selected operators for the ClassManager GA (see Section \ref{theory-GA} for a more in-depth explanation of all the operators discussed here). The order and use of these operators can be clearly illustrated with the help of the pseudocode of procedure $NextGeneration$ (see Algorithm \ref{cm-ga-ng}).
 
 
 \subsubsection{Selection}
 
-The GA uses Random Selection. This operator selects and removes a random individual from the population. Since at the end of the offspring creation cycle there is a tournament between parents and offspring, a random selection of individuals is perfectly valid in this case. The pseudocode of this operator is displayed in \ref{theory-ga-ransel}
+The GA uses Random Selection. This operator selects and removes a random individual from the population. Since at the end of the offspring creation cycle there is a tournament between parents and offspring, a random selection of individuals is perfectly valid in this case. The pseudocode of this operator is displayed in Algorithm \ref{theory-ga-ransel}.
 
 
 \subsubsection{Crossover}
 
-As we explained when we introduced this operator, the Order Crossover (OX) is the crossover operator for the ClassManager GA. As in our case it only returns one child per pair of parents, OX is called two times, with the positions of the parents inverted (check the $NextGeneration$ pseudocode to see what I mean), that is, parent $a$ acts as the first parent in the first run and as the second parent in the second run (and vice versa for parent $b$). See \ref{theory-ga-ox} for its pseudocode.
+As we explained when we introduced this operator, the Order Crossover (OX) is the crossover operator for the ClassManager GA. As in our case it only returns one child per pair of parents, OX is called twice, with the roles of the parents inverted (see the $NextGeneration$ pseudocode), that is, parent $a$ acts as the first parent in the first run and as the second parent in the second run (and vice versa for parent $b$). See Algorithm \ref{theory-ga-ox} for its pseudocode.
 
-It is also important to note that the offspring are only created from a crossover if a random number between $0.0$ and $1.0$ is lower or equal to the predetermined crossover probability.
+It is also important to note that the offspring are only created from a crossover if a random number between $0.0$ and $1.0$ is lower than or equal to the predetermined crossover probability.
 
 
 \subsubsection{Mutation}
 
-For the mutation operator the GA uses Swap Mutation. This operator selects two group codes at random and swaps their positions. As in the crossover operator, the mutation only occurs if a randomly selected value is lower or equal to the mutation probability. The pseudocode for Swap Mutation is indicated in \ref{theory-ga-sm}.   
+For the mutation operator the GA uses Swap Mutation. This operator selects two group codes at random and swaps their positions. As in the crossover operator, the mutation only occurs if a randomly selected value is lower than or equal to the mutation probability. The pseudocode for Swap Mutation is indicated in Algorithm \ref{theory-ga-sm}.   
 
 
 \subsubsection{Tournament}
 
-Finally, we introduce the specific version of Tournament Selection implemented for the ClassManager GA. It differs from the generic Tournament Selection (see \ref{theory-ga-ts}) in that the candidates for the tournament are not a $t$ number of randomly selected individuals, but instead the two pairs of parents and children generated after executing the rest of operators. These four individuals are compared by their fitness and the best two survive, joining the new generation. Below we indicate the pseudocode for this version of Tournament Selection.
+Finally, we introduce the specific version of Tournament Selection implemented for the ClassManager GA. It differs from the generic Tournament Selection (see Algorithm \ref{theory-ga-ts}) in that the candidates for the tournament are not a $t$ number of randomly selected individuals, but instead the two pairs of parents and children generated after executing the rest of operators. These four individuals are compared by their fitness and the best two survive, joining the new generation. Below we indicate the pseudocode for this version of Tournament Selection.
 
 \begin{algorithm}[H]
     \caption{ClassManager GA Tournament Selection}
@@ -464,7 +468,4 @@ Finally, we introduce the specific version of Tournament Selection implemented f
     \end{algorithmic}
 \end{algorithm}
 
-\subsection{Parameters}
-
-TODO: AFTER EXPERIMENTS
 

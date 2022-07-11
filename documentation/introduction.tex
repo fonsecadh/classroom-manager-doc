@@ -5,36 +5,36 @@
 
 The School of Computing Engineering of the University of Oviedo has more than twenty classrooms, including theory classrooms and laboratory classrooms. Each semester there are over three hundred groups, each with their type (theory, seminar or laboratory), subject and schedule. The timetable of the groups varies on a weekly basis, this means that not all groups have to attend classes all weeks, and some of them do not even have repeating patterns.
 
-This makes assigning classrooms to groups a complicated task, since there can be no temporal collisions. When various other constraints enter the equation, such as minimising the number of labs used by a subject or assigning classrooms to Spanish groups that are different from English groups, things become much more complex.
+This makes assigning classrooms to groups a complicated task, since there must be no temporal collisions. When various other constraints enter the equation, such as minimising the number of labs used by a subject or assigning classrooms to Spanish groups that are different from English groups, things become much more complex.
 
-All this assignments are done \textit{manually} by one person. The number of enrolled students can only be \textit{guessed} when this process is done. This means that groups can be created, modified or removed once the semester has already started, so more assignments are usually made, checking once again all the restrictions. These new assignments are difficult to manage as there is not much room for flexibility to change those made before the semester. This is due to the fact that both students and teachers already use the initial assignments as a reference.
+All these assignments are done \textit{manually} by one person. The number of enrolled students can only be \textit{guessed} when this process is done. This means that groups can be created, modified or removed once the semester has already started, so more assignments are usually made, checking once again all the restrictions. These new assignments are difficult to manage as there is not much room for flexibility to change those made before the semester. This is due to the fact that both students and teachers already use the initial assignments as a reference.
 
-This project provides the supervisor of this process with a tool to help them perform the assignments, reducing their workload. Not only does it generate assignments for all the groups of the semester, but can use previous assignments, total or partial, to calculate a subset of assignments (for example, the assignments for the new groups created in the middle of the semester). On top of that, the prototype developed in this thesis makes finding a set of free classrooms to hold events easy and fast, using the assignments generated previously by the system itself.
+This project provides the supervisor of this process with a tool to help them perform the assignments, reducing their workload. Not only does it generate assignments for all the groups of the semester, but can use previous assignments, total or partial, to calculate a subset of assignments (for example, the assignments for the new groups created after the beginning of the semester). On top of that, the prototype developed in this thesis makes finding a set of free classrooms to hold events easy and fast, using the assignments generated previously by the system itself.
 
 
 \section{Situation overview}
 
-At the beginning of each semester, the School opens a process in which the person in charge takes the list of groups for the semester, their schedules and the list of classrooms, and performs a manual compilation of all the assignments.
+At the beginning of each semester, the School opens a process in which the person in charge takes the list of groups for the semester, their schedules and the list of classrooms, and performs a manual computation of all the assignments.
 
-There are a number of other similar procedures, like the creation of the exam timetable or the assignments of enrolled students to subject groups. However, some are not manual, but automated by a system, like the previously mentioned procedure of assigning students to groups. Seeing the potential of such tools, I was given the task of automating the assignment of classrooms to subject groups by similar means. 
+There are a number of other similar procedures, like the creation of the exam timetable or the assignments of enrolled students to subject groups. However, some are not manual, but automated by a system, like the previously mentioned procedure of assigning students to groups \cite{delacruz18metaheuristics}. Seeing the potential of such tools, I was given the task of automating the assignment of classrooms to subject groups by similar means. 
 
 The procedure of assigning the classrooms is done after configuring the student groups for the semester and knowing their schedules. Even though it is a manual process, the supervisor does not start making the assignments from scratch. First, they have the knowledge of previous years, and then they have a list of preferences or premade assignments. For example, certain laboratories can only be assigned to specific groups, like the ones from the Electronic Technology of Computers subject. The system described in this document preserves these sources of information and builds on top of them.
 
 
 \section{Purpose}\label{purpose}
 
-This project aims to help the personnel of the School manage their classrooms. It will address two main functionalities, the automation of the process of assigning classrooms to all the groups of a given semester (starting from scratch or using a previous partial or total assignment), and a tool that searches for gaps in a previous set of assignments for single or multi-day events in one or more classes.
+This project aims to help the personnel of the School manage their classrooms. It will address two main functionalities: the automation of the process of assigning classrooms to all the groups of a given semester (starting from scratch or using a previous set of partial assignments), and a tool that searches for gaps in a previous set of assignments for single or multi-day events in one or more classes.
 
-The implementation of this system is intended to assist in the work of the supervisor for this process, and provide an efficient and flexible tool that expands the possibilities of such work. To do so, the program executes two algorithms, a genetic algorithm and a greedy algorithm (the genetic being \textit{guided} by the greedy, more on that later). For a more detailed view on these algorithms the reader might refer to \ref{theory}. Once the assignments have been calculated, the system will allow the users to find classrooms to hold specific events in the middle of the semester.
+The implementation of this system is intended to assist in the work of the supervisor for this process, and provide an efficient and flexible tool that expands the possibilities of such work. To do so, the program executes two algorithms, a genetic algorithm and a greedy algorithm (the genetic being \textit{guided} by the greedy, more on that later). For a more detailed view on these algorithms the reader might refer to Chapter \ref{theory}. Once the assignments have been calculated, the system will allow the users to find classrooms to hold specific events in the middle of the semester.
 
-Along with the system, the system manuals are submitted. These have the purpose of teaching how to install, use, maintain and extend the system.
+Along with the system, the system manuals are submitted. These have the purpose of explaining how to install, use, maintain and extend the system.
 
 
 \section{Scope}
 
 The project needs to formally define the problem of assigning classrooms of the School to all the groups of the semester, conduct a study on the problem and propose a solution. 
 
-A development of a software prototype that solves the problem is planned, designed, implemented and tested. This prototype will solve the two main functionalities indicated in \ref{purpose} and will consist of a command line application that takes input data in plain text files and outputs the solution to plain text files. The program is configured by different configuration files depending on the functionality being executed. An experimental study on the results of the software system is carried out, finding the most fitting default values for the configuration files. The project also contains the system manuals of the application, which consist of the installation, usage, user and programmer manuals. 
+A development of a software prototype that solves the problem is planned, designed, implemented and tested. This prototype will solve the two main functionalities indicated in Section \ref{purpose} and will consist of a command line application that takes input data in plain text files and outputs the solution to plain text files. The program is configured by different configuration files depending on the functionality being executed. An experimental study on the results of the software system is carried out, finding the most fitting default values for the configuration files. The project also contains the system manuals of the application, which consist of the installation, usage, user and programmer manuals. 
 
 Finally, the prototype also has a module for automating the creation of the input files required for the main functionalities to work. It uses a format agreed with the client and will parse files previously used by the School, making it easier to integrate with other systems already in use.
 
@@ -59,7 +59,7 @@ We can identify from the scope the following objectives. They need to be met in 
 
             \item It will output the solution to plain text files.
 
-            \item It will be able to make the assignments starting from scratch or from a total or partial set of assignments.
+            \item It will be able to make the assignments starting from scratch or from a partial set of assignments.
 
             \item It will be able to search a set of free classrooms for a specific event in one or more days.
 
@@ -67,11 +67,11 @@ We can identify from the scope the following objectives. They need to be met in 
 
         \end{enumerate}
 
-    \item Make a set of experiments to find the best default values for the configuration files.
+    \item Make a set of experiments to find the best default values for the configuration files, and evaluate the performance of the proposed solution.
 
     \item Write a set of manuals to cover the essentials of the system.
 
-    \item Validate solution with the users.
+    \item Validate the solution with the users.
 
 \end{enumerate}
 

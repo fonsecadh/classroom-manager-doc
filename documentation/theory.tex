@@ -2,18 +2,22 @@
 
 \chapter{Theoretical aspects}\label{theory}
 
+This chapter provides all the necessary theoretical background for the project, including a general description of assignment problems as well as an account of the algorithms and methods used. As a running example, we will use the following simple problem.
+
 A digital magazine Bootaku works with three freelancers. Dante, Virgil and Beatrice. Together they write a section about book reviews. Gathering data from previous sections, Bootaku wants to define and solve a problem of efficiently assign all reviews to the three critics so that the section gets the highest profit. For the assignments, Bootaku wants every book review to have one (and only one) associated freelancer. If a freelancer ends up with no reviews, the assignments are still valid if and only if the previous condition is met.
 
 
 \section{Assignment problem}
 
-The problem described before is an example of an assignment problem. It can be generalised with the following elements: 
+The problem described before is an example of an assignment problem. It is the simplest formulation of the assignment problem. It is polynomial-time solvable, while other versions are NP-hard. 
+
+The Bootaku problem can be generalised with the following elements: 
 
 \begin{description}
-    \item A set of $n$ freelancers $f$
-    \item A set of $m$ book reviews $r$
-    \item An assignment matrix of $n \times m$ assignments $a_{fr}$ such that $a_{fr} = 0$ when freelancer $f$ is not assigned to book review $r$ and $a_{fr} = 1$ when freelancer $f$ is assigned to book review $r$.
-    \item A profit matrix of $n \times m$ profits $p_{fr}$ which indicate the profit obtained when assigning freelancer $f$ to book review $r$ and that $p_{fr} \textgreater 0$.
+    \item A set of $n$ freelancers $F = \{ F_{1}, F_{2}, ..., F_{n} \}$
+    \item A set of $m$ book reviews $R = \{ R_{1}, R_{2}, ..., R_{m} \}$
+    \item An assignment matrix $A$ of $n \times m$ assignments $a_{fr}$ such that $a_{fr} = 0$ when freelancer $f$ is not assigned to book review $r$ and $a_{fr} = 1$ when freelancer $f$ is assigned to book review $r$.
+    \item A profit matrix $P$ of $n \times m$ profits $p_{fr}$ which indicate the profit obtained when assigning freelancer $f$ to book review $r$ such that $p_{fr} \geq 0$.
     \item A valid solution is defined as a matrix of assignments where all the book reviews have a freelancer assigned to them and no book review has more than one associated freelancer.
 \end{description}
 
@@ -23,7 +27,7 @@ The profit for all the assignments will then be:
     \scalebox{2}{$\sum_{f=1}^n \sum_{r=1}^m a_{fr} p_{fr}$}
 \end{equation}
 
-The optimal solution consists on having a set of assignments such that the sum of all the profits for the current assignments is maximised.
+The optimal solution consists of a set of assignments such that the sum of all the profits for the current assignments is maximised.
 
 For example, imagine that for the next month's section, we have the following data. The information is represented by means of two sets: $F$ for the freelancers and $R$ for the reviews.
 
@@ -139,9 +143,9 @@ With this, we have discussed an assignment problem, looked at its main component
 
 \section{Greedy algorithms}\label{theory-greedy}
 
-One way of solving the Bootaku problem described earlier can be found in \textit{greedy algorithms}. A greedy algorithm \cite{guerequetavallecillo98algdesign} will try to find a subset of candidates that meet the problem constraints and that form the optimal solution. To do so, the algoritm is run iteratively. In each iteration, it will select the best candidate for that precise moment, neglecting future consequences (that is why they are called \textit{greedy})\footnote{For example, let's say I'm walking down the street and I get thirsty. On my mental list of candidate drinks, water has a value of 5 points, lemonade 3 and tea 1. The first vending machine I come across on the street only sells lemonade and tea, so I buy lemonade. However, on the next street I find another vending machine that sells water, but as I am no longer thirsty I don't buy any more drinks. That is, I found a valid solution but not the optimal solution.}. Before adding a candidate to the solution, the algorithm will determine if it is promising. If the answer is yes, then the candidate is added to the solution. Otherwise, the candidate is no longer evaluated. Each time a candidate is added to the solution, the greedy checks whether the current solution is valid or not.
+One way of solving the Bootaku problem described earlier can be found in \textit{greedy algorithms}. A greedy algorithm \cite{guerequetavallecillo98algdesign} will try to find a subset of candidates that meet the problem constraints and that form the optimal solution. To do so, the algoritm is run iteratively. In each iteration, it will select the best candidate for that precise moment, neglecting future consequences (that is why they are called \textit{greedy})\footnote{For example, let's say I'm walking down the street and I get thirsty. On my mental list of candidate drinks, water has a value of 5 points, lemonade 3 and tea 1. The first vending machine I come across on the street only sells lemonade and tea, so I buy lemonade. However, on the next street I find another vending machine that sells water, but as I am no longer thirsty I don't buy any more drinks. That is, I found a valid solution but not the optimal solution.}. Before adding a candidate to the solution, the algorithm will determine if it is promising. If the answer is yes, then the candidate is added to the solution. Otherwise, the candidate is no longer evaluated. Each time a candidate is added to the solution, the greedy algorithm checks whether the current solution is valid or not.
 
-With this in mind, here follows the \textit{pseudocode} of the generic Greedy Algorithm.
+With this in mind, here follows the \textit{pseudocode} of a generic Greedy Algorithm.
 
 \begin{algorithm}[H]
     \caption{Generic Greedy Algorithm}
@@ -206,9 +210,9 @@ Next, we will solve the Bootaku problem using a greedy algorithm. The greedy alg
 
 Those are the two procedures needed in order to solve the Bootaku problem. In the \textit{Assignments of tasks} problem described in the book, the authors define an extra function that checks if the worker is already assigned to another task. However, because our problem is not balanced (we have a different number of tasks and agents), it means that we can have a freelancer writing more than one book review, so that extra function is not required.
 
-The Bootaku problem is really simple to solve because of its lack of constraints. This is done deliberately to focus more on the components of assignment problems and not to waste time on explaining difficult restrictions. However, most problems, including the real problem this document defines (to assign classrooms to the groups of the School), have a lot of constraints. 
+The Bootaku problem is really simple to solve because of its lack of constraints. This is done deliberately to focus more on the basic components of assignment problems and not to spend time on explaining difficult restrictions. However, most problems, including the real problem this document defines (to assign classrooms to the groups of the School), may have a lot of constraints. 
 
-One way to complicate the Bootaku problem would be to assign completion times to each review. We would have a $n \times m$ $T$ matrix with the completion times for all freelancers and reviews.
+One way to complicate the Bootaku problem would be to assign completion times to each review. We would have a $n \times m$ matrix $T$ with the completion times for all freelancers and reviews.
 
 \begin{equation}
     T = \bordermatrix{
@@ -219,17 +223,19 @@ One way to complicate the Bootaku problem would be to assign completion times to
     } \qquad
 \end{equation}
 
-Then we could have a maximum time per freelancer. This would force the greedy algorithm to perform a check before assigning a review to a freelancer. If the time it takes to write the review surpases the maximum time available for that freelancer, the assignment cannot be made. 
+Then we could have a maximum time per freelancer. This would force the greedy algorithm to perform a check before assigning a review to a freelancer. If the time it takes to write the review surpases the maximum time available for that freelancer, the assignment cannot be made. With these additional constraints the Bootaku problem becomes an example of the so-called Generalised Assignment Problem, which is NP-hard. 
 
 Let's say that Beatrice has been assigned to the book review for \textit{El Quijote}, so she has already spent a total time of $t_{32} \leq maxTime$. In a future iteration the greedy algorithm evaluates Beatrice for reviewing \textit{Todo Modo}. Even if she has the greatest profit for \textit{Todo modo}, it is still not enough. The greedy algorithm first has to check in the $BestFreelancerFor$ procedure if $t_{32} + t_{34} \leq maxTime$ and, if the condition is true, then the assignment is performed. 
 
-We can notice in the Beatrice example the main failure of greedy algorithms. She was assigned to \textit{El Quijote} for a profit $p_{32}$ and then evaluated again for \textit{Todo modo} with a profit $p_{34}$. Imagine that she has not enough time left to be able to review the second book and that $p_{34}$ is \textit{way bigger} than $p_{32}$. This is where assigning the best local result $a_{32}$ would end up ruling out the possibility of assigning the better global result $a_{34}$. Later in this chapter we will see a possible way of fixing this problem with the help of genetic algorithms, but before that we will conduct a study on \textit{metaheuristics}.
+We can notice in the Beatrice example the main limitation of greedy algorithms. She was assigned to \textit{El Quijote} for a profit $p_{32}$ and then evaluated again for \textit{Todo modo} with a profit $p_{34}$. Imagine that she does not have enough time left to be able to review the second book and that $p_{34}$ is \textit{way bigger} than $p_{32}$. This is where assigning the best local result $a_{32}$ would end up ruling out the possibility of assigning the best global result $a_{34}$. Later in this chapter we will see a possible way of fixing this problem with the help of genetic algorithms, but before that we will conduct a study on \textit{metaheuristics}.
 
 
 
 \section{Heuristics and metaheuristics}
 
-Search strategies in a search problem can be \textit{informed} or \textit{uninformed}. Informed strategies use knowledge specific to a given problem but that is outside of its definition, making this type of strategies more efficient than uninformed strategies. The main way of applying our knowledge of a given problem into the search algorithm designed to solve said problem is by means of \textit{heuristic functions}. An heuristic function $h(n)$ \cite{russellnorvig10ai} represents an estimation of the minimum cost of getting to the objective state from the state given by node $n$. To expand a node, the algorithm also makes use of an \textit{evaluation function}. An evaluation function $f(n)$ analyses the non-expanded nodes and selects the one with the lowest cost. In the case of greedy algorithms, the evaluation function of a node n is equivalent to the heuristic function of the same node. So we have that $f(n) = h(n)$.
+Solving a search problem involves a state space, represented by a tree or graph (depending on the situation) in which each node, called a state, represents an intermediate situation in the construction of the solution.
+
+Search strategies in a search problem can be \textit{informed} or \textit{uninformed}. Informed strategies use knowledge specific to a given problem but that is outside of its definition, making this type of strategies more efficient than uninformed strategies. The main way of applying our knowledge of a given problem into the search algorithm designed to solve said problem is by means of \textit{heuristic functions}. An heuristic function $h(n)$ \cite{russellnorvig10ai} represents an estimation of the minimum cost of getting to the objective state from the state given by node $n$. To expand a node, the algorithm also makes use of an \textit{evaluation function}. An evaluation function $f(n)$ analyses the non-expanded nodes and selects the one with the lowest cost. In the case of greedy algorithms, the evaluation function of a node $n$ is equivalent to the heuristic function of the same node. So we have that $f(n) = h(n)$.
 
 Now that we have explained what heuristic functions are, one question remains. What are \textit{metaheuristics}? Analysing the word, one could think that the \textit{meta} prefix implies that metaheuristics are \textit{heuristics about heuristics}, in the same way \textit{metadata} is \textit{data about data}. However, as Luke \cite{luke13metaheuristics} points out, this is not the case at all. He defines metaheuristics as:
 
@@ -237,12 +243,12 @@ Now that we have explained what heuristic functions are, one question remains. W
     ... a rather unfortunate term often used to describe a major subfield, indeed the primary subfield, of \textbf{stochastic optimization}. Stochastic optimization is the general class of algorithms and techniques which employ some degree of randomness to find optimal (or as optimal as possible) solutions to hard problems. Metaheuristics are the most general of these kinds of algorithms, and are applied to a very wide range of problems.
 \end{displayquote}
 
-There are many methods of designing algorithms based on \textit{metaheuristics}. In this project we will focus on the Evolutionary Computation method, a subtype of Population-based methods.
+There are many methods of designing algorithms based on \textit{metaheuristics}. In this project we will focus on Evolutionary Computation method, a subtype of Population-based methods.
 
 
 \subsection{Evolutionary Computation}
 
-Evolutionary Computation (EC) \cite{luke13metaheuristics} takes inspiration from population biology, genetics and evolution \footnote{Because this method uses vocabulary from these fields of biology, we have followed Luke's approach and defined these terms one by one. A list of definitions of the most commonly used terms in EC has been created in the annex of definitions and abbreviations.}. We are interested in the types of algorithms designed using this method, known as Evolutionary Algorithms (EAs). An EA may be (usually) either a \textit{generational algorithm} or a \textit{steady-state algorithm}.  A generational algorithm creates a new population of individuals, based on the previous one, in each iteration. Moreover, a steady-state algorithm changes a subset of individuals in each iteration, but not the entire population. The most common EAs are the \textit{Genetic Algorithms} and the \textit{Evolution Strategies}, and there are generational and steady-state versions of the two.
+Evolutionary Computation (EC) \cite{luke13metaheuristics} takes inspiration from population biology, genetics and evolution \footnote{Because this method uses vocabulary from these fields of biology, we have followed Luke's approach and defined these terms one by one. A list of definitions of the most commonly used terms in EC has been created in the annex of definitions and abbreviations.}. We are interested in the types of algorithms designed using this method, known as Evolutionary Algorithms (EAs). An EA may be (usually) either a \textit{generational algorithm} or a \textit{steady-state algorithm}.  A generational algorithm creates a new population of individuals, based on the previous one, in each iteration. Moreover, a steady-state algorithm changes a subset of individuals in each iteration, but not the entire population. Two common EAs are \textit{Genetic Algorithms} and \textit{Evolution Strategies}, and there are generational and steady-state versions of the two.
 
 Below is the pseudocode for an abstract generational algorithm.
 
@@ -268,7 +274,7 @@ Below is the pseudocode for an abstract generational algorithm.
     \end{algorithmic}
 \end{algorithm}
 
-The initial population in these kinds of algorithms is created by adding random individuals to a set until the maximum population size is reached. Some good practices for this process follow. The most important thing is not to generate repeated individuals. This can be done with a dictionary in which we store the individuals as keys. For every new randomly generated individual we check if it is not already contained in said dictionary before adding it to the population set. Finally, it is possible to include individuals designed by hand into the initial population (this is called \textit{seeding} the population). However, the use of EAs already implies that finding a good heuristic for the problem is not trivial. So even if we think that the individuals we design may be going in the right direction, it is very likely that they will end up producing poor results.
+The initial population in this kind of algorithms is usually created by adding random individuals to a set until the maximum population size is reached. Some good practices for this process follow. The most important thing is not to generate repeated individuals. This can be done with a dictionary in which we store the individuals as keys. For every new randomly generated individual we check if it is not already contained in said dictionary before adding it to the population set. Finally, it is possible to include individuals designed by hand into the initial population (this is called \textit{seeding} the population). However, the use of EAs already implies that finding a good heuristic for the problem is not trivial. So even if we think that the individuals we design may be going in the right direction, it is very likely that they will end up producing poor results. The reason for this is that these individuals may introduce bias in the search, limiting its exploration capabilities.
 
 The main difference between generational EAs relies on how they create the new generation. This process is done by means of different operations such as \textit{selection}, \textit{crossover} and \textit{mutation}. Also, some EAs simply discard all the parents in the new generation and others include them again if they have an acceptable fitness. We will take a look at two specific EAs in the following sections, Evolution Strategies and Genetic Algorithms.
 
@@ -277,9 +283,9 @@ The main difference between generational EAs relies on how they create the new g
 
 Evolution Strategies (ES) \cite{luke13metaheuristics} are a type of Evolutionary Algorithms. They make use of a selection operator called \textit{Truncation Selection}. This operator consists of selecting individuals from the highest to the lowest fitness value until a predetermined number of selected candidates is reached. For creating the new generation, ES simply use the mutation operator, without combining it with a crossover operator.
 
-The only ES to be covered in this section is the $(\mu,\ \lambda)$ algorithm. We have chosen it because it is one of the simplest ES and therefore easier to understand. The design of $(\mu,\ \lambda)$ is essentially one version of the Abstract Generational Algorithm that details the way in which the new generation is built. This new generation is constructed by using both $\mu$ and $\lambda$ parameters.
+The only ES covered in this section is the $(\mu,\ \lambda)$ algorithm. We have chosen it because it is one of the simplest ES and therefore easier to understand. The design of $(\mu,\ \lambda)$ is essentially one version of the Abstract Generational Algorithm that details the way in which the new generation is built. This new generation is constructed by using both $\mu$ and $\lambda$ parameters.
 
-In this algorithm, we have an initial population of $\lambda$ number of individuals which are randomly generated. Then, we evaluate the fitness of all individuals, as we did in the Abstract Generational Algorithm, and we calculate the best individual in the generation. The next step is to create the new generation. To do so, $(\mu,\ \lambda)$ performs the Truncation Selection on the parents, selecting the $\mu$ number of parents with greatest fitness, and for each parent a $\lambda / \mu$ number of children are generated. A mutation operation is performed to create the offspring from a copy of their parent. This whole process is done until we arrive at an optimal solution or the maximum time runs out. The pseudocode of the $(\mu,\ \lambda)$ algorithm is shown as follows.
+In this algorithm, we have an initial population with a number of $\lambda$ individuals which are randomly generated. Then, we evaluate the fitness of all individuals, as we did in the Abstract Generational Algorithm, and we calculate the best individual in the generation. The next step is to create the new generation. To do so, $(\mu,\ \lambda)$ performs the Truncation Selection on the parents, selecting the $\mu$ number of parents with greatest fitness, and for each parent a number of  $\lambda / \mu$ children are generated. A mutation operation is performed to create the offspring from a copy of their parents. This whole process is done until we arrive at a solution with good enough quality or the maximum time runs out. The pseudocode of the $(\mu,\ \lambda)$ algorithm is shown as follows.
 
 \begin{algorithm}[H]
     \caption{The $(\mu,\ \lambda)$ Evolution Strategy}
@@ -312,14 +318,14 @@ In this algorithm, we have an initial population of $\lambda$ number of individu
     \end{algorithmic}
 \end{algorithm}
 
-Knowing how to give values to the parameters $\lambda$, $\mu$ and the mutation probability is very important in this algorithm. In the case of $\lambda$, as it approaches $\infty$ the algorithm starts behaving as a random search algorithm, so it is best if it does not have an excessively high value. For $\mu$, if we give it a very low value, the algorithm becomes very selective and focuses only of a specific type of individual with a high fitness value. This may result in \textit{premature convergence} of the algorithm and thus end the execution with a locally optimal rather than a globally optimal solution. Lastly, because the mutation operation determines the similarity between parents and offsprings, if the mutation probability is very high, the new population would be very different from the previous one. Therefore, it would make children resemble random individuals.
+Knowing how to give values to the parameters $\lambda$, $\mu$ and the mutation probability is very important in this algorithm. In the case of $\lambda$, as it approaches $\infty$ the algorithm starts behaving as a random search algorithm, so it is best if it does not have an excessively high value. For $\mu$, if we give it a very low value, the algorithm becomes very selective and focuses only on a specific type of individual with a high fitness value. This may result in \textit{premature convergence} of the algorithm and thus end the execution with a locally optimal rather than a globally optimal solution. Lastly, because the mutation operation determines the similarity between parents and offsprings, if the mutation probability is very high, the new population would be very different from the previous one. Therefore, it would make children resemble random individuals.
 
-To conclude the section, simply note that there is another algorithm, very similar to this one, called $(\mu + \lambda)$. The only difference between $(\mu + \lambda)$ and $(\mu,\ \lambda)$ is that while $(\mu,\ \lambda)$ discards the parents when creating the new generation, $(\mu + \lambda)$ makes a union between parents and children. This makes each new generation of the $(\mu + \lambda)$ algorithm having a size of $\mu + \lambda$, where $\mu$ is the number of parents and $\lambda$ the number of new offspring. Because very fit parents can survive for several generations, $(\mu + \lambda)$ behaves like a $(\mu,\ \lambda)$ with a very low $\mu$ number, it can terminate with a premature convergence.
+To conclude the section, simply note that there is another algorithm, very similar to this one, called $(\mu + \lambda)$. The only difference between $(\mu + \lambda)$ and $(\mu,\ \lambda)$ is that while $(\mu,\ \lambda)$ discards the parents when creating the new generation, $(\mu + \lambda)$ makes a union between parents and children. This makes each new generation of the $(\mu + \lambda)$ algorithm having a size of $\mu + \lambda$, where $\mu$ is the number of parents and $\lambda$ the number of new offspring. Because very fit parents can survive for several generations, $(\mu + \lambda)$ behaves like a $(\mu,\ \lambda)$ with a very low $\mu$ number, and it can terminate with a premature convergence.
 
 
 \subsection{Genetic algorithms} \label{theory-GA}
 
-The Genetic Algorithm (GA) \cite{luke13metaheuristics} is a type of Evolutionary Algorithms with a strong similarity towards the $(\mu,\ \lambda)$ Evolution Stategy. What separates the two algorithms the most is the selection operation and the way a new generation is created. In $(\mu,\ \lambda)$, candidates were chosen by Truncated Selection. Once the candidates are selected, the next generation is populated by mutations of the parental copies. However, in the GA, a pair of parents is selected and their offspring are immediately created, adding them to the new generation. This process of simultaneous selection and reproduction occurs until the population reaches the maximum number of individuals set. Further discussion of the GA will follow, once we have seen its pseudocode.
+Genetic Algorithms (GAs) \cite{luke13metaheuristics} are a type of Evolutionary Algorithms with a strong similarity towards the $(\mu,\ \lambda)$ Evolution Stategy. What separates the two algorithms the most is the selection operation and the way a new generation is created. In $(\mu,\ \lambda)$, candidates were chosen by Truncated Selection. Once the candidates are selected, the next generation is populated by mutations of the parental copies. However, in a GA, a pair of parents is selected and their offspring are immediately created, adding them to the new generation. This process of simultaneous selection and reproduction occurs until the population reaches the maximum number of individuals set. Further discussion of the GA will follow, once we have seen its pseudocode.
 
 \begin{algorithm}[H]
     \caption{The Genetic Algorithm (GA)}
@@ -373,7 +379,7 @@ The Random Selection variant, as its name implies, picks two random parents, rem
     \end{algorithmic}
 \end{algorithm}
 
-Next, we will address the topic of Fitness-Proportionate Selection, also known as \textit{Roulette Selection}. In this variant, all individuals are dimensioned according to their fitness. If we think of this process as a lottery, the larger the size of an individual, i.e. the greater the fitness, the more likely the individual is to win the lottery prize. In this case that prize is to be selected to be a parent. This means that a random number $n$ such that $0 \leq n \leq \text{\textit{the total sum of all fitness values}}$ will fall in range of one of the individuals, thus selecting such an individual.
+Next, we will address the topic of Fitness-Proportionate Selection, also known as \textit{Roulette Selection}. In this variant, all individuals are dimensioned according to their fitness. If we think of this process as a lottery, the greater the fitness of an individual, the more likely the individual is to win the lottery prize. In this case that prize is to be selected to be a parent. This means that a random number $n$ such that $0 \leq n \leq \text{\textit{the total sum of all fitness values}}$ will fall in the range of one of the individuals, thus selecting such an individual.
 
 \begin{algorithm}[H]
     \caption{Fitness-Proportionate Selection}
@@ -461,7 +467,7 @@ To conclude, we will explain the concept of elitism in the AG. Elitism simply ta
 
 \subsubsection{Crossover}
 
-The crossover operator mixes the genomes of a pair of parents to produce new children. We saw how in $(\mu,\ \lambda)$ the offsprings of the $\mu$ selected parents were created by mutating copies of their parents, without ever using the crossover operator. This is not the case for the GA, in this algorithm the mutation occurs after the genome of a child is created from the mixture of the genome of its parents. There are several variants of this operator. The following alternatives are briefly outlined in this section: \textit{One-Point Crossover}, \textit{Two-Point Crossover}, \textit{Uniform Crossover} and \textit{Order Crossover}.
+The crossover operator mixes the genomes of a pair of parents to produce new children. We saw how in $(\mu,\ \lambda)$ the offsprings of the $\mu$ selected parents were created by mutating copies of their parents, without ever using the crossover operator. This is not the case for the GA. In this algorithm the mutation occurs after the genome of a child is created from the mixture of the genome of its parents. There are several variants of this operator. The following alternatives are briefly outlined in this section: \textit{One-Point Crossover}, \textit{Two-Point Crossover}, \textit{Uniform Crossover} and \textit{Order Crossover}.
 
 The One-Point and Two-Point crossover work in a similar fashion. They choose random numbers and swap sections of the genomes of the parents to create the genomes of their offspring. We will give an example before showing the pseudocode of both variants.
 
@@ -472,14 +478,14 @@ We have the following chromosomes, representing the parents.
     P_{b} &= \color{blue} \{ 2, 5, 7, 3, 4, 6, 1 \}
 \end{align}
 
-One-Point picks a value at random from $0$ to $6$ and the outcome is $4$. The position at $4 - 1$ (the number selected marks the end of the section and is excluded from it) is the point in which the crossover between parents is produced. The operator then generates these two children.
+One-Point crossover picks a value at random from $0$ to $6$ and the outcome is $4$. The position at $4 - 1$ (the number selected marks the end of the section and is excluded from it) is the point in which the crossover between parents is produced. The operator then generates these two children.
 
 \begin{align}
     C_{a} &= \color{red}{ \{ 1, 5, 3, 6,\ } \color{blue}{4, 6, 1} \}\\
     C_{b} &= \color{blue}{ \{ 2, 5, 7, 3,\ } \color{red}{2, 7, 4} \}
 \end{align}
 
-In the case of Two-Point, two values are randomly selected, once again from $0$ to $6$. These values indicate the ends of the section that both parents will exchange, the first being the initial position included in the section and the second being the final position excluded from the section. The selected numbers are $2$ and $4$, which leads to the generation of the following offspring.
+In the case of Two-Point crossover, two values are randomly selected, once again from $0$ to $6$. These values indicate the ends of the section that both parents will exchange, the first being the initial position included in the section and the second being the final position excluded from the section. The selected numbers are $2$ and $4$, which leads to the generation of the following offspring.
 
 \begin{align}
     C_{a} &= \color{red}{ \{ 1, 5,\ } \color{blue}{7, 3,\ } \color{red}{2, 7, 4} \}\\
@@ -526,9 +532,9 @@ The pseudocode for these two variants is presented below.
     \end{algorithmic}
 \end{algorithm}
 
-The main problem with both algorithms is that it is common to break the \textit{linkage} (or \textit{epistasis}) between the elements in the chromosome \cite{luke13metaheuristics}. Imagine that a pair of elements of an individual produces a high fitness with certain element values. This pair is considerably separated on the chromosome, so it is most likely that it will be split when executing the parental crossover. This implies that a section of the chromosome that could give a good fitness value is broken in two or more pieces, and each piece is given to the offspring produced by the crossover, which could overall produce a worse fitness for the new individuals. In this respect, Two-Point is better than One-Point, but still faces the same problem. 
+The main problem with both algorithms is that it is common to break the \textit{linkage} (or \textit{epistasis}) between the elements in the chromosome \cite{luke13metaheuristics}. Imagine that a pair of elements of an individual produces a high fitness with certain element values. This pair is considerably separated on the chromosome, so it is most likely that it will be split when executing the parental crossover. This implies that a section of the chromosome that could give a good fitness value is broken in two or more pieces, and each piece is given to the offspring produced by the crossover, which could overall produce a worse fitness for the new individuals. In this respect, Two-Point is better than One-Point crossover, but still faces the same problem. 
 
-To reduce linkage breaks in the chromosome we can take a look at the Uniform Crossover variant. In this algorithm, all the elements of the chromosome are iterated and, for each one, a random choice of a number from 0.0 to 1.0 is made. If the number chosen is less or equal to a previously defined probability, the parent elements at that position are swapped. The pseudocode of the Uniform Crossover is provided below.
+To reduce linkage breaks in the chromosome we can take a look at the Uniform Crossover variant. In this algorithm, all the elements of the chromosome are iterated and, for each one, a random choice of a number from 0.0 to 1.0 is made. If the number chosen is less than or equal to a previously defined probability, the parent elements at that position are swapped. The pseudocode of the Uniform Crossover is provided below.
 
 \begin{algorithm}[H]
     \caption{Uniform Crossover}
@@ -546,7 +552,7 @@ To reduce linkage breaks in the chromosome we can take a look at the Uniform Cro
     \end{algorithmic}
 \end{algorithm}
 
-Finally, we will explain the operator used in the designed algorithm for the classroom management problem, the Order Crossover (OX) \cite{davis85ox}. The OX operator was first introduced in 1985 at a key Artificial Intelligence conference in Los Angeles, California \cite{joshi85ai}. In this algorithm, two random numbers are picked, similarly to the Two-Point Crossover. Then, the selected section from the first parent is copied onto the offspring, keeping order and position (from point $p_{1}$ to $p_{2}-1$). It is now that OX and Two-Point differ. In Two-Point, all but the replaced section is kept the same in the offspring. Yet, in OX, the elements of the second parent which are still not present in the offspring are copied to it \textit{in the same order as they appear}, from the end to the start of the section (in a circular way, from point $p_{2}$ to $p_{1}-1$). We will illustrate this algorithm with some examples and then provide its pseudocode. 
+Finally, we will explain the operator used in the designed algorithm for the classroom management problem, the Order Crossover (OX) \cite{davis85ox}. The OX operator was first introduced in 1985 at a key Artificial Intelligence conference in Los Angeles, California \cite{joshi85ai}. In this algorithm, two random numbers are picked, similarly to the Two-Point Crossover. Then, the selected section from the first parent is copied onto the offspring, keeping order and position (from point $p_{1}$ to $p_{2}-1$). It is now that OX and Two-Point crossover differ. In Two-Point, all but the replaced section is kept the same in the offspring. Yet, in OX, the elements of the second parent which are still not present in the offspring are copied to it \textit{in the same order as they appear}, from the end to the start of the section (in a circular way, from point $p_{2}$ to $p_{1}-1$). OX is very effective when the encoding of the chromosomes are permutations. We will illustrate this algorithm with some examples and then provide its pseudocode. 
 
 We will use the same parents as before. Imagine that the random numbers (from $0$ to $6$) result in $p_{1} = 2$ (included in the section) and $p_{2} = 6$ (excluded from the section). We then have the following.
 
@@ -602,7 +608,7 @@ Displayed below is the pseudocode for the OX.
 
 \subsubsection{Mutation}
 
-We end these sections on operators by discussing the mutation operator in the GA. Mutation takes an individual and modifies its genome. This can be done in many ways. We will talk about two, \textit{Bit-Flip Mutation} and swapping elements.
+We end these sections on operators by discussing the mutation operator in the GA. Mutation takes an individual and modifies its genome. This can be done in many ways. We will describe two, \textit{Bit-Flip Mutation} and swapping elements.
 
 Bit-Flip mutation can only work with genomes represented by boolean values (0 and 1). This operator works in a somewhat comparable fashion to the Uniform Crossover operator. We define a flip probability and select a random number from $0.0$ to $1.0$. If the number is lower or equals to the flip probability, we flip the boolean value in that position of the chromosome.
 
@@ -656,7 +662,7 @@ Some possible genomes for the problem will have the following structure.
 
 This genomes represent \textit{the order in which the book reviews will be assigned}. As each freelancer can only write a number of book reviews that do not exceed a maximum completion time, the order in which these reviews are assigned is a very important factor to consider if we want to obtain the optimal solution. The use of different orders helps to overcome the main problem of greedy algorithms, which is the difficulty of converting local optimum to global optimum.
 
-Next, we choose the operators which the Genetic Algorithm will use. We decide that we want a Tournament Selection, an OX for the crossover operator and a Swap Mutation. The initial generation is created by generating random individuals and verifying every time that they are unique, before adding them to the population. The function for evaluating fitness will execute the Greedy Algorithm with the assignments performed in the order specified by the chromosome. It will then calculate the total sum of the profits obtained, which will indicate the fitness of the individual. Finally, the parameters of the genetic algorithm will be calculated by experimenting with different problem instances and checking that the assignments made are of the expected quality.
+Next, we choose the operators which the Genetic Algorithm will use. We decide to use a Tournament Selection, OX for the crossover operator and Swap Mutation. The initial generation is created by generating random individuals and verifying every time that they are unique, before adding them to the population. The function for evaluating fitness will execute the Greedy Algorithm with the assignments performed in the order specified by the chromosome. It will then calculate the total sum of the profits obtained, which will indicate the fitness of the individual. Finally, the parameters of the genetic algorithm will be calculated by experimenting with different problem instances and checking that the assignments made are of the expected quality.
 
 In conclusion, we can say that the Bootaku problem helps us to understand, on a smaller scale, a similar (but simpler) problem that we face in this project, that of assigning classes to groups in the school. In the following sections, we will replace the Bootaku problem with the real problem, building on what we have discussed throughout this chapter.
 
